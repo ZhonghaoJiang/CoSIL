@@ -140,9 +140,7 @@ def evaluate_accuracy(loc_outputs, gt_data):
 
 if __name__ == "__main__":
     # Load data
-    # loc_outputs = load_jsonl('./loc_merged_0-0_outputs.jsonl')
-    # loc_outputs = load_jsonl('../results/ori/edit_location_individual/loc_merged_3-3_outputs.jsonl')
-    loc_outputs = load_jsonl('retrieval.jsonl')
+    loc_outputs = load_jsonl('loc_outputs.jsonl')
 
     gt_data = load_json('gt.json')
     print(len(loc_outputs))

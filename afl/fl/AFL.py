@@ -10,7 +10,6 @@ from afl.util.preprocess_data import (get_repo_files, get_full_file_paths_and_cl
                                       line_wrap_content, transfer_arb_locs_to_locs, show_project_structure,
                                       )
 
-MAX_CONTEXT_LENGTH = 100000
 
 
 class FL(ABC):
@@ -36,6 +35,8 @@ class AFL(FL):
         self.model_name = model_name
         self.backend = backend
         self.logger = logger
+
+        self.MAX_CONTEXT_LENGTH = 32768 if "qwen2.5-7b" in model_name else 100000
 
     def _parse_top5_file(self, content: str) -> list[str]:
         # 提取 ``` 包裹的部分
@@ -101,21 +102,16 @@ class AFL(FL):
         system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
         bug_file_content = self.consturct_bug_file_list(file)
         location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
-                                                               pre_select_num=int(max_try * 0.75),
-                                                               top_n=int(max_try / 2))
+                                                               pre_select_num=7,
+                                                               top_n=5)
         user_msg = f"""
                 {bug_report}
                 {location_guidence_msg}
                 """
+
         message = [
-            {
-                "role": "system",
-                "content": system_msg
-            },
-            {
-                "role": "user",
-                "content": user_msg
-            }
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}
         ]
 
         model = make_model(
@@ -128,14 +124,18 @@ class AFL(FL):
         )
         traj = model.codegen(message, num_samples=1)[0]
         traj["prompt"] = message
-        raw_output = traj["response"]
+        reason = traj["response"]
+        current_tokens = traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
 
-        reason = raw_output
         message.append({
             "role": "assistant",
             "content": reason
         })
-        # print(reason)
+        message.append({
+            "role": "user",
+            "content": call_function_prompt + bug_file_content
+        })
+
         location_summary_tokens = num_tokens_from_messages([{
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
@@ -143,26 +143,25 @@ class AFL(FL):
 
         for j in range(max_try):
 
-            message.append({
-                "role": "user",
-                "content": call_function_prompt + bug_file_content
-            })
+            if current_tokens > self.MAX_CONTEXT_LENGTH - 5 * location_summary_tokens:
+                message.pop()
+                break
             try:
                 traj = model.codegen(message, num_samples=1)[0]
+                current_tokens += traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
             except Exception as e:
                 if "Tokens" in str(e):  # Check if error message indicates context length issue
                     message.pop()
                     break
-            traj["prompt"] = message
-            raw_output = traj["response"]
-            content = raw_output
+
+            content = traj["response"]
             print(content)
             message.append({
                 "role": "assistant",
                 "content": content
             })
             try:
-                function_call = content.replace("'", "").replace('"', '')
+                function_call = content.replace("'", "").replace('"', '').replace("`", "")
                 function_name = function_call[:function_call.find('(')].strip()
                 arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
                 args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
@@ -181,17 +180,16 @@ class AFL(FL):
                     break
                 # print(function_retval)
                 message.append({"role": "user", "content": function_retval})
-                current_tokens = num_tokens_from_messages(message, self.model_name)
-                if current_tokens > MAX_CONTEXT_LENGTH - 5 * location_summary_tokens:
-                    message.pop()
-                    message.pop()
-                    message.pop()
-                    break
+                message.append({
+                    "role": "user",
+                    "content": call_function_prompt + bug_file_content
+                })
             except Exception as e:
                 print(e)
                 message.append({
                     "role": "user",
                     "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
+
 
         message.append({
             "role": "user",
@@ -255,7 +253,7 @@ class AFL(FL):
         )
         self.logger.info(f"prompting with message:\n{message}")
         self.logger.info("=" * 80)
-        assert num_tokens_from_messages(message, self.model_name) < MAX_CONTEXT_LENGTH
+        assert num_tokens_from_messages(message, self.model_name) < self.MAX_CONTEXT_LENGTH
 
         model = make_model(
             model=self.model_name,
@@ -391,9 +389,9 @@ class AFL(FL):
     def file_localize(self, max_retry=10, mock=False):
         from afl.util.api_requests import num_tokens_from_messages
         from afl.util.model import make_model
-
+        all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
-                                                structure=show_project_structure(self.structure).strip())
+                                                structure=all_files.strip())
 
         system_msg = file_system_prompt_without_tool
         guidence_msg = file_guidence_prmpt_without_tool.format(pre_select_num=int(max_retry * 0.75),

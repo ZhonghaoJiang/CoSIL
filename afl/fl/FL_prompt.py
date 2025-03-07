@@ -89,7 +89,7 @@ The bug report is as follows:
 
 ###
 
-### Repo Structure ###
+### Candidate Files ###
 {structure}
 
 ###
@@ -181,10 +181,9 @@ Function calls you can use are as follows:
 
 location_summary = """
 Based on the available information, reconfirm and provide complete name of the top-5 most likely culprit locations for the bug. 
-Since your answer will be processed automatically, please give your answer in the format as follows.
 Please provide the complete set of locations as either a class name, a function name, or a variable name.
-If the location to be modified is a function in the entire class or file, it returns "class: ClassName" or "function: FunctionName"; if it is a class function, it returns "function: ClassName.FunctionName"
 The returned files should be separated by new lines ordered by most to least important and wrapped with ```
+Since your answer will be processed automatically, please give your answer in the format as follows.
 ```
 Top1_file_fullpath/file1.py
 class: Class1
@@ -200,6 +199,12 @@ function: Class4.Function4
 
 Top5_file_fullpath/file5.py
 function: Function5
+```
+Replace the 'Top1_file_fullpath/file1.py' with the actual file path and the 'Class1' with the actual class name.
+For example, 
+```
+sklearn/linear_model/__init__.py
+class: LinearRegression
 ```
 After make the final decision, please check wether the function name is correct or not, for static functions, don't add class name.
 {bug_file_list}
