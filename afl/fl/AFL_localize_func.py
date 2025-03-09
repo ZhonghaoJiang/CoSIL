@@ -129,7 +129,12 @@ def localize(args):
                 )
                 for bug in swe_bench_data
             ]
-            concurrent.futures.wait(futures)
+            for future in tqdm(
+                    concurrent.futures.as_completed(futures),
+                    total=len(swe_bench_data),
+                    colour="MAGENTA",
+            ):
+                future.result()
 
 
 def main():

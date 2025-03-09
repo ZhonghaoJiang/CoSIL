@@ -5,7 +5,7 @@ from typing import Any
 from FL_prompt import *
 from FL_tools import *
 from afl.util.api_requests import num_tokens_from_messages
-from afl.util.postprocess_data import extract_code_blocks, extract_locs_for_files
+from afl.util.postprocess_data import extract_code_blocks, extract_locs_for_files, extract_func_locs_for_files
 from afl.util.preprocess_data import (get_repo_files, get_full_file_paths_and_classes_and_functions, correct_file_paths,
                                       line_wrap_content, transfer_arb_locs_to_locs, show_project_structure,
                                       )
@@ -31,7 +31,7 @@ class AFL(FL):
             **kwargs,
     ):
         super().__init__(instance_id, structure, problem_statement)
-        self.max_tokens = 1024
+        self.max_tokens = 2048
         self.model_name = model_name
         self.backend = backend
         self.logger = logger
@@ -39,15 +39,20 @@ class AFL(FL):
         self.MAX_CONTEXT_LENGTH = 32768 if "qwen2.5-7b" in model_name else 100000
 
     def _parse_top5_file(self, content: str) -> list[str]:
+
         # 提取 ``` 包裹的部分
-        extracted_output = re.search(r'```(?:.*?)\n(.*?)```', content, re.DOTALL).group(1)
+        extracted_output = re.findall(r'```(?:.*?)\n(.*?)```', content, re.DOTALL)
+        if len(extracted_output) == 0:
+            if "```" in content:
+                # 处理代码块不完整的情况
+                extracted_output = [content.split("```", 1)[-1].strip()]
+
         # 按行分割输出
-        lines = extracted_output.strip().split('\n')
-        # 提取每行的 PathName.ClassName.MethodName
+        lines = "\n".join(extracted_output).strip().split('\n')
         parsed_list = []
         for line in lines:
-            # 按冒号分割并提取右侧部分
-            parsed_list.append(line)
+            if line.strip().endswith(".py"):
+                parsed_list.append(line)
         return parsed_list
 
     def _parse_output(self, content: str):
@@ -143,7 +148,7 @@ class AFL(FL):
 
         for j in range(max_try):
 
-            if current_tokens > self.MAX_CONTEXT_LENGTH - 5 * location_summary_tokens:
+            if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
                 message.pop()
                 break
             try:
@@ -160,8 +165,10 @@ class AFL(FL):
                 "role": "assistant",
                 "content": content
             })
+            def filter_function_call(content):
+                return content.replace("```python", "").replace("`", "").replace("'", "").replace('"', '')
             try:
-                function_call = content.replace("'", "").replace('"', '').replace("`", "")
+                function_call = filter_function_call(content)
                 function_name = function_call[:function_call.find('(')].strip()
                 arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
                 args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
@@ -390,8 +397,10 @@ class AFL(FL):
         from afl.util.api_requests import num_tokens_from_messages
         from afl.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
+        # bug_report = bug_report_template.format(problem_statement=self.problem_statement,
+        #                                         structure=all_files.strip())
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
-                                                structure=all_files.strip())
+                                                structure=show_project_structure(self.structure).strip())
 
         system_msg = file_system_prompt_without_tool
         guidence_msg = file_guidence_prmpt_without_tool.format(pre_select_num=int(max_retry * 0.75),
@@ -432,9 +441,23 @@ class AFL(FL):
             temperature=0,
             batch_size=1,
         )
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        raw_output = traj["response"]
+        try:
+            traj = model.codegen(message, num_samples=1)[0]
+            traj["prompt"] = message
+            raw_output = traj["response"]
+        except:
+            bug_report = bug_report_template.format(problem_statement=self.problem_statement,
+                                                    structure=show_project_structure(self.structure).strip())
+            user_msg = f"""
+                         {bug_report}
+                         {guidence_msg}
+                         {file_summary}
+                         """
+            message = [{"role": "system", "content": system_msg},
+                       {"role": "user", "content": user_msg}]
+            traj = model.codegen(message, num_samples=1)[0]
+            traj["prompt"] = message
+            raw_output = traj["response"]
         model_found_files = self._parse_top5_file(raw_output)
 
         files, classes, functions = get_full_file_paths_and_classes_and_functions(

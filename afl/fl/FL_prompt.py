@@ -127,6 +127,12 @@ file3.py
 file4.py
 file5.py
 ```
+Replace the 'file1.py' with the actual file path.
+For example, 
+```
+sklearn/linear_model/__init__.py
+sklearn/base.py
+```
 """
 
 file_summary_top1 = """
@@ -185,22 +191,22 @@ Please provide the complete set of locations as either a class name, a function 
 The returned files should be separated by new lines ordered by most to least important and wrapped with ```
 Since your answer will be processed automatically, please give your answer in the format as follows.
 ```
-Top1_file_fullpath/file1.py
+Top1_file_fullpath.py
 class: Class1
 
-Top2_file_fullpath/file2.py
+Top2_file_fullpath.py
 function: Function2
 
-Top3_file_fullpath/file3.py
+Top3_file_fullpath.py
 function: Class3.Function3
 
-Top4_file_fullpath/file4.py
+Top4_file_fullpath.py
 function: Class4.Function4
 
-Top5_file_fullpath/file5.py
+Top5_file_fullpath.py
 function: Function5
 ```
-Replace the 'Top1_file_fullpath/file1.py' with the actual file path and the 'Class1' with the actual class name.
+Replace the 'Top1_file_fullpath.py' with the actual file path and the 'Class1' with the actual class name.
 For example, 
 ```
 sklearn/linear_model/__init__.py
