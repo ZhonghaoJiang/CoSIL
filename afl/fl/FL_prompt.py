@@ -163,6 +163,12 @@ Your task is to locate the top-5 most likely culprit locations based on the bug 
 You have {max_try} chances to call function.
 """
 
+location_system_prompt_ablation = """
+You will be presented with a bug report to access the source code of the system under test (SUT).
+Since the modification is based on the code repository, the modified locations may include files, classes, and functions, and the modifications may be in the form of addition, deletion, or update.
+Your task is to locate the top-5 most likely culprit locations based on the bug report.
+"""
+
 location_guidence_prmpt = """
 Let's locate the faulty file step by step using reasoning and function calls. 
 I have pre-identified top-5 files that may contain bugs. There stuctures are as follows:
@@ -175,6 +181,13 @@ You must strictly follow the structure I give to call different tools.
 For static functions, you can use 'get_code_of_file_function', and for class functions, you can use 'get_code_of_class_function'.
 In order to locate accurately, you can pre-select {pre_select_num} locations, then check them through function calls, and finally confirm {top_n} file names.
 Don't make the first function call in this message.
+"""
+
+location_guidence_prmpt_ablation = """
+Let's locate the faulty file step by step by reasoning. 
+I have pre-identified top-5 files that may contain bugs.
+There stuctures are as follows:
+{bug_file_list}
 """
 
 location_tool_prompt = """
@@ -216,9 +229,83 @@ After make the final decision, please check wether the function name is correct 
 {bug_file_list}
 """
 
+location_summary_ablation = """
+Based on the available information, reconfirm and provide complete name of the top-5 most likely culprit locations for the bug. 
+Please provide the complete set of locations as either a class name, a function name, or a variable name.
+The returned files should be separated by new lines ordered by most to least important and wrapped with ```
+Since your answer will be processed automatically, please give your answer in the format as follows.
+```
+Top1_file_fullpath.py
+class: Class1
+
+Top2_file_fullpath.py
+function: Function2
+
+Top3_file_fullpath.py
+function: Class3.Function3
+
+Top4_file_fullpath.py
+function: Class4.Function4
+
+Top5_file_fullpath.py
+function: Function5
+```
+Replace the 'Top1_file_fullpath.py' with the actual file path and the 'Class1' with the actual class name.
+For example, 
+```
+sklearn/linear_model/__init__.py
+class: LinearRegression
+```
+After make the final decision, please check wether the function name is correct or not, for static functions, don't add class name.
+"""
+
 call_function_prompt = """
 Now call a function in this format 'FunctionName(Argument)' in a single line without any other word or signal (such as ```).
 Don't call the same function you've previous called, because this may waste your context length.
+"""
+
+format_correct_prompt = """
+Here is a localization result, but it seems not in the correct format. Please correct it.
+The returned files should be separated by new lines ordered by most to least important and wrapped with ```
+This is an example of expected output:
+```
+sklearn/linear_model/__init__.py
+sklearn/base.py
+```
+
+Please help me corrct the following result.
+{res}
+"""
+
+file_reflection_prompt = """
+Please look through the following GitHub problem description and Repository structure and provide a list of files that one would need to edit to fix the problem.
+I have already find 5 relevent files. Rank them again and reflect the result.
+
+### GitHub Problem Description ###
+{problem_statement}
+
+###
+
+### Repository Structure ###
+{structure}
+
+###
+
+### Files To Be Ranked ###
+{pre_files}
+
+###
+Please only provide the full path and return top 5 files.
+The returned files should be separated by new lines ordered by most to least important and wrapped with ```
+For example:
+```
+file1.py
+file2.py
+file3.py
+file4.py
+file5.py
+```
+Note: file1.py indicates the top-1 file, file2.py indicates the top-2 file, and so on.
 """
 
 # ------------------------------------------------AFL Patch-------------------------------------------------------------
@@ -421,7 +508,7 @@ line: 24
 line: 156
 ```
 
-Return just the location(s)
+The returned content must be wrapped with ```
 """
 obtain_relevant_code_combine_top_n_no_line_number_prompt = """
 Please review the following GitHub problem description and relevant files, and provide a set of locations that need to be edited to fix the issue.

@@ -218,7 +218,7 @@ def main():
     parser.add_argument(
         "-l",
         "--output_dir",
-        default="../results/orcaloca/output_qwen_coder_32b",
+        default="../results/orcaloca/output_qwen_coder_7b",
         help=f"The directory of the output dir(agent's output)",
     )
     parser.add_argument(

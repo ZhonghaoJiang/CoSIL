@@ -39,20 +39,16 @@ class AFL(FL):
         self.MAX_CONTEXT_LENGTH = 32768 if "qwen2.5-7b" in model_name else 100000
 
     def _parse_top5_file(self, content: str) -> list[str]:
-
-        # 提取 ``` 包裹的部分
-        extracted_output = re.findall(r'```(?:.*?)\n(.*?)```', content, re.DOTALL)
-        if len(extracted_output) == 0:
-            if "```" in content:
-                # 处理代码块不完整的情况
-                extracted_output = [content.split("```", 1)[-1].strip()]
-
-        # 按行分割输出
+        if content.count("```") % 2 != 0:
+            return []
+        extracted_output = re.findall(r'```(?:.*?\n)?(.*?)```', content, re.DOTALL)
+        if not extracted_output:
+            return []
         lines = "\n".join(extracted_output).strip().split('\n')
         parsed_list = []
         for line in lines:
             if line.strip().endswith(".py"):
-                parsed_list.append(line)
+                parsed_list.append(line.strip())
         return parsed_list
 
     def _parse_output(self, content: str):
@@ -124,7 +120,7 @@ class AFL(FL):
             backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
-            temperature=0.85,
+            temperature=0.0,
             batch_size=1,
         )
         traj = model.codegen(message, num_samples=1)[0]
@@ -406,10 +402,10 @@ class AFL(FL):
         guidence_msg = file_guidence_prmpt_without_tool.format(pre_select_num=int(max_retry * 0.75),
                                                                top_n=int(max_retry / 2))
         user_msg = f"""
-                        {bug_report}
-                        {guidence_msg}
-                        {file_summary}
-                        """
+{bug_report}
+{guidence_msg}
+{file_summary}
+"""
 
         message = [
             {
@@ -449,10 +445,107 @@ class AFL(FL):
             bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                     structure=show_project_structure(self.structure).strip())
             user_msg = f"""
-                         {bug_report}
-                         {guidence_msg}
-                         {file_summary}
-                         """
+{bug_report}
+{guidence_msg}
+{file_summary}
+"""
+            message = [{"role": "system", "content": system_msg},
+                       {"role": "user", "content": user_msg}]
+            traj = model.codegen(message, num_samples=1)[0]
+            traj["prompt"] = message
+            raw_output = traj["response"]
+        self.logger.info(raw_output)
+        model_found_files = self._parse_top5_file(raw_output)
+
+        import difflib
+        def get_best_match(file: str, all_files: list[str], cutoff: float = 0.8) -> str:
+            if file in all_files:
+                return file
+            matches = difflib.get_close_matches(file, all_files, n=1, cutoff=cutoff)
+            return matches[0] if matches else file
+
+        found_files = [f for f in model_found_files if f in all_files]
+
+        if len(found_files) == 0:
+            corrcted_tpl = format_correct_prompt.format(res=raw_output)
+            formated_res = model.codegen([{"role": "user", "content": corrcted_tpl}], num_samples=1)[0]["response"]
+            self.logger.info(formated_res)
+            model_found_files = self._parse_top5_file(formated_res)
+            found_files = [f for f in model_found_files if f in all_files]
+            if len(found_files) == 0:
+                found_files = [get_best_match(f, all_files) for f in model_found_files]
+
+        reflection_result = model.codegen([{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
+                                                    structure=show_project_structure(self.structure).strip(), pre_files=found_files)}],
+                                          num_samples=1)[0]["response"]
+        self.logger.info(reflection_result)
+        reflection_files = self._parse_top5_file(reflection_result)
+        reflection_files = [f for f in reflection_files if f in all_files]
+        if len(reflection_files) == 0:
+            reflection_files = [get_best_match(f, all_files) for f in reflection_files]
+
+
+        return (
+            reflection_files,
+            {"raw_output_files": raw_output},
+            traj,
+        )
+
+    def ablation_file(self, max_retry=10, mock=False):
+        from afl.util.api_requests import num_tokens_from_messages
+        from afl.util.model import make_model
+        all_files = get_all_of_files(self.instance_id)
+        bug_report = bug_report_template.format(problem_statement=self.problem_statement,
+                                                structure=show_project_structure(self.structure).strip())
+
+        system_msg = file_system_prompt_without_tool
+
+        user_msg = f"""
+{bug_report}
+{file_summary}
+"""
+
+        message = [
+            {
+                "role": "system",
+                "content": system_msg
+            },
+            {
+                "role": "user",
+                "content": user_msg
+            }
+        ]
+        self.logger.info(f"prompting with message:\n{message}")
+        self.logger.info("=" * 80)
+        if mock:
+            self.logger.info("Skipping querying model since mock=True")
+            traj = {
+                "prompt": message,
+                "usage": {
+                    "prompt_tokens": num_tokens_from_messages(message, self.model_name),
+                },
+            }
+            return [], {"raw_output_loc": ""}, traj
+
+        model = make_model(
+            model=self.model_name,
+            backend=self.backend,
+            logger=self.logger,
+            max_tokens=self.max_tokens,
+            temperature=0,
+            batch_size=1,
+        )
+        try:
+            traj = model.codegen(message, num_samples=1)[0]
+            traj["prompt"] = message
+            raw_output = traj["response"]
+        except:
+            bug_report = bug_report_template.format(problem_statement=self.problem_statement,
+                                                    structure=show_project_structure(self.structure).strip())
+            user_msg = f"""
+                                 {bug_report}
+                                 {file_summary}
+                                 """
             message = [{"role": "system", "content": system_msg},
                        {"role": "user", "content": user_msg}]
             traj = model.codegen(message, num_samples=1)[0]
@@ -460,18 +553,58 @@ class AFL(FL):
             raw_output = traj["response"]
         model_found_files = self._parse_top5_file(raw_output)
 
-        files, classes, functions = get_full_file_paths_and_classes_and_functions(
-            self.structure
-        )
-
-        # sort based on order of appearance in model_found_files
-        found_files = correct_file_paths(model_found_files, files)
+        found_files = [f for f in model_found_files if f in all_files]
 
         self.logger.info(raw_output)
 
         return (
             found_files,
             {"raw_output_files": raw_output},
+            traj,
+        )
+
+    def ablation_func(
+            self, max_retry=10, file=None, mock=False,
+    ) -> tuple[list[str], Any, Any]:
+        # lazy import, not sure if this is actually better?
+
+        from afl.util.model import make_model
+        bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
+        system_msg = location_system_prompt_ablation
+        bug_file_content = self.consturct_bug_file_list(file)
+        location_guidence_msg = location_guidence_prmpt_ablation.format(bug_file_list=bug_file_content)
+        user_msg = f"""
+                {bug_report}
+                {location_guidence_msg}
+                {location_summary_ablation}
+                """
+
+        message = [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}
+        ]
+
+        model = make_model(
+            model=self.model_name,
+            backend=self.backend,
+            logger=self.logger,
+            max_tokens=self.max_tokens,
+            temperature=0.85,
+            batch_size=1,
+        )
+        traj = model.codegen(message, num_samples=1)[0]
+        traj["prompt"] = message
+        raw_output = traj["response"]
+
+        self.logger.info(raw_output)
+        model_found_locs = extract_code_blocks(raw_output)
+        model_found_locs_separated = extract_locs_for_files(
+            model_found_locs, file
+        )
+
+        return (
+            model_found_locs_separated,
+            raw_output,
             traj,
         )
 

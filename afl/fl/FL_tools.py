@@ -96,9 +96,10 @@ def get_all_of_files(instance_id: str):
     for item in files:
         file_names.add(item[0])
 
-    return str(file_names)
+    return list(file_names)
 
 # if __name__ == '__main__':
-#     print(get_functions_of_class('WCS', 'astropy__astropy-7746'))
-#     print(get_code_of_file_function('astropy/wcs/wcs.py', '_return_single_array', 'astropy__astropy-7746'))
+    # print(get_functions_of_class('WCS', 'astropy__astropy-7746'))
+    # print(get_code_of_file_function('astropy/wcs/wcs.py', '_return_single_array', 'astropy__astropy-7746'))
+    # print(get_all_of_files('get_all_of_files'))
 
