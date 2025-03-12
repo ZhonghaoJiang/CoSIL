@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method atoms() in the Expr class of sympy/assumptions/handlers/sets.py is likely the source of the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/assumptions/handlers/sets.py",
+            "class_name": "Expr",
+            "method_name": ""
+        }
+    ]
+}

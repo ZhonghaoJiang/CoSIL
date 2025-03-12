@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe migration file '0002_*.py' does not exist in the specified directory. The ForeignKey's to_field parameter in ModelB is pointing to the old field name 'field_wrong' instead of the new field name 'field_fixed'. We need to locate the correct migration file that contains the RenameField and AlterField operations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "app1/migrations/0002_auto_*.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

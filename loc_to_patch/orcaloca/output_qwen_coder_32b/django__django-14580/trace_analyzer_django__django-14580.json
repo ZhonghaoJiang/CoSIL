@@ -1,0 +1,50 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Model",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "TextField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyBaseModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyField",
+            "file_path": ""
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "Meta",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyMixin",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nimport django\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\ndjango.setup()\n\nfrom django.db import models\nclass MyField(models.TextField):\n\tpass\nclass MyBaseModel(models.Model):\n\tclass Meta:\n\t\tabstract = True\nclass MyMixin:\n\tpass\nclass MyModel(MyMixin, MyBaseModel):\n\tname = MyField(primary_key=True)\n\nfrom django.core.management import call_command\ncall_command('makemigrations', 'app')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14580.py"
+}

@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "render",
+            "file_path": ""
+        },
+        {
+            "keyword": "modelformset_factory",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestFormset",
+            "file_path": ""
+        },
+        {
+            "keyword": "MagicMock",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_view",
+            "file_path": ""
+        },
+        {
+            "keyword": "HttpRequest",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.shortcuts import render\nfrom django.forms import modelformset_factory\nfrom django.http import HttpRequest\nfrom django.test import TestCase\nfrom unittest.mock import MagicMock\n\nclass MyModel:\n    class Meta:\n        app_label = 'my_app'\n\n    def __init__(self, a_field=None):\n        self.a_field = a_field\n\ndef test_view(request):\n    context = {}\n    ff = modelformset_factory(MyModel, fields=['a_field'])\n    context['formset'] = ff(\n        queryset=[],\n        form_kwargs={'empty_permitted': True}  # or form_kwargs={'empty_permitted': False}\n    )\n    return render(request, 'my_app/my_model_formset.html', context)\n\nclass TestFormset(TestCase):\n    def test_empty_form(self):\n        request = HttpRequest()\n        response = test_view(request)\n        self.assertEqual(response.status_code, 200)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16041.py"
+}

@@ -1,0 +1,76 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "show",
+            "file_path": ""
+        },
+        {
+            "keyword": "changed",
+            "file_path": "lib/matplotlib/cm.py"
+        },
+        {
+            "keyword": "pause",
+            "file_path": ""
+        },
+        {
+            "keyword": "LogNorm",
+            "file_path": ""
+        },
+        {
+            "keyword": "_draw_list_compositing_images",
+            "file_path": "lib/matplotlib/image.py"
+        },
+        {
+            "keyword": "ion",
+            "file_path": ""
+        },
+        {
+            "keyword": "_draw_idle",
+            "file_path": "lib/matplotlib/backends/backend_qt.py"
+        },
+        {
+            "keyword": "update_scalarmappable",
+            "file_path": "lib/matplotlib/collections.py"
+        },
+        {
+            "keyword": "to_rgba",
+            "file_path": "lib/matplotlib/cm.py"
+        },
+        {
+            "keyword": "inverse",
+            "file_path": "lib/matplotlib/colors.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "pcolormesh",
+            "file_path": "lib/matplotlib/axes/_axes.py",
+            "class_name": "Axes"
+        },
+        {
+            "keyword": "autoscale",
+            "file_path": "lib/matplotlib/colors.py",
+            "class_name": "Normalize"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "lib/matplotlib/colors.py",
+            "class_name": "Normalize"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "lib/matplotlib/colors.py",
+            "class_name": "Norm"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/collections.py",
+            "class_name": "QuadMesh"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport matplotlib.pyplot as plt\nfrom matplotlib.colors import LogNorm\nimport numpy as np\n\n# create some random data to fill a 2d plot\nrng = np.random.default_rng(0)\nimg = rng.uniform(1, 5, (25, 25))\n\n# plot it\nfig, ax = plt.subplots(layout=\"constrained\")\nplot = ax.pcolormesh(img)\ncbar = fig.colorbar(plot, ax=ax)\n\nvmin = 1\nvmax = 5\n\nplt.ion()\nfig.show()\nplt.pause(0.5)\n\nplot.norm = LogNorm(vmin, vmax)\nplot.autoscale()\nplt.pause(0.5)\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-25079.py"
+}

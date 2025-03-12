@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe traceback is printed when an unrecognized option is passed to pylint. The error is raised in the _config_initialization function in the config_initialization.py file. The _UnrecognizedOptionError is raised when unrecognized options are found.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "markbyrne/programming/pylint/pylint/config/config_initialization.py",
+            "class_name": "",
+            "method_name": "_config_initialization"
+        }
+    ]
+}

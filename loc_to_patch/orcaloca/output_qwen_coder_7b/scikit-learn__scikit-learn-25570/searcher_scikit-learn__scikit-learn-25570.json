@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when using ColumnTransformer with pandas output and a transformer with no features. The issue seems to be in the _iter method of ColumnTransformer.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/compose/_column_transformer.py",
+            "class_name": "ColumnTransformer",
+            "method_name": "_iter"
+        },
+        {
+            "file_path": "sklearn/compose/_column_transformer.py",
+            "class_name": "",
+            "method_name": "_is_empty_column_selection"
+        },
+        {
+            "file_path": "sklearn/compose/_column_transformer.py",
+            "class_name": "",
+            "method_name": "_get_transformer_list"
+        }
+    ]
+}

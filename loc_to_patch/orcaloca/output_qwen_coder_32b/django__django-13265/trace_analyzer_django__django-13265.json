@@ -1,0 +1,54 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Look",
+            "file_path": ""
+        },
+        {
+            "keyword": "connection",
+            "file_path": ""
+        },
+        {
+            "keyword": "schema_editor",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestAlterOrderWithRespectTo",
+            "file_path": ""
+        },
+        {
+            "keyword": "Index",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "LookImage",
+            "file_path": ""
+        },
+        {
+            "keyword": "Meta",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_alter_order_with_respect_to",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\nfrom django.db.models import Index\nfrom django.test import TestCase\n\nsettings.configure(INSTALLED_APPS=['django.contrib.contenttypes', '__main__'])\n\n\nclass Look(models.Model):\n    pass\n\nclass LookImage(models.Model):\n    look = models.ForeignKey(Look, on_delete=models.CASCADE, related_name='images', verbose_name='LOOK')\n    image_url = models.URLField(blank=True, max_length=10000, null=True)\n    image = models.ImageField(max_length=2000, upload_to='')\n    deleted = models.DateTimeField(editable=False, null=True)\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\n    class Meta:\n        db_table = 'look_image'\n        order_with_respect_to = 'look'\n        indexes = [\n            Index(fields=['look', '_order']),\n            Index(fields=['created_at']),\n            Index(fields=['updated_at']),\n        ]\n\nclass TestAlterOrderWithRespectTo(TestCase):\n    def test_alter_order_with_respect_to(self):\n        from django.db import connection\n        with connection.schema_editor() as schema_editor:\n            schema_editor.create_model(Look)\n            schema_editor.create_model(LookImage)\n            schema_editor.alter_order_with_respect_to(LookImage, 'look')\n            schema_editor.add_index(LookImage, Index(fields=['look', '_order']))\n            schema_editor.add_index(LookImage, Index(fields=['created_at']))\n            schema_editor.add_index(LookImage, Index(fields=['updated_at']))\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13265.py"
+}

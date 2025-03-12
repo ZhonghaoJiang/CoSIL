@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe bug seems to be related to the _widgetclosed method in the FigureManagerQT class and its interaction with the rc_context. The method calls Gcf.destroy(self), which could be the cause of the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/backends/backend_qt.py",
+            "class_name": "FigureManagerQT",
+            "method_name": "_widgetclosed"
+        },
+        {
+            "file_path": "lib/matplotlib/backends/backend_qt.py",
+            "class_name": "FigureManagerQT",
+            "method_name": "destroy"
+        }
+    ]
+}

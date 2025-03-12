@@ -1,0 +1,86 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "test_created_object_is_str",
+            "file_path": ""
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "gettext_lazy",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "TextChoices",
+            "file_path": "django/db/models/enums.py"
+        },
+        {
+            "keyword": "Model",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "MyChoice",
+            "file_path": ""
+        },
+        {
+            "keyword": "FIRST_CHOICE",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_retrieved_object_is_str",
+            "file_path": ""
+        },
+        {
+            "keyword": "assertEqual",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyObject",
+            "file_path": ""
+        },
+        {
+            "keyword": "CharField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "my_str_value",
+            "file_path": ""
+        },
+        {
+            "keyword": "gettext_lazy",
+            "file_path": "django/utils/translation/__init__.py"
+        },
+        {
+            "keyword": "EnumTest",
+            "file_path": ""
+        },
+        {
+            "keyword": "setUp",
+            "file_path": ""
+        },
+        {
+            "keyword": "my_object",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\nfrom django.db import models\nfrom django.utils.translation import gettext_lazy as _\nclass MyChoice(models.TextChoices):\n\tFIRST_CHOICE = \"first\", _(\"The first choice, it is\")\n\tSECOND_CHOICE = \"second\", _(\"The second choice, it is\")\nclass MyObject(models.Model):\n\tmy_str_value = models.CharField(max_length=10, choices=MyChoice.choices)\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.conf import settings\nfrom django.test import TestCase\nfrom django.db import models\nfrom django.utils.translation import gettext_lazy as _\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nsettings.configure()\nclass MyChoice(models.TextChoices):\n    FIRST_CHOICE = \"first\", _(\"The first choice, it is\")\n    SECOND_CHOICE = \"second\", _(\"The second choice, it is\")\nclass MyObject(models.Model):\n    my_str_value = models.CharField(max_length=10, choices=MyChoice.choices)\nclass EnumTest(TestCase):\n    def setUp(self) -> None:\n        self.my_object = MyObject.objects.create(my_str_value=MyChoice.FIRST_CHOICE)\n    def test_created_object_is_str(self):\n        my_object = self.my_object\n        self.assertIsInstance(my_object.my_str_value, str)\n        self.assertEqual(str(my_object.my_str_value), \"first\")\n    def test_retrieved_object_is_str(self):\n        my_object = MyObject.objects.last()\n        self.assertIsInstance(my_object.my_str_value, str)\n        self.assertEqual(str(my_object.my_str_value), \"first\")",
+    "env_reproduce_path": "/django__django/reproducer_django__django-11964.py"
+}

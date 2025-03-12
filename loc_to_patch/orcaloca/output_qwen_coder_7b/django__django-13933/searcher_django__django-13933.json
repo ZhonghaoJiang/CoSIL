@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nModelChoiceField and ModelMultipleChoiceField do not include the invalid value in the error message.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceField",
+            "method_name": "to_python"
+        },
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelMultipleChoiceField",
+            "method_name": "to_python"
+        }
+    ]
+}

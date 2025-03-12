@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nCannot find the file common.py in sympy/matrix\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/matrix/common.py",
+            "class_name": "",
+            "method_name": "hstack"
+        },
+        {
+            "file_path": "sympy/matrix/common.py",
+            "class_name": "",
+            "method_name": "vstack"
+        }
+    ]
+}

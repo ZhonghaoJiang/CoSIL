@@ -107,14 +107,22 @@ def evaluate_accuracy(loc_outputs, gt_data):
     # 总实例数（初始设为读取的实例数）
     total_instances = len(loc_outputs)
 
+    empty_count = 0
+
     # 对每个实例进行评估
     for loc_output in loc_outputs:
         instance_id = loc_output['instance_id']
         print(instance_id)
         predicted_files = loc_output['found_files']
+        if not predicted_files:
+            empty_count += 1
+            continue
         pred_funcs = construct_pred_func(predicted_files, loc_output.get('found_related_locs', {}))
         predicted_methods = extract_predicted_methods(pred_funcs)
         print(f"predicted_files:{predicted_files}, predicted_methods:{predicted_methods}")
+        if not predicted_methods:
+            empty_count += 1
+            continue
 
         # 如果存在ground truth数据
         if instance_id in gt_data:
@@ -168,13 +176,16 @@ def evaluate_accuracy(loc_outputs, gt_data):
     map_func = func_AP_sum / total_instances * 100
     mrr_func = func_RR_sum / total_instances * 100
 
+    empty_percent = empty_count / total_instances * 100
+
     return {
         "file_level": {
             "TOP 1": top1_file_accuracy,
             "TOP 3": top3_file_accuracy,
             "TOP 5": top5_file_accuracy,
             "MAP": map_file,
-            "MRR": mrr_file
+            "MRR": mrr_file,
+            "empty": empty_percent
         },
         "function_level": {
             "TOP 1": top1_func_accuracy,
@@ -188,14 +199,15 @@ def evaluate_accuracy(loc_outputs, gt_data):
 
 if __name__ == "__main__":
     # 加载数据
-    # loc_outputs = load_jsonl('../results/afl/func_level_qwen_2.5_7b_instruct/loc_qwen_2.5_7b_instruct_func.jsonl')
-    # loc_outputs = load_jsonl('../results/afl/func_level_qwen_2.5_32b/loc_qwen_2.5_32b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_7b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch/afl/loc_qwen_coder_7b_func.jsonl')
+    loc_outputs = load_jsonl('../loc_to_patch/orcaloca/orca_qwen_coder_32b_func.jsonl')
     # loc_outputs = load_jsonl('loc_outputs.jsonl')
-    # loc_outputs = load_jsonl('loc_qwen_2.5_7b_instruct_func.jsonl')
+    # loc_outputs = load_jsonl('loc_qwen_2.5_32b_func.jsonl')[:6]
     # loc_outputs = load_jsonl('../results/afl/func_level_qwen2.5-14b/loc_qwen2.5-14b_func.jsonl')
     # loc_outputs = load_jsonl('../results/agentless/qwen2.5-14b/loc_outputs.jsonl')
     # loc_outputs = load_jsonl('../results/agentless/qwen2.5_7b/loc_outputs.jsonl')
-    loc_outputs = load_jsonl('../results/round/func_level_qwen2.5-32b_5/loc_qwen2.5-32b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_32b_func.jsonl')[:33]
 
 
     gt_data = load_json('gt.json')

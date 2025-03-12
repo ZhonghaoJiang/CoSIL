@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during pretty printing of MatAdd, specifically when the first argument is negative. The issue seems to be with the handling of string arguments from MatrixSymbol.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/printing/pretty/pretty.py",
+            "class_name": "PrettyPrinter",
+            "method_name": "_print_MatAdd"
+        },
+        {
+            "file_path": "sympy/printing/str.py",
+            "class_name": "StrReprPrinter",
+            "method_name": "_print_str"
+        }
+    ]
+}

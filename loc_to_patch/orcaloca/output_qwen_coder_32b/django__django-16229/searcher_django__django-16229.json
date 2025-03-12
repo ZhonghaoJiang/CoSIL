@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nCannot find the class RelatedModel in models.py. Need to search for the classes RelatedModelInline and RelatedModel to understand their structure and methods.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "admin.py",
+            "class_name": "RelatedModelInline",
+            "method_name": ""
+        },
+        {
+            "file_path": "models.py",
+            "class_name": "RelatedModel",
+            "method_name": ""
+        }
+    ]
+}

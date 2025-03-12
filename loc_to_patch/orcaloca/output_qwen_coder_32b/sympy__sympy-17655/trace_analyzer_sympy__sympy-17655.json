@@ -1,0 +1,52 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_normalize_dimension",
+            "file_path": "sympy/geometry/point.py"
+        },
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py"
+        },
+        {
+            "keyword": "Point",
+            "file_path": "sympy/geometry/point.py"
+        },
+        {
+            "keyword": "geometry",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point"
+        },
+        {
+            "keyword": "__add__",
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point"
+        },
+        {
+            "keyword": "__add__",
+            "file_path": "sympy/core/containers.py",
+            "class_name": "Tuple"
+        },
+        {
+            "keyword": "is_sequence",
+            "file_path": "sympy/core/compatibility.py",
+            "class_name": "NotIterable"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/geometry/entity.py",
+            "class_name": "GeometryEntity"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import geometry as ge\nimport sympy\n\npoint1 = ge.Point(0,0)\npoint2 = ge.Point(1,1)\n\npoint1 + sympy.sympify(2.0) * point2\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-17655.py"
+}

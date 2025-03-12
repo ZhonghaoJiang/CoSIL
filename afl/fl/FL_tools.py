@@ -98,8 +98,22 @@ def get_all_of_files(instance_id: str):
 
     return list(file_names)
 
-# if __name__ == '__main__':
+def get_imports_of_file(file_name: str, instance_id: str):
+    d = load_json(f"./repo_structures/{instance_id}.json")
+    structure = d["structure"]
+    files, classes, functions = extract_structure(structure)
+    imports = []
+    for item in files:
+        if item[0] == file_name:
+            for line in item[-1]:
+                if line.startswith("import") or (line.startswith("from") and "import" in line):
+                    imports.append(line)
+    return imports
+
+
+if __name__ == '__main__':
     # print(get_functions_of_class('WCS', 'astropy__astropy-7746'))
     # print(get_code_of_file_function('astropy/wcs/wcs.py', '_return_single_array', 'astropy__astropy-7746'))
     # print(get_all_of_files('get_all_of_files'))
+    print(get_imports_of_file('sympy/matrices/expressions/blockmatrix.py', 'sympy__sympy-17630'))
 

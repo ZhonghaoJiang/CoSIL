@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to handling Http404 exceptions in path converters. The problem arises when DEBUG is True, and Http404 is raised, resulting in a generic server error response instead of a technical one.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/urls/converters.py",
+            "class_name": "StringConverter",
+            "method_name": "to_python"
+        },
+        {
+            "file_path": "django/urls/converters.py",
+            "class_name": "PathConverter",
+            "method_name": ""
+        },
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "URLResolver",
+            "method_name": "resolve"
+        }
+    ]
+}

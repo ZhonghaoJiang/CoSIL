@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe error suggests a clash in reverse accessors for the same entity. The related_name attribute is not being set correctly for the fields.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/base.py",
+            "class_name": "Model",
+            "method_name": "_save_parents"
+        },
+        {
+            "file_path": "django/db/models/base.py",
+            "class_name": "Model",
+            "method_name": "prepare_database_save"
+        },
+        {
+            "file_path": "django/db/models/base.py",
+            "class_name": "Model",
+            "method_name": "check"
+        }
+    ]
+}

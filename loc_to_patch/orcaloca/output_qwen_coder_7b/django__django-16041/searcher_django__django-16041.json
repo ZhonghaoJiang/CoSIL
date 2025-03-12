@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when rendering a template that uses a formset's empty_form with form_kwargs containing 'empty_permitted'. The issue seems to be related to how the empty_form is handled in the formset rendering process.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/formsets.py",
+            "class_name": "BaseFormSet",
+            "method_name": "empty_form"
+        }
+    ]
+}

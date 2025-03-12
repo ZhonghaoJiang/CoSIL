@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when calling the __repr__ method of SomeClass. The __getattribute__ method is raising an exception, which is then being re-raised in the __repr__ method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "test_pytest.py",
+            "class_name": "SomeClass",
+            "method_name": ""
+        }
+    ]
+}

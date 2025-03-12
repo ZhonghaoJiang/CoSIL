@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nModelChoiceIteratorValue lacks a __hash__ method, making it unhashable. This causes issues when used as a key in a dictionary.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceIteratorValue",
+            "method_name": ""
+        }
+    ]
+}

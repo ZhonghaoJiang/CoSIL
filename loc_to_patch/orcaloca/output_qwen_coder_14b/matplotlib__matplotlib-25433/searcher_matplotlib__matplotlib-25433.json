@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe provided code snippet demonstrates a bug where using `pyplot.clf()` and `pyplot.draw()` in the `on_changed` callback of a range slider blocks input to widgets, while the same operations in the `on_clicked` callback of a button work fine. This suggests that there might be an issue with how the range slider callback interacts with the event loop or widget handling in Matplotlib.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/widgets.py",
+            "class_name": "RangeSlider",
+            "method_name": "on_changed"
+        },
+        {
+            "file_path": "lib/matplotlib/widgets.py",
+            "class_name": "Widget",
+            "method_name": "ignore"
+        }
+    ]
+}

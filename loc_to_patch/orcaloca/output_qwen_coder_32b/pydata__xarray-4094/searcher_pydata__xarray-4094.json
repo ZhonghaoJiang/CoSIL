@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to how 'to_unstacked_dataset' handles single-dimension variables, possibly involving the merging process. The methods 'merge_core', 'merge_collected', 'unique_variable', and 'merge_indexes' are part of the merging process and might be involved in the error.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/dataarray.py",
+            "class_name": "DataArray",
+            "method_name": "to_unstacked_dataset"
+        },
+        {
+            "file_path": "xarray/core/merge.py",
+            "class_name": "",
+            "method_name": "merge_collected"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe methods `dup_zz_mignotte_bound` and `dmp_zz_mignotte_bound` in `sympy/polys/factortools.py` currently use the Mignotte bound. They need to be updated to use the Knuth-Cohen bound.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/polys/factortools.py",
+            "class_name": "",
+            "method_name": "dup_zz_mignotte_bound"
+        },
+        {
+            "file_path": "sympy/polys/factortools.py",
+            "class_name": "",
+            "method_name": "dmp_zz_mignotte_bound"
+        }
+    ]
+}

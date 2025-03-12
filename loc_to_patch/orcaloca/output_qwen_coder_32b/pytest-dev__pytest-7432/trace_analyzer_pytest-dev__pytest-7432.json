@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_skip_location",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_run_with_runxfail",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import pytest\nfrom _pytest import pytester as pt\n\ndef test_run_with_runxfail():\n    p = pt.Pytester()\n    p.makepyfile(test_it='''\nimport pytest\n@pytest.mark.skip\ndef test_skip_location() -> None:\n    assert 0\n''')\n    result = p.runpytest('-rs', '--runxfail')\n    result.stdout.fnmatch_lines(['SKIPPED *test_it.py:*: unconditional skip'])\n",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-7432.py"
+}

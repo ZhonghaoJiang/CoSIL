@@ -1,0 +1,46 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "Publication",
+            "file_path": ""
+        },
+        {
+            "keyword": "Article",
+            "file_path": ""
+        },
+        {
+            "keyword": "forms",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "ArticleForm",
+            "file_path": ""
+        },
+        {
+            "keyword": "admin",
+            "file_path": ""
+        },
+        {
+            "keyword": "Meta",
+            "file_path": ""
+        },
+        {
+            "keyword": "ArticleAdmin",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\nfrom django import forms\nfrom django.contrib import admin\n\nsettings.configure(INSTALLED_APPS=['django.contrib.contenttypes', 'django.contrib.auth'])\n\nclass Publication(models.Model):\n    pass\n\nclass Article(models.Model):\n    publications = models.ManyToManyField(to=Publication, blank=True, null=True)\n\nclass ArticleForm(forms.ModelForm):\n    publications = forms.ModelMultipleChoiceField(\n        Publication.objects.filter(id__lt=2).union(\n            Publication.objects.filter(id__gt=5)\n        ),\n        required=False,\n    )\n    class Meta:\n        model = Article\n        fields = [\"publications\"]\n\nclass ArticleAdmin(admin.ModelAdmin):\n    form = ArticleForm\n\n# Create some test data\nPublication.objects.create()\nPublication.objects.create()\nPublication.objects.create()\nPublication.objects.create()\nPublication.objects.create()\nPublication.objects.create()\nPublication.objects.create()\n\n# Simulate form submission with no selections\nform_data = {'publications': []}\nform = ArticleForm(data=form_data)\nif form.is_valid():\n    article = form.save(commit=False)\n    print(article.publications.all())\nelse:\n    print(form.errors)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13158.py"
+}

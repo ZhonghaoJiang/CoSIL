@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when creating a polynomial with the domain 'RR[y,z]'. The issue seems to be with the domain specification.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/polys/polytools.py",
+            "class_name": "Poly",
+            "method_name": "__new__"
+        },
+        {
+            "file_path": "sympy/stats/crv.py",
+            "class_name": "SingleContinuousPSpace",
+            "method_name": "domain"
+        },
+        {
+            "file_path": "sympy/stats/crv.py",
+            "class_name": "ContinuousPSpace",
+            "method_name": "domain"
+        },
+        {
+            "file_path": "sympy/stats/crv.py",
+            "class_name": "ConditionalContinuousDomain",
+            "method_name": "integrate"
+        }
+    ]
+}

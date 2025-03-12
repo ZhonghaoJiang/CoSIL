@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe IsNull class's as_sql method currently accepts non-boolean values. This could be a bug.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/lookups.py",
+            "class_name": "IsNull",
+            "method_name": "as_sql"
+        }
+    ]
+}

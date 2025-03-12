@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe socket.error exception is raised from the recv method in gevent/socket.py, which is not being caught or wrapped in a requests exception. The read method in httplib.py and _safe_read method in httplib.py seem to be involved in the stack trace.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "rtdean/.pyenv/versions/2.7.6/lib/python2.7/site-packages/gevent-1.0.1-py2.7-linux-x86_64.egg/gevent/socket.py",
+            "class_name": "",
+            "method_name": "recv"
+        },
+        {
+            "file_path": "rtdean/.pyenv/versions/2.7.6/lib/python2.7/httplib.py",
+            "class_name": "",
+            "method_name": "_safe_read"
+        }
+    ]
+}

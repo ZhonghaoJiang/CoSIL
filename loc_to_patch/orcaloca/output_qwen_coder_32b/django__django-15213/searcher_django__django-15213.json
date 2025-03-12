@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to how ExpressionWrapper and Q handle negated expressions, particularly ~Q(pk__in=[]). The methods as_sql, get_source_expressions, and __init__ of ExpressionWrapper and Q need to be examined further.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/expressions.py",
+            "class_name": "ExpressionWrapper",
+            "method_name": "as_sql"
+        },
+        {
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "Q",
+            "method_name": "__invert__"
+        }
+    ]
+}

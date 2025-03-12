@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe trailing whitespace in DatasetGroupBy's text representation is likely caused by a trailing space in the string returned by the __init__ method of the DatasetGroupBy class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/groupby.py",
+            "class_name": "DatasetGroupBy",
+            "method_name": ""
+        }
+    ]
+}

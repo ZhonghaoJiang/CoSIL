@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "A",
+            "file_path": ""
+        },
+        {
+            "keyword": "B",
+            "file_path": ""
+        },
+        {
+            "keyword": "AB",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "C",
+            "file_path": ""
+        },
+        {
+            "keyword": "django",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nsettings.configure(\n    INSTALLED_APPS=['django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles'],\n    DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}\n)\n\nfrom django.db.models import OuterRef, Q, Count, Subquery\nfrom django.db import models\n\nclass A(models.Model):\n    bs = models.ManyToManyField('B',\n                                related_name=\"a\",\n                                through=\"AB\")\n\nclass B(models.Model):\n    pass\n\nclass AB(models.Model):\n    a = models.ForeignKey(A, on_delete=models.CASCADE, related_name=\"ab_a\")\n    b = models.ForeignKey(B, on_delete=models.CASCADE, related_name=\"ab_b\")\n    status = models.IntegerField()\n\nclass C(models.Model):\n    a = models.ForeignKey(\n        A,\n        null=True,\n        blank=True,\n        on_delete=models.SET_NULL,\n        related_name=\"c\",\n        verbose_name=\"a\"\n    )\n    status = models.IntegerField()\n\nab_query = AB.objects.filter(a=OuterRef(\"pk\"), b=1)\nfilter_conditions = Q(pk=1) | Q(ab_a__b=1)\nquery = A.objects.\\\n    filter(filter_conditions).\\\n    annotate(\n        status=Subquery(ab_query.values(\"status\")),\n        c_count=Count(\"c\"),\n    )\nanswer = query.values(\"status\").annotate(total_count=Count(\"status\"))\nprint(answer.query)\nprint(answer)\n\n# Add the following lines to fix the issue\nsettings.configure(\n    DEBUG=True,\n    SECRET_KEY='django-insecure-1234567890',\n    ROOT_URLCONF='django.urls',\n    TEMPLATES=[{\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [],\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',\n                'django.contrib.messages.context_processors.messages',\n            ],\n        },\n    }],\n    STATIC_URL='/static/',\n    DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}}\n)\n\n# Initialize Django\nimport django\ndjango.setup()",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12589.py"
+}

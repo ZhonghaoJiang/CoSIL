@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe function get_members in generate.py does not correctly filter out imported members when autosummary_imported_members is False. The function generate_autosummary_content also needs to be checked to ensure it passes the correct imported parameter.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/ext/autosummary/generate.py",
+            "class_name": "",
+            "method_name": "get_members"
+        }
+    ]
+}

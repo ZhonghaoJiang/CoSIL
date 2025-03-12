@@ -1,0 +1,66 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "_get_default_pk_class",
+            "file_path": "django/db/models/options.py"
+        },
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "MyBigAutoField",
+            "file_path": ""
+        },
+        {
+            "keyword": "_prepare",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "setup",
+            "file_path": "django/__init__.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "populate",
+            "file_path": "django/apps/registry.py"
+        },
+        {
+            "keyword": "import_models",
+            "file_path": "django/apps/config.py"
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "_prepare",
+            "file_path": "django/db/models/options.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.conf import settings\nfrom django.db import models\n\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nsettings.configure()\n\n# Ensure Django apps are ready\nfrom django import setup\nsetup()\n\nclass MyBigAutoField(models.BigAutoField):\n    pass\nclass MyModel(models.Model):\n    id = MyBigAutoField(primary_key=True)\n\n# Trigger the error\nMyModel()",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14238.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe cleanse_setting method in SafeExceptionReporterFilter class does not handle non-dict iterables, leading to insufficient cleansing of settings.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/views/debug.py",
+            "class_name": "SafeExceptionReporterFilter",
+            "method_name": "cleanse_setting"
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Line",
+            "file_path": "seaborn/objects.py"
+        },
+        {
+            "keyword": "plot",
+            "file_path": "seaborn/_core/plot.py"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "seaborn/_stats/regression.py"
+        },
+        {
+            "keyword": "so",
+            "file_path": ""
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "_fit_predict",
+            "file_path": "seaborn/_stats/regression.py"
+        },
+        {
+            "keyword": "_plot",
+            "file_path": "seaborn/_core/plot.py"
+        },
+        {
+            "keyword": "Plot",
+            "file_path": "seaborn/objects.py"
+        },
+        {
+            "keyword": "apply",
+            "file_path": "seaborn/_core/groupby.py"
+        },
+        {
+            "keyword": "PolyFit",
+            "file_path": "seaborn/objects.py"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": ""
+        },
+        {
+            "keyword": "_compute_stats",
+            "file_path": "seaborn/_core/plot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import seaborn.objects as so\nimport numpy as np\nx = np.array([1, 2, 3, None, 4], dtype=np.float64)\ny = np.array([1, 2, 3, 4, 5], dtype=np.float64)\nso.Plot(x[~np.isnan(x)], y[~np.isnan(x)]).add(so.Line(), so.PolyFit())",
+    "env_reproduce_path": "/mwaskom__seaborn/reproducer_mwaskom__seaborn-3010.py"
+}

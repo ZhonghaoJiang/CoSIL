@@ -1,0 +1,51 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sin",
+            "file_path": ""
+        },
+        {
+            "keyword": "sqrt",
+            "file_path": ""
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "Abs",
+            "file_path": ""
+        },
+        {
+            "keyword": "cos",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "trigsimp",
+            "file_path": "sympy/simplify/trigsimp.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "futrig",
+            "file_path": "sympy/simplify/trigsimp.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "CantSympify"
+        },
+        {
+            "keyword": "_futrig",
+            "file_path": "sympy/simplify/trigsimp.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import cos, sin, trigsimp, symbols, sqrt\n\nx = symbols('x', real=True)\nexpr = cos(x) + sqrt(sin(x)**2)\nsimplified_expr = trigsimp(expr)\n\nprint(simplified_expr)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-18087.py"
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe iter_content method correctly decodes content when decode_unicode is True. However, the text property behaves differently, suggesting a potential issue in its implementation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "requests/models.py",
+            "class_name": "Response",
+            "method_name": "text"
+        },
+        {
+            "file_path": "requests/models.py",
+            "class_name": "Response",
+            "method_name": "iter_content"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in seaborn/_core.py when using pairplot with hue_order. The issue seems to be related to handling the hue values that are not in the hue_order list.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "seaborn/_core.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

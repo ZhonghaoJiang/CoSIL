@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe separability_matrix function does not handle nested CompoundModels correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "astropy/modeling/separable.py",
+            "class_name": "",
+            "method_name": "separability_matrix"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when using BoundaryNorm with the format_cursor_data method in matplotlib. The error is raised because BoundaryNorm is not invertible. The inverse method in BoundaryNorm raises a ValueError. The _sanitize_extrema function is related to sanitizing extrema values, but it is not directly related to the error. The format_cursor_data method is part of the artist module, so we need to search for it in the artist.py file.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/artist.py",
+            "class_name": "",
+            "method_name": "format_cursor_data"
+        },
+        {
+            "file_path": "lib/matplotlib/colors.py",
+            "class_name": "BoundaryNorm",
+            "method_name": "inverse"
+        }
+    ]
+}

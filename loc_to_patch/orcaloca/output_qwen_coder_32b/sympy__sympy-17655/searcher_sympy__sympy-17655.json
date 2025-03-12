@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when adding a Point object to a Mul object. The __add__ method in Point class expects another Point object, but receives a Mul object. The __new__ method in Point class checks if the input is a sequence of coordinates, which fails for a Mul object.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point",
+            "method_name": "__add__"
+        },
+        {
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point",
+            "method_name": "__new__"
+        }
+    ]
+}

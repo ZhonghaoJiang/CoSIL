@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during the bitwise_or operation in the _arithmetic_mask method of the NDArithmeticMixin class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin",
+            "method_name": "_arithmetic_mask"
+        }
+    ]
+}

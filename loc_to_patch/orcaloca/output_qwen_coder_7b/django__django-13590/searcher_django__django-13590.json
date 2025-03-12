@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when passing named tuples as arguments to range queryset filters in Django 3.0. The issue is related to the way Django attempts to resolve lookups and reconstitute the tuple with the resolved elements.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/sql/query.py",
+            "class_name": "Query",
+            "method_name": "resolve_lookup_value"
+        }
+    ]
+}

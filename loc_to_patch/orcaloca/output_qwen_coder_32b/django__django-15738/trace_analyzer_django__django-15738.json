@@ -1,0 +1,66 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "constraints",
+            "file_path": ""
+        },
+        {
+            "keyword": "state",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProjectDataSet",
+            "file_path": ""
+        },
+        {
+            "keyword": "app_authors",
+            "file_path": ""
+        },
+        {
+            "keyword": "Authors",
+            "file_path": ""
+        },
+        {
+            "keyword": "YourAppConfig",
+            "file_path": ""
+        },
+        {
+            "keyword": "start_date",
+            "file_path": ""
+        },
+        {
+            "keyword": "Found",
+            "file_path": ""
+        },
+        {
+            "keyword": "project_data_set",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "DataSet",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "Project",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.conf import settings\nfrom django.db import models\nfrom django.core.management import call_command\n\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nsettings.configure()\n\n# Define models\n\nclass Authors(models.Model):\n    project_data_set = models.ForeignKey(\n        'ProjectDataSet',\n        on_delete=models.PROTECT\n    )\n    state = models.IntegerField()\n    start_date = models.DateField()\n\n    class Meta:\n        unique_together = (('project_data_set', 'state', 'start_date'),)\n\nclass DataSet(models.Model):\n    name = models.TextField(max_length=50)\n\nclass Project(models.Model):\n    data_sets = models.ManyToManyField(\n        'DataSet',\n        through='ProjectDataSet',\n    )\n    name = models.TextField(max_length=50)\n\nclass ProjectDataSet(models.Model):\n    \"\"\"\n    Cross table of data set and project\n    \"\"\"\n    data_set = models.ForeignKey(DataSet, on_delete=models.PROTECT)\n    project = models.ForeignKey(Project, on_delete=models.PROTECT)\n\n    class Meta:\n        unique_together = (('data_set', 'project'),)\n\n# Register models\nfrom django.apps import AppConfig\n\nclass YourAppConfig(AppConfig):\n    name = 'your_app'\n    models_module = __name__\n\n# Call makemigrations and migrate\ntry:\n    call_command('makemigrations', 'your_app')\n    call_command('migrate', 'your_app')\nexcept Exception as e:\n    print(f'An error occurred: {e}')\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15738.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe bug seems to be related to the handling of overloaded callables in autodoc_typehints.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "example.py",
+            "class_name": "",
+            "method_name": "foo"
+        }
+    ]
+}

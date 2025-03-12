@@ -52,7 +52,7 @@ class AFL(FL):
         return parsed_list
 
     def _parse_output(self, content: str):
-        extracted_output = re.search(r'~~~(?:.*?)\n(.*?)~~~', content, re.DOTALL).group(1)
+        extracted_output = re.search(r'```(?:.*?)\n(.*?)```', content, re.DOTALL).group(1)
         return extracted_output
 
     def _issue_clarify(self):
@@ -484,6 +484,260 @@ class AFL(FL):
         if len(reflection_files) == 0:
             reflection_files = [get_best_match(f, all_files) for f in reflection_files]
 
+
+        return (
+            reflection_files,
+            {"raw_output_files": raw_output},
+            traj,
+        )
+
+    def localize_with_p(
+            self, max_retry=10, file=None, mock=False
+    ) -> tuple[list[str], Any, Any]:
+        # lazy import, not sure if this is actually better?
+
+        from afl.util.model import make_model
+        max_try = max_retry
+        bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
+        system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
+        bug_file_content = self.consturct_bug_file_list(file)
+        location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
+                                                               pre_select_num=7,
+                                                               top_n=5)
+        user_msg = f"""
+                {bug_report}
+                {location_guidence_msg}
+                """
+
+        message = [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}
+        ]
+
+        model = make_model(
+            model=self.model_name,
+            backend=self.backend,
+            logger=self.logger,
+            max_tokens=self.max_tokens,
+            temperature=0.0,
+            batch_size=1,
+        )
+        traj = model.codegen(message, num_samples=1)[0]
+        traj["prompt"] = message
+        reason = traj["response"]
+        current_tokens = traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
+
+        message.append({
+            "role": "assistant",
+            "content": reason
+        })
+        message.append({
+            "role": "user",
+            "content": call_function_prompt + bug_file_content
+        })
+
+        location_summary_tokens = num_tokens_from_messages([{
+            "role": "user",
+            "content": location_summary.format(bug_file_list=bug_file_content)
+        }], self.model_name) + self.max_tokens
+
+        for j in range(max_try):
+
+            if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
+                message.pop()
+                break
+            try:
+                traj = model.codegen(message, num_samples=1)[0]
+                current_tokens += traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
+            except Exception as e:
+                if "Tokens" in str(e):  # Check if error message indicates context length issue
+                    message.pop()
+                    break
+
+            content = traj["response"]
+            print(content)
+            message.append({
+                "role": "assistant",
+                "content": content
+            })
+            def filter_function_call(content):
+                return content.replace("```python", "").replace("`", "").replace("'", "").replace('"', '')
+            try:
+                function_call = filter_function_call(content)
+                function_name = function_call[:function_call.find('(')].strip()
+                arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
+                args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
+
+                # 确保参数数量不超过三个
+                arg1, arg2, arg3 = (args + ['None'] * 3)[:3]
+                if function_name == 'get_functions_of_class':
+                    function_retval = get_functions_of_class(arg1, self.instance_id)
+                elif function_name == 'get_code_of_class':
+                    function_retval = get_code_of_class(arg1, arg2, self.instance_id)
+                elif function_name == 'get_code_of_class_function':
+                    function_retval = get_code_of_class_function(arg1, arg2, arg3, self.instance_id)
+                elif function_name == 'get_code_of_file_function':
+                    function_retval = get_code_of_file_function(arg1, arg2, self.instance_id)
+                else:
+                    break
+                # print(function_retval)
+
+                check_func_retval_prompt = f"""
+You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
+Your task is to locate the most likely culprit functions/classes based on the bug report.
+<bug report>
+{self.problem_statement}
+</bug report>
+
+Here is a result of a function/class code retrived by '{content}'.
+Please check if the code is related to the bug and if the code should be added into context.
+<code>
+{function_retval}
+</code>
+Return True if the code is related to the bug and should be added into context, otherwise return False.
+Since your answer will be processed automatically, please give your answer in the format as follows.
+The returned content should be wrapped with ```.
+```
+True
+```
+or
+```
+False
+```
+"""
+                check_res = model.codegen([{"role": "user", "content": check_func_retval_prompt}], num_samples=1)[0]["response"]
+                flag = self._parse_output(check_res).strip()
+                print(flag)
+                if flag == "True":
+                    message.append({"role": "user", "content": function_retval})
+                else:
+                    message.append({"role": "user",
+                                    "content": "I have already checked this function/class is not related to the bug."})
+                message.append({"role": "user", "content": function_retval})
+                message.append({
+                    "role": "user",
+                    "content": call_function_prompt + bug_file_content
+                })
+            except Exception as e:
+                print(e)
+                message.append({
+                    "role": "user",
+                    "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
+
+
+        message.append({
+            "role": "user",
+            "content": location_summary.format(bug_file_list=bug_file_content)
+        })
+        traj = model.codegen(message, num_samples=1)[0]
+        traj["prompt"] = message
+        raw_output = traj["response"]
+
+        self.logger.info(raw_output)
+        model_found_locs = extract_code_blocks(raw_output)
+        model_found_locs_separated = extract_locs_for_files(
+            model_found_locs, file
+        )
+
+        return (
+            model_found_locs_separated,
+            raw_output,
+            traj,
+        )
+
+    def file_localize_with_g(self, max_retry=10, mock=False):
+        from afl.util.api_requests import num_tokens_from_messages
+        from afl.util.model import make_model
+        all_files = get_all_of_files(self.instance_id)
+        bug_report = bug_report_template.format(problem_statement=self.problem_statement,
+                                                structure=show_project_structure(self.structure).strip())
+
+        system_msg = file_system_prompt_without_tool
+        guidence_msg = file_guidence_prmpt_without_tool.format(pre_select_num=int(max_retry * 0.75),
+                                                               top_n=int(max_retry / 2))
+        user_msg = f"""
+{bug_report}
+{guidence_msg}
+{file_summary}
+"""
+
+        message = [
+            {
+                "role": "system",
+                "content": system_msg
+            },
+            {
+                "role": "user",
+                "content": user_msg
+            }
+        ]
+        self.logger.info(f"prompting with message:\n{message}")
+        self.logger.info("=" * 80)
+        if mock:
+            self.logger.info("Skipping querying model since mock=True")
+            traj = {
+                "prompt": message,
+                "usage": {
+                    "prompt_tokens": num_tokens_from_messages(message, self.model_name),
+                },
+            }
+            return [], {"raw_output_loc": ""}, traj
+
+        model = make_model(
+            model=self.model_name,
+            backend=self.backend,
+            logger=self.logger,
+            max_tokens=self.max_tokens,
+            temperature=0,
+            batch_size=1,
+        )
+
+        traj = model.codegen(message, num_samples=1)[0]
+        traj["prompt"] = message
+        raw_output = traj["response"]
+
+        self.logger.info(raw_output)
+        model_found_files = self._parse_top5_file(raw_output)
+
+        import difflib
+        def get_best_match(file: str, all_files: list[str], cutoff: float = 0.8) -> str:
+            if file in all_files:
+                return file
+            matches = difflib.get_close_matches(file, all_files, n=1, cutoff=cutoff)
+            return matches[0] if matches else file
+
+        found_files = [f for f in model_found_files if f in all_files]
+
+        if len(found_files) == 0:
+            corrcted_tpl = format_correct_prompt.format(res=raw_output)
+            formated_res = model.codegen([{"role": "user", "content": corrcted_tpl}], num_samples=1)[0]["response"]
+            self.logger.info(formated_res)
+            model_found_files = self._parse_top5_file(formated_res)
+            found_files = [f for f in model_found_files if f in all_files]
+            if len(found_files) == 0:
+                found_files = [get_best_match(f, all_files) for f in model_found_files]
+
+
+        import_content = ""
+        _parsed_path = []
+        for loc in found_files:
+            if loc in _parsed_path:
+                continue
+            import_content += f"file: {loc}\n {get_imports_of_file(loc, self.instance_id)}\n"
+            _parsed_path.append(loc)
+
+        reflection_result = model.codegen(
+            [{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
+                                                                       structure=show_project_structure(
+                                                                           self.structure).strip(),
+                                                                       import_content=import_content,
+                                                                       pre_files=found_files)}],
+            num_samples=1)[0]["response"]
+        self.logger.info(reflection_result)
+        reflection_files = self._parse_top5_file(reflection_result)
+        reflection_files = [f for f in reflection_files if f in all_files]
+        if len(reflection_files) == 0:
+            reflection_files = [get_best_match(f, all_files) for f in reflection_files]
 
         return (
             reflection_files,

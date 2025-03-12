@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pyplot",
+            "file_path": ""
+        },
+        {
+            "keyword": "numpy",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import matplotlib.pyplot as plt\nimport numpy as np\na = np.linspace(0,2*np.pi,100)\nb = np.sin(a)\nc = np.cos(a)\nfig,ax = plt.subplots(1,2,figsize=(8,2),constrained_layout=False)\nax[0].plot(a,b)\nax[1].plot(a,c)\nplt.subplots_adjust(wspace=0)",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23987.py"
+}

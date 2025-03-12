@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe eval method in sympy/core/mod.py does not handle cases where the base is not an integer. The doit method is called within eval and also does not handle non-integer bases. The _eval_is_integer method checks if both arguments are integers but does not address the issue in the context of Mod evaluation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/core/mod.py",
+            "class_name": "Mod",
+            "method_name": "eval"
+        },
+        {
+            "file_path": "sympy/core/mod.py",
+            "class_name": "Mod",
+            "method_name": "doit"
+        }
+    ]
+}

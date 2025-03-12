@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "create_option",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyClass",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):\n    context = super().create_option(name, value, label, selected, index, subindex, attrs)\n    if not value:\n        return context\n    if value in self.show_fields: # This is a dict {1: ['first_name', 'last_name']}\n        context['attrs']['data-fields'] = json.dumps(self.show_fields[value])\n\n# Add the following lines to generate the error\nself.show_fields = {1: ['first_name', 'last_name']}\nvalue = 1\ncreate_option(None, 'name', value, 'label', True, 0, None, None)\n\n# Fix the error by passing an instance of the class\ninstance = MyClass()\ninstance.show_fields = {1: ['first_name', 'last_name']}\ninstance.create_option(None, 'name', value, 'label', True, 0, None, None)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14915.py"
+}

@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "__new__",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "namedtuple",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestRangeFilter",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "IntegerField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from collections import namedtuple\nfrom django.conf import settings\nfrom django.db import models\nfrom django.test import TestCase\n\nclass TestRangeFilter(TestCase):\n    def setUp(self):\n        settings.configure(INSTALLED_APPS=['django.contrib.contenttypes'])\n        class MyModel(models.Model):\n            distance = models.IntegerField()\n        self.MyModel = MyModel\n        self.MyModel._meta.apps.populate()\n\n    def test_range_filter_with_namedtuple(self):\n        queryset = self.MyModel.objects.filter(distance__range=namedtuple('Range', ['near', 'far'])(10, 20))",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13590.py"
+}

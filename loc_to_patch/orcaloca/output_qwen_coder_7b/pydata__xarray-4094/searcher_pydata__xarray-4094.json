@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during the unstacking process, specifically in the `to_unstacked_dataset` method. The issue might be related to how the method handles single-dimensional variables.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/dataarray.py",
+            "class_name": "DataArray",
+            "method_name": "to_unstacked_dataset"
+        },
+        {
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset",
+            "method_name": "to_stacked_array"
+        }
+    ]
+}

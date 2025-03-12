@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe search results show the `skip` function and the `Skipped` class in `outcomes.py`. The `skip` function includes the `allow_module_level` parameter, but using it directly in the module scope is problematic. We need to understand how `pytestmark` and `skipif` work to find a better solution.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "Skipped",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "",
+            "method_name": "skip"
+        }
+    ]
+}

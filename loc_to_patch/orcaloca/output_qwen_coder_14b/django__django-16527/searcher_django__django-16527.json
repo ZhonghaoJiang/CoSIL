@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe problem statement suggests that the 'show_save_as_new' functionality in the Django admin interface allows users to add new items without the necessary 'add' permission. The proposed fix is to add a check for 'has_add_permission' in the 'django/contrib/admin/templatetags/admin_modify.py' file at line 102. The search results show the 'submit_row' function in the 'admin_modify.py' file. The next step is to search for the 'submit_row' function and the contents of the 'admin_modify.py' file to further analyze the context.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/admin/templatetags/admin_modify.py",
+            "class_name": "",
+            "method_name": "submit_row"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "xr",
+            "file_path": ""
+        },
+        {
+            "keyword": "groupby",
+            "file_path": "xarray/core/groupby.py"
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "DatasetGroupBy",
+            "file_path": ""
+        },
+        {
+            "keyword": "Dataset",
+            "file_path": "xarray/core/dataset.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import xarray as xr, numpy as np\nds = xr.Dataset(\n    {\"foo\": ((\"x\", \"y\"), np.random.rand(4, 3))},\n    coords={\"x\": [10, 20, 30, 40], \"letters\": (\"x\", list(\"abba\"))},\n)\ngrouped_ds = ds.groupby(\"letters\")\nprint(repr(grouped_ds))",
+    "env_reproduce_path": "/pydata__xarray/reproducer_pydata__xarray-5131.py"
+}

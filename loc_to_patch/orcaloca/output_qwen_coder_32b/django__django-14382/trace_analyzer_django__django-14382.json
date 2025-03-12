@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "handle",
+            "file_path": "django/core/management/templates.py",
+            "class_name": "TemplateCommand"
+        },
+        {
+            "keyword": "handle",
+            "file_path": "django/core/management/commands/startapp.py",
+            "class_name": "Command"
+        },
+        {
+            "keyword": "validate_name",
+            "file_path": "django/core/management/templates.py",
+            "class_name": "TemplateCommand"
+        }
+    ],
+    "related_source_code": "self.validate_name(os.path.basename(target), 'directory')\n",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import os\nfrom django.core.management import call_command\ncall_command('startapp', 'name', 'directory/')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14382.py"
+}

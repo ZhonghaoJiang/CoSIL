@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe deprecation warning is related to ManagementForm's usage in formsets. Since you never render forms with the {{ form }} expression, the issue might be in the way formsets are handled or in the template used for rendering.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/formsets.py",
+            "class_name": "BaseFormSet",
+            "method_name": "management_form"
+        }
+    ]
+}

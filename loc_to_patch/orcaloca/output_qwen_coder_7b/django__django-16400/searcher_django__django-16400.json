@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the DB router not respecting the database parameter specified in the migrate command. The custom middleware and router are printing 'read {}' before the exception, indicating that a read operation is being performed on the default database instead of the specified one.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "utils/tenant_db_router.py",
+            "class_name": "TenantDatabaseRouter",
+            "method_name": ""
+        }
+    ]
+}

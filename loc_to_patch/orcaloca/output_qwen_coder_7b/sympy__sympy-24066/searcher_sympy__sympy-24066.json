@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when calling SI._collect_factor_and_dimension with an expression involving the exponential function. The bug might be related to how SI._collect_factor_and_dimension handles dimensionless quantities.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem",
+            "method_name": "_collect_factor_and_dimension"
+        },
+        {
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "_QuantityMapper",
+            "method_name": "set_quantity_scale_factor"
+        }
+    ]
+}

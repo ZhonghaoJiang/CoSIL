@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "LookupError",
+            "file_path": ""
+        },
+        {
+            "keyword": "raises",
+            "file_path": "src/_pytest/_code/code.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import pytest\n\nwith pytest.raises(LookupError) as e:\n    raise LookupError(\n        f\"A\\n\"\n        f\"B\\n\"\n        f\"C\"\n    )\n\nprint(str(e))",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-5413.py"
+}

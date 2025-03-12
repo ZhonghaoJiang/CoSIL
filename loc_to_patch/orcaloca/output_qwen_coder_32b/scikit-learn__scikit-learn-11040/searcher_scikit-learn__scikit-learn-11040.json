@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe kneighbors method in KNeighborsMixin does not validate if n_neighbors is an integer. The NearestNeighbors class's __init__ method also needs to be checked for parameter validation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/neighbors/base.py",
+            "class_name": "KNeighborsMixin",
+            "method_name": "kneighbors"
+        },
+        {
+            "file_path": "sklearn/neighbors/unsupervised.py",
+            "class_name": "NearestNeighbors",
+            "method_name": "__init__"
+        }
+    ]
+}

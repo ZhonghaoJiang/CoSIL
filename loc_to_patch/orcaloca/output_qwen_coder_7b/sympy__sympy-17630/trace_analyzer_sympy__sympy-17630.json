@@ -1,0 +1,78 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_blockmul",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        },
+        {
+            "keyword": "conditioned_rl",
+            "file_path": "sympy/strategies/core.py"
+        },
+        {
+            "keyword": "ZeroMatrix",
+            "file_path": ""
+        },
+        {
+            "keyword": "BlockMatrix",
+            "file_path": ""
+        },
+        {
+            "keyword": "switch_rl",
+            "file_path": "sympy/strategies/core.py"
+        },
+        {
+            "keyword": "chain_rl",
+            "file_path": "sympy/strategies/core.py"
+        },
+        {
+            "keyword": "cols",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        },
+        {
+            "keyword": "Matrix",
+            "file_path": ""
+        },
+        {
+            "keyword": "block_collapse",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        },
+        {
+            "keyword": "blockshape",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        },
+        {
+            "keyword": "b_fixed",
+            "file_path": ""
+        },
+        {
+            "keyword": "block_collapse",
+            "file_path": ""
+        },
+        {
+            "keyword": "bc_matmul",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        },
+        {
+            "keyword": "MatrixSymbol",
+            "file_path": ""
+        },
+        {
+            "keyword": "exhaustive_rl",
+            "file_path": "sympy/strategies/core.py"
+        },
+        {
+            "keyword": "blocks",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        },
+        {
+            "keyword": "colblocksizes",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import *\n\na = MatrixSymbol(\"a\", 2, 2)\nz = ZeroMatrix(2, 2)\nb = BlockMatrix([[a, z], [z, z]])\n\nblock_collapse(b * b)\nMatrix([\n[a**2, 0],\n[0, 0]]\n)\nb._blockmul(b)\nMatrix([\n[a**2, 0],\n[0, 0]]\n)\n\nblock_collapse(b * b * b)\ntry:\n    block_collapse(b * b * b)\nexcept AttributeError as e:\n    print(e)\n\n# Fix the issue by ensuring that the blocks are properly handled\nb_fixed = BlockMatrix([[a, z], [z, z]], evaluate=False)\nblock_collapse(b_fixed * b_fixed * b_fixed)\ntry:\n    block_collapse(b_fixed * b_fixed * b_fixed)\nexcept AttributeError as e:\n    print(e)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-17630.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe 'format' function in numberformat.py does not handle null values properly, leading to an IndexError when trying to access the first character of a null string.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/utils/numberformat.py",
+            "class_name": "",
+            "method_name": "format"
+        }
+    ]
+}

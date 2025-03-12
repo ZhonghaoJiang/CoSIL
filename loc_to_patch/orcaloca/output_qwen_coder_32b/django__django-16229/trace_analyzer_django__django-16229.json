@@ -1,0 +1,58 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "admin",
+            "file_path": ""
+        },
+        {
+            "keyword": "ThingAdmin",
+            "file_path": ""
+        },
+        {
+            "keyword": "RelatedModelForm",
+            "file_path": ""
+        },
+        {
+            "keyword": "ArrayField",
+            "file_path": ""
+        },
+        {
+            "keyword": "psycopg2",
+            "file_path": ""
+        },
+        {
+            "keyword": "Thing",
+            "file_path": ""
+        },
+        {
+            "keyword": "forms",
+            "file_path": ""
+        },
+        {
+            "keyword": "RelatedModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "clean",
+            "file_path": ""
+        },
+        {
+            "keyword": "RelatedModelInline",
+            "file_path": ""
+        },
+        {
+            "keyword": "ValidationError",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import models\nfrom django import forms\nfrom django.core.exceptions import ValidationError\nfrom django.contrib import admin\nfrom django.contrib.postgres.fields import ArrayField\nimport psycopg2\n\nclass Thing(models.Model):\n    pass\n\nclass RelatedModel(models.Model):\n    thing = models.ForeignKey(Thing, on_delete=models.CASCADE)\n    plop = ArrayField(\n        models.CharField(max_length=42),\n        default=list,\n    )\n\nclass RelatedModelForm(forms.ModelForm):\n    def clean(self):\n        raise ValidationError(\"whatever\")\n\nclass RelatedModelInline(admin.TabularInline):\n    form = RelatedModelForm\n    model = RelatedModel\n    extra = 1\n\n@admin.register(Thing)\nclass ThingAdmin(admin.ModelAdmin):\n    inlines = [\n        RelatedModelInline\n    ]\n\n# Ensure psycopg2 is installed\ntry:\n    import psycopg2\nexcept ImportError:\n    raise ImportError(\"psycopg2 is required for this test. Please install it using pip install psycopg2-binary.\")\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16229.py"
+}

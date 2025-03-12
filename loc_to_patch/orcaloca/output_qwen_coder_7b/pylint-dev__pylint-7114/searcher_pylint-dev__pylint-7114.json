@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\npylint is treating 'a' as a package and is looking for an '__init__.py' file within it.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "a/__init__.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

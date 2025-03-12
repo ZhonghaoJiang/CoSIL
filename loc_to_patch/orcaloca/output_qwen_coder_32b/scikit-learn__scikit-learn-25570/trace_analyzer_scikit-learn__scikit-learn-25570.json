@@ -1,0 +1,58 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "fit_transform",
+            "file_path": "sklearn/compose/_column_transformer.py"
+        },
+        {
+            "keyword": "_hstack",
+            "file_path": "sklearn/compose/_column_transformer.py"
+        },
+        {
+            "keyword": "fit_transform_one_cached",
+            "file_path": "sklearn/pipeline.py"
+        },
+        {
+            "keyword": "SimpleImputer",
+            "file_path": "sklearn/impute/_base.py"
+        },
+        {
+            "keyword": "LGBMClassifier",
+            "file_path": ""
+        },
+        {
+            "keyword": "wrapped",
+            "file_path": "sklearn/utils/_set_output.py"
+        },
+        {
+            "keyword": "_fit_transform_one",
+            "file_path": "sklearn/pipeline.py"
+        },
+        {
+            "keyword": "_fit",
+            "file_path": "sklearn/pipeline.py"
+        },
+        {
+            "keyword": "Pipeline",
+            "file_path": "sklearn/pipeline.py"
+        },
+        {
+            "keyword": "RobustScaler",
+            "file_path": "sklearn/preprocessing/_data.py"
+        },
+        {
+            "keyword": "fit",
+            "file_path": "sklearn/pipeline.py"
+        },
+        {
+            "keyword": "ColumnTransformer",
+            "file_path": "sklearn/compose/_column_transformer.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nimport pandas as pd\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.preprocessing import RobustScaler\nfrom lightgbm import LGBMClassifier\n\nX = pd.DataFrame(data=[[1.0, 2.0, 3.0, 4.0], [4, 2, 2, 5]],\n                 columns=[\"a\", \"b\", \"c\", \"d\"])\ny = np.array([0, 1])\ncategorical_features = []\nnumerical_features = [\"a\", \"b\", \"c\"]\nmodel_preprocessing = (\"preprocessing\",\n                       ColumnTransformer([\n                           ('categorical', 'passthrough', categorical_features),\n                           ('numerical', Pipeline([(\"scaler\", RobustScaler()),\n                                                   (\"imputer\", SimpleImputer(strategy=\"median\"))\n                                                   ]), numerical_features),\n                       ], remainder='drop'))\npipeline = Pipeline([model_preprocessing, (\"classifier\", LGBMClassifier())]).set_output(transform=\"pandas\")\npipeline.fit(X, y)",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-25570.py"
+}

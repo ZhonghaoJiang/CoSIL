@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue is in the resolve_lookup_value method of the Query class where named tuples are being reconstructed from iterators, causing a TypeError.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/sql/query.py",
+            "class_name": "Query",
+            "method_name": "resolve_lookup_value"
+        }
+    ]
+}

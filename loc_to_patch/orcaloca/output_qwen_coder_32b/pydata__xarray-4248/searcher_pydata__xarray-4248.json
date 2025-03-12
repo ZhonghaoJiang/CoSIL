@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe '__repr__' method in the Dataset class calls 'formatting.dataset_repr(self)', which is not found. The 'info' method generates a detailed string representation but does not include units. We need to find where 'formatting.dataset_repr' is defined.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/formatting.py",
+            "class_name": "",
+            "method_name": "dataset_repr"
+        },
+        {
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset",
+            "method_name": "info"
+        }
+    ]
+}

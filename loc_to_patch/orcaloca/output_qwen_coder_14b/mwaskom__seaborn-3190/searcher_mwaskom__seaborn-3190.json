@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the _setup_scales method of the Plotter class in the seaborn/_core/plot.py file. The issue seems to be related to the handling of boolean data in the color mapping. The _setup method in the ContinuousBase class in the seaborn/_core/scales.py file also has a potential issue with boolean data handling.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "seaborn/_core/plot.py",
+            "class_name": "Plotter",
+            "method_name": "_setup_scales"
+        },
+        {
+            "file_path": "seaborn/_core/scales.py",
+            "class_name": "ContinuousBase",
+            "method_name": "_setup"
+        }
+    ]
+}

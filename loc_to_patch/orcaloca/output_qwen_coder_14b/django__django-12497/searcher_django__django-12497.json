@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe check method in ManyToManyField is responsible for generating the hint for recursive relationships. The hint suggests using ForeignKey with symmetrical and through arguments, which are not applicable to ForeignKey fields. The developer likely intended to use ManyToManyField instead. The __init__ method also contains the symmetrical argument, which is not required since Django 3.0 for recursive relationships with intermediary models to self.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "check"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ForeignKey",
+            "method_name": "db_check"
+        }
+    ]
+}

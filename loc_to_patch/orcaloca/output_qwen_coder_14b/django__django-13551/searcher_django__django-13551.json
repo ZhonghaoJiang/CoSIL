@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe problem statement indicates that the password reset token should be invalidated when the user's email address changes. The fix involves modifying the `_make_hash_value` method in the `PasswordResetTokenGenerator` class to include the user's email address. The current implementation of `_make_hash_value` does not include the user's email address, which could lead to the issue described.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/tokens.py",
+            "class_name": "PasswordResetTokenGenerator",
+            "method_name": "_make_hash_value"
+        }
+    ]
+}

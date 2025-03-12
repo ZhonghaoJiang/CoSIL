@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sympy",
+            "file_path": ""
+        },
+        {
+            "keyword": "Matrix",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sympy as sy\n\nM1 = sy.Matrix.zeros(0, 0)\nM2 = sy.Matrix.zeros(0, 1)\nM3 = sy.Matrix.zeros(0, 2)\nM4 = sy.Matrix.zeros(0, 3)\nsy.Matrix.hstack(M1, M2, M3, M4).shape\n\nM1 = sy.Matrix.zeros(1, 0)\nM2 = sy.Matrix.zeros(1, 1)\nM3 = sy.Matrix.zeros(1, 2)\nM4 = sy.Matrix.zeros(1, 3)\nsy.Matrix.hstack(M1, M2, M3, M4).shape\n\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-13031.py"
+}

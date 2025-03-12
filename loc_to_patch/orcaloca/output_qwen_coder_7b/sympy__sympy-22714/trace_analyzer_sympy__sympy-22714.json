@@ -1,0 +1,60 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sympy",
+            "file_path": ""
+        },
+        {
+            "keyword": "ValueError",
+            "file_path": ""
+        },
+        {
+            "keyword": "parse_expr",
+            "file_path": "sympy/parsing/sympy_parser.py"
+        },
+        {
+            "keyword": "Integer",
+            "file_path": ""
+        },
+        {
+            "keyword": "eval_expr",
+            "file_path": "sympy/parsing/sympy_parser.py"
+        },
+        {
+            "keyword": "Point2D",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "CantSympify"
+        },
+        {
+            "keyword": "evaluate",
+            "file_path": "sympy/core/parameters.py",
+            "class_name": "_global_parameters"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point2D"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point"
+        },
+        {
+            "keyword": "evaluateFalse",
+            "file_path": "sympy/parsing/sympy_parser.py",
+            "class_name": "ParenthesisGroup"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sympy as sp\nwith sp.evaluate(False):\n  sp.S('Point2D(Integer(1),Integer(2))')\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-22714.py"
+}

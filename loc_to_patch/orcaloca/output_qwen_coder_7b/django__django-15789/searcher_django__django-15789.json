@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe current implementation of json_script in django/utils/html.py uses DjangoJSONEncoder, which is hardcoded. The feature request is to add an encoder parameter to allow customization.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/utils/html.py",
+            "class_name": "",
+            "method_name": "json_script"
+        }
+    ]
+}

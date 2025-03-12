@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe __init__ method of InlineModelAdmin sets verbose_name_plural based on model's Meta class, not on verbose_name if specified.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/admin/options.py",
+            "class_name": "InlineModelAdmin",
+            "method_name": "__init__"
+        }
+    ]
+}

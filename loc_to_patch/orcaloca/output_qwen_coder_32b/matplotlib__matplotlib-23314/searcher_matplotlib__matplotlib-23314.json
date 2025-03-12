@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe set_visible() method in SimpleAxisArtist unconditionally sets self._axis.set_visible(True), which might be causing the issue for 3D projections. Investigate the set_visible() method in Axes3D.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/mpl_toolkits/axes_grid1/mpl_axes.py",
+            "class_name": "SimpleAxisArtist",
+            "method_name": "set_visible"
+        }
+    ]
+}

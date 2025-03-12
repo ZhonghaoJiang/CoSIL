@@ -1,0 +1,36 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Q",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "_combine",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "TypeError",
+            "file_path": ""
+        },
+        {
+            "keyword": "Q",
+            "file_path": ""
+        },
+        {
+            "keyword": "__deepcopy__",
+            "file_path": "django/utils/tree.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__or__",
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "Q"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom django.db.models import Q\n\nQ() | Q(x__in={}.keys())\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14016.py"
+}

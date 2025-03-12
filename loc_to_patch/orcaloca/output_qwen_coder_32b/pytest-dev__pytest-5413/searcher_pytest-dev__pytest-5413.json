@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe __str__ method in the ExceptionInfo class only returns the location of the exception, not the full error message. The value method in the ExceptionInfo class returns the exception value, which contains the full error message.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/_code/code.py",
+            "class_name": "ExceptionInfo",
+            "method_name": "__str__"
+        }
+    ]
+}

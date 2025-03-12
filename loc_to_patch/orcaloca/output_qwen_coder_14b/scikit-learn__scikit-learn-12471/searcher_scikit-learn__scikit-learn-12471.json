@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe provided search results show the class skeleton and method signatures for the OneHotEncoder class. The issue described in the problem statement involves the transform method, which handles unknown categories. We need to investigate the implementation of the transform method to identify potential bug locations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/preprocessing/_encoders.py",
+            "class_name": "_BaseEncoder",
+            "method_name": "_transform"
+        }
+    ]
+}

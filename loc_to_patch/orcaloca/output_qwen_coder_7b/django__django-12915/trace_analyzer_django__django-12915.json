@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "__call__",
+            "file_path": "django/contrib/staticfiles/handlers.py"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "django/core/handlers/asgi.py"
+        },
+        {
+            "keyword": "_middleware_chain",
+            "file_path": "django/core/handlers/base.py"
+        },
+        {
+            "keyword": "get_response_async",
+            "file_path": "django/core/handlers/base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

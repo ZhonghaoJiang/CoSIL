@@ -119,7 +119,7 @@ Function calls you can use are as follows:
 file_summary = """
 Based on the available information, reconfirm and provide complete name of the top-5 most likely culprit files for the bug. 
 Since your answer will be processed automatically, please give your answer in the format as follows.
-The returned files should be separated by new lines ordered by most to least important and wrapped with ```
+The returned files should be separated by new lines ordered by most to least important and wrapped with ```.
 ```
 file1.py
 file2.py
@@ -279,7 +279,8 @@ Please help me corrct the following result.
 
 file_reflection_prompt = """
 Please look through the following GitHub problem description and Repository structure and provide a list of files that one would need to edit to fix the problem.
-I have already find 5 relevent files. Rank them again and reflect the result.
+I have already find 5 relevent files. Accrording to the import relations, construct the call graph first.
+Then, Rank them again and reflect the result.
 
 ### GitHub Problem Description ###
 {problem_statement}
@@ -295,6 +296,12 @@ I have already find 5 relevent files. Rank them again and reflect the result.
 {pre_files}
 
 ###
+
+### Import Relations ###
+{import_content}
+###
+
+
 Please only provide the full path and return top 5 files.
 The returned files should be separated by new lines ordered by most to least important and wrapped with ```
 For example:
@@ -305,7 +312,21 @@ file3.py
 file4.py
 file5.py
 ```
-Note: file1.py indicates the top-1 file, file2.py indicates the top-2 file, and so on.
+Note: file1.py indicates the top-1 file, file2.py indicates the top-2 file, and so on. Do not include test files.
+"""
+
+file_prompt_new = """
+You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
+Your task is to locate the most likely culprit locations based on the bug report and return in the following format.
+```
+PathName::ClassName.MethodName
+PathName::MethodName
+```
+The returned files should be separated by new lines ordered by most to least important and wrapped with ```.
+For example:
+```
+sympy/geometry/point.py::Point
+```
 """
 
 # ------------------------------------------------AFL Patch-------------------------------------------------------------

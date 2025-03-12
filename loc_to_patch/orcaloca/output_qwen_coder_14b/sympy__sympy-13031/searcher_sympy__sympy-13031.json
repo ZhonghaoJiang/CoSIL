@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe behavior of Matrix.hstack and vstack has changed in sympy 1.1 compared to sympy 1.0. The issue seems to be related to how matrices with zero rows or columns are handled in these operations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/matrix/matrix.py",
+            "class_name": "Matrix",
+            "method_name": ""
+        },
+        {
+            "file_path": "sympy/matrix/matrix.py",
+            "class_name": "Matrix",
+            "method_name": ""
+        }
+    ]
+}

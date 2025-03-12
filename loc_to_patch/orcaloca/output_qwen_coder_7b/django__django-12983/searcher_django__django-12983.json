@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe slugify function does not strip dashes and underscores as expected.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/utils/text.py",
+            "class_name": "",
+            "method_name": "slugify"
+        }
+    ]
+}

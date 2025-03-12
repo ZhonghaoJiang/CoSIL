@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe emit_post_migrate_signal function sends the post_migrate signal for every application, but it does not explicitly pass the database parameter to the signal handlers. This might be causing the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/commands/migrate.py",
+            "class_name": "",
+            "method_name": "emit_post_migrate_signal"
+        }
+    ]
+}

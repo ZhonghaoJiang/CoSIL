@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the handling of returning fields in bulk_create, particularly when update_conflicts is used. The method _batched_insert is responsible for inserting objects in batches, and it removes returning_fields when update_conflicts is true.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "bulk_create"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "_batched_insert"
+        }
+    ]
+}

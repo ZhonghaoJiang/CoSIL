@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe pretty_print method in the Vector class is likely responsible for the jumbled output. Further investigation is needed to understand how the method handles vector components.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/physics/vector/vector.py",
+            "class_name": "Vector",
+            "method_name": "_pretty"
+        },
+        {
+            "file_path": "sympy/physics/vector/vector.py",
+            "class_name": "Vector",
+            "method_name": "_latex"
+        }
+    ]
+}

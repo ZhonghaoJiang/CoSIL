@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "local",
+            "file_path": ""
+        },
+        {
+            "keyword": "TenantSubdomainMiddleware",
+            "file_path": ""
+        },
+        {
+            "keyword": "TenantDatabaseRouter",
+            "file_path": ""
+        },
+        {
+            "keyword": "allow_relation",
+            "file_path": ""
+        },
+        {
+            "keyword": "InvalidTenantException",
+            "file_path": ""
+        },
+        {
+            "keyword": "allow_migrate",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from threading import local\nfrom django.conf import settings\nlocal_state = local()\nclass InvalidTenantException(Exception):\n    pass\nclass TenantSubdomainMiddleware:\n    def __init__(self, get_response):\n        self.get_response = get_response\n    def __call__(self, request):\n        ## Get Subdomain\n        host = request.get_host().split(\":\")[0]\n        local_state.subdomain = (\n            # We assume single level of subdomain : app.service.com \n            # HOST_IP : used to for local dev. \n            host if host in settings.HOST_IP else host.split(\".\")[0]\n        )\n        response = self.get_response(request)\n        return response\nclass TenantDatabaseRouter:\n    def _default_db(self):\n        subdomain = getattr(local_state, \"subdomain\", None)\n        if subdomain is not None and subdomain in settings.TENANT_MAP:\n            db_name = settings.TENANT_MAP[local_state.subdomain]\n            return db_name\n        else:\n            raise InvalidTenantException()\n    def db_for_read(self, model, **hints):\n        print(\"read\", hints)\n        return self._default_db()\n    def db_for_write(self, model, **hints):\n        print(\"write\", hints)\n        return self._default_db()\ndef allow_relation(self, obj1, obj2, **hints):\n    return None\ndef allow_migrate(self, db, app_label, model_name=None, **hints):\n    return None\n## settings.py\nMIDDLEWARE = [\n    \"utils.tenant_db_router.TenantSubdomainMiddleware\",\n    \"django.middleware.security.SecurityMiddleware\",\n    ...\n]\nTENANT_MAP = {\"localhost\":\"default\", \"tenant_1\":\"default\"}\nDATABASE_ROUTERS = [\"utils.tenant_db_router.TenantDatabaseRouter\"]\n\n# Add the following lines to reproduce the issue\nfrom django.core.management import call_command\nimport os\nos.environ[\"DJANGO_SETTINGS_MODULE\"] = \"your_project.settings\"\ncall_command(\"migrate\", database=\"default\")\n\n# Fix the issue by setting the correct settings module\nos.environ[\"DJANGO_SETTINGS_MODULE\"] = \"your_project.settings\"",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16400.py"
+}

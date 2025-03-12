@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the _print_Basic method of the MathMLPrinter class in the sympy/printing/mathml.py file. The error is due to the assumption that the Indexed object is iterable, which is not the case.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "shm/gerrit/venv/stable-3.5/lib/python3.5/site-packages/sympy/printing/mathml.py",
+            "class_name": "MathMLPrinter",
+            "method_name": ""
+        }
+    ]
+}

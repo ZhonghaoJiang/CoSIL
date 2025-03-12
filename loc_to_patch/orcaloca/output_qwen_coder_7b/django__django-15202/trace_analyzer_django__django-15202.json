@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "run_validators",
+            "file_path": "django/forms/fields.py"
+        },
+        {
+            "keyword": "clean",
+            "file_path": "django/forms/fields.py"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "django/core/validators.py"
+        },
+        {
+            "keyword": "forms",
+            "file_path": ""
+        },
+        {
+            "keyword": "ValidationError",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django import forms\nfrom django.core.exceptions import ValidationError\n\ntry:\n    forms.URLField().clean('////]@N.AN')\nexcept ValidationError as e:\n    print(e)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15202.py"
+}

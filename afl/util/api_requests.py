@@ -79,7 +79,10 @@ def request_chatgpt_engine(config, logger, base_url=None, max_retries=40, timeou
     elif config["model"] == "llama3":
         client = openai.OpenAI(api_key="token-abc123", base_url="http://127.0.0.1:7333/v1")
     else:
-        client = openai.OpenAI(api_key="", base_url="")
+        # client = openai.OpenAI(api_key="sk-sPMRMMX1wxpaaTMVbiFosb7BLcCCMTvdKBlHW8NQiZU0ICmQ", base_url="https://xiaoai.plus/v1")
+        client = openai.OpenAI(api_key="sk-hfrbvrniziutfshyaltqsuhqmpyybtsftdzdspkcpcsnmwmg",
+                               base_url="https://api.siliconflow.cn/v1")
+
 
     while ret is None and retries < max_retries:
         try:

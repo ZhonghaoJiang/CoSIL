@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe execute method in ManagementUtility uses sys.argv[0] for the prog argument in CommandParser instead of self.prog_name.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/__init__.py",
+            "class_name": "ManagementUtility",
+            "method_name": "execute"
+        }
+    ]
+}

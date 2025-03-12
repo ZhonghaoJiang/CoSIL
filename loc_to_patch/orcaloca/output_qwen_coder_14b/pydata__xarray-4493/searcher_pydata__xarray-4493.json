@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe provided search results indicate that the `update` method in the `Dataset` class does not explicitly handle the chunking of dask arrays. Additionally, creating a Dataset with a DataArray and dimension names for a single variable triggers computation of that variable. The minimal complete verifiable example shows that after updating the dataset, the chunked DataArray is no longer chunked. The environment details provide the versions of various libraries used.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset",
+            "method_name": "update"
+        },
+        {
+            "file_path": "xarray/core/merge.py",
+            "class_name": "",
+            "method_name": "dataset_update_method"
+        }
+    ]
+}

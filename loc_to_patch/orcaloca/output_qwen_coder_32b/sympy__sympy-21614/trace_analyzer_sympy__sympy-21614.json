@@ -1,0 +1,50 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "x",
+            "file_path": ""
+        },
+        {
+            "keyword": "d",
+            "file_path": ""
+        },
+        {
+            "keyword": "Derivative",
+            "file_path": ""
+        },
+        {
+            "keyword": "A",
+            "file_path": ""
+        },
+        {
+            "keyword": "i",
+            "file_path": ""
+        },
+        {
+            "keyword": "Integral",
+            "file_path": "sympy/integrals/integrals.py"
+        },
+        {
+            "keyword": "MatrixSymbol",
+            "file_path": "sympy/matrices/expressions/matexpr.py"
+        },
+        {
+            "keyword": "UndefinedKind",
+            "file_path": ""
+        },
+        {
+            "keyword": "NumberKind",
+            "file_path": ""
+        },
+        {
+            "keyword": "MatrixKind",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import Integral, Derivative\nfrom sympy import MatrixSymbol\nfrom sympy.abc import x\nA = MatrixSymbol('A', 2, 2)\ni = Integral(A, x)\nprint(i.kind)\nd = Derivative(A, x)\nprint(d.kind)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-21614.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nCannot find the method check_filterable in Query in /usr/local/lib/python3.8/site-packages/django/db/models/sql/query.py. However, the error traceback indicates that the check_filterable method is being called and raises a NotSupportedError.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "local/lib/python3.8/site-packages/django/db/models/sql/query.py",
+            "class_name": "Query",
+            "method_name": ""
+        }
+    ]
+}

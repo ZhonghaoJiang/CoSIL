@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pd",
+            "file_path": ""
+        },
+        {
+            "keyword": "AffinityPropagation",
+            "file_path": "sklearn/cluster/_affinity_propagation.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sklearn.cluster import AffinityPropagation\nimport pandas as pd\n\ndata = pd.DataFrame([[1,0,0,0,0,0],[0,1,1,1,0,0],[0,0,1,0,0,1]])\naf = AffinityPropagation(affinity='euclidean', verbose=True, copy=False, max_iter=2).fit(data)\n\nprint(af.cluster_centers_indices_)\nprint(af.labels_)",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-15512.py"
+}

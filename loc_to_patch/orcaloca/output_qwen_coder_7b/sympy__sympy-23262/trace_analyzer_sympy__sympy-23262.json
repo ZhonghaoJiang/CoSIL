@@ -1,0 +1,44 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_lambdifygenerated",
+            "file_path": ""
+        },
+        {
+            "keyword": "inspect",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "lambdify",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter"
+        },
+        {
+            "keyword": "doprint",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter"
+        },
+        {
+            "keyword": "_print_funcargwrapping",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter"
+        },
+        {
+            "keyword": "_recursive_to_string",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import inspect\nfrom sympy import lambdify\n\nprint(inspect.getsource(lambdify([], tuple([1]))))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-23262.py"
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when trying to unpack values from the nested function f in _scan_iterable_shape, which is called by _handle_ndarray_creation_inputs. This suggests a problem with handling empty iterables.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/tensor/array/ndim_array.py",
+            "class_name": "NDimArray",
+            "method_name": "_scan_iterable_shape"
+        },
+        {
+            "file_path": "sympy/tensor/array/ndim_array.py",
+            "class_name": "NDimArray",
+            "method_name": "_handle_ndarray_creation_inputs"
+        }
+    ]
+}

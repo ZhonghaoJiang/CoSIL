@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nManagementUtility fetch_command method uses sys.argv[0] instead of self.prog_name in CommandParser instantiation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/__init__.py",
+            "class_name": "ManagementUtility",
+            "method_name": "fetch_command"
+        }
+    ]
+}

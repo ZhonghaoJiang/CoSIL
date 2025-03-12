@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "only",
+            "file_path": ""
+        },
+        {
+            "keyword": "Main",
+            "file_path": ""
+        },
+        {
+            "keyword": "setup_test_environment",
+            "file_path": ""
+        },
+        {
+            "keyword": "Secondary",
+            "file_path": ""
+        },
+        {
+            "keyword": "select_related",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "setup",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\nfrom django.test.utils import setup_test_environment\n\nsetup_test_environment()\nsettings.configure(\n    INSTALLED_APPS=['__main__'],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    },\n)\n\nimport django\n\ndjango.setup()\n\nclass Main(models.Model):\n    main_field_1 = models.CharField(blank=True, max_length=45)\n    main_field_2 = models.CharField(blank=True, max_length=45)\n    main_field_3 = models.CharField(blank=True, max_length=45)\n\nclass Secondary(models.Model):\n    main = models.OneToOneField(Main, primary_key=True, related_name='secondary', on_delete=models.CASCADE)\n    secondary_field_1 = models.CharField(blank=True, max_length=45)\n    secondary_field_2 = models.CharField(blank=True, max_length=45)\n    secondary_field_3 = models.CharField(blank=True, max_length=45)\n\nquery = Main.objects.select_related('secondary').only('main_field_1', 'secondary__secondary_field_1')\nprint(query.query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16910.py"
+}

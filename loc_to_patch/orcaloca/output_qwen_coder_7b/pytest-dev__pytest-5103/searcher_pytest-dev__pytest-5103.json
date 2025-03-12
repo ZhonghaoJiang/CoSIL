@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue described is related to the failure messages of the `all` and `any` functions in Python.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        },
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        }
+    ]
+}

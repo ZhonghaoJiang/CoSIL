@@ -1,0 +1,47 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "StopIteration",
+            "file_path": ""
+        },
+        {
+            "keyword": "subplots",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "bar",
+            "file_path": "lib/matplotlib/axes/_axes.py",
+            "class_name": "Axes"
+        },
+        {
+            "keyword": "_convert_dx",
+            "file_path": "lib/matplotlib/axes/_axes.py",
+            "class_name": "Axes"
+        },
+        {
+            "keyword": "_safe_first_finite",
+            "file_path": "lib/matplotlib/cbook/__init__.py",
+            "class_name": "GrouperView"
+        },
+        {
+            "keyword": "safe_isfinite",
+            "file_path": "lib/matplotlib/cbook/__init__.py",
+            "class_name": "GrouperView"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport matplotlib.pyplot as plt\nf, ax = plt.subplots()\nax.bar([np.nan], [np.nan])\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-24149.py"
+}

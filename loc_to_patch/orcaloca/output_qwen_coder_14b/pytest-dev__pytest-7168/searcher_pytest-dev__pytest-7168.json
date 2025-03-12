@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe provided traceback indicates that an INTERNALERROR occurred when an exception was raised in the __repr__ method of the SomeClass class. The error message 'RuntimeError: No active exception to reraise' suggests that the raise statement in the __repr__ method is attempting to re-raise an exception that does not exist.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "stiflou/Documents/projets/apischema/tests/test_pytest.py",
+            "class_name": "SomeClass",
+            "method_name": ""
+        }
+    ]
+}

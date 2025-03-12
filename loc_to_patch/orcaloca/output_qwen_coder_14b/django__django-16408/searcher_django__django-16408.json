@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe test case fails because the tournament objects are not equal. This suggests that the select_related() method might be setting the wrong related object. We need to investigate the PoolStyle model and the FilteredRelation usage.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "D:\\Work\\django\\tests\\known_related_objects\\tests.py",
+            "class_name": "ExistingRelatedInstancesTests",
+            "method_name": ""
+        },
+        {
+            "file_path": "D:\\Work\\django\\models\\pool_style.py",
+            "class_name": "PoolStyle",
+            "method_name": ""
+        }
+    ]
+}

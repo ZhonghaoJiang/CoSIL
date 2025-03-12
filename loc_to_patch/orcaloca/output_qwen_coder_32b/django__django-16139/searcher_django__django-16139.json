@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue is in the __init__ method of the UserChangeForm class where the password help_text is formatted with a hardcoded URL. This causes a 404 error when accessing UserAdmin via a different field.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/forms.py",
+            "class_name": "UserChangeForm",
+            "method_name": "__init__"
+        }
+    ]
+}

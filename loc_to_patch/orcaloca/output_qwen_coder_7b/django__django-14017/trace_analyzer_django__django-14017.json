@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_combine",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "__and__",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "Exists",
+            "file_path": "django/db/models/expressions.py"
+        },
+        {
+            "keyword": "Exists",
+            "file_path": ""
+        },
+        {
+            "keyword": "Q",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "In [3]: Exists(Product.objects.all()) & Q()\nOut[3]: <Q: (AND: <django.db.models.expressions.Exists object at 0x7fc18dd0ed90>, (AND: ))>\nIn [4]: Q() & Exists(Product.objects.all())\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14017.py"
+}

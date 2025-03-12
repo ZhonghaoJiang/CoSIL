@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe evaluate method in _global_parameters is not found. The __new__ method of Point2D and Point classes is found. The evaluateFalse method in ParenthesisGroup is found. The sympify and parse_expr methods are found.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point2D",
+            "method_name": "__new__"
+        },
+        {
+            "file_path": "sympy/geometry/point.py",
+            "class_name": "Point",
+            "method_name": "__new__"
+        }
+    ]
+}

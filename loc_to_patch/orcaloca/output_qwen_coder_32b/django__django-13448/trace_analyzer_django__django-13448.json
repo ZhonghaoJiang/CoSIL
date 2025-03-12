@@ -1,0 +1,102 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "fetch_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "_execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "setup_databases",
+            "file_path": "django/test/runner.py"
+        },
+        {
+            "keyword": "handle",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "handle",
+            "file_path": "django/core/management/commands/test.py"
+        },
+        {
+            "keyword": "_execute_with_wrappers",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "__exit__",
+            "file_path": "django/db/utils.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "run_from_argv",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "setup_databases",
+            "file_path": "django/test/utils.py"
+        },
+        {
+            "keyword": "run_from_argv",
+            "file_path": "django/core/management/commands/test.py"
+        },
+        {
+            "keyword": "_iterator",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "execute_sql",
+            "file_path": "django/db/models/sql/compiler.py"
+        },
+        {
+            "keyword": "__iter__",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "run_tests",
+            "file_path": "django/test/runner.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "serialize_db_to_string",
+            "file_path": "django/db/backends/base/creation.py"
+        },
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "get_objects",
+            "file_path": "django/db/backends/base/creation.py"
+        },
+        {
+            "keyword": "serialize",
+            "file_path": "django/core/serializers/__init__.py"
+        },
+        {
+            "keyword": "create_test_db",
+            "file_path": "django/db/backends/base/creation.py"
+        },
+        {
+            "keyword": "serialize",
+            "file_path": "django/core/serializers/base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe _save method in FileSystemStorage sets file permissions to 0o666 initially and then changes them to self.file_permissions_mode if it is not None. The TemporaryUploadedFile class uses tempfile.NamedTemporaryFile, which sets permissions to 0o600. The FILE_UPLOAD_PERMISSIONS setting is currently None, which might be causing the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/files/storage.py",
+            "class_name": "FileSystemStorage",
+            "method_name": "_save"
+        },
+        {
+            "file_path": "django/conf/global_settings.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

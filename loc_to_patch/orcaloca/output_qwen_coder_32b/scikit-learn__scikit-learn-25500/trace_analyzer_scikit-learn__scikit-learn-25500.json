@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "SGDClassifier",
+            "file_path": "sklearn/linear_model/_stochastic_gradient.py"
+        },
+        {
+            "keyword": "CalibratedClassifierCV",
+            "file_path": "sklearn/calibration.py"
+        },
+        {
+            "keyword": "set_config",
+            "file_path": ""
+        },
+        {
+            "keyword": "ValueError",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nfrom sklearn import set_config\nfrom sklearn.calibration import CalibratedClassifierCV\nfrom sklearn.linear_model import SGDClassifier\n\nset_config(transform_output=\"pandas\")\nmodel = CalibratedClassifierCV(SGDClassifier(), method='isotonic')\nmodel.fit(np.arange(90).reshape(30, -1), np.arange(30) % 2)\nmodel.predict_proba(np.arange(90).reshape(30, -1))",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-25500.py"
+}

@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "A",
+            "file_path": ""
+        },
+        {
+            "keyword": "Outer",
+            "file_path": ""
+        },
+        {
+            "keyword": "Inner",
+            "file_path": ""
+        },
+        {
+            "keyword": "State",
+            "file_path": ""
+        },
+        {
+            "keyword": "enum",
+            "file_path": ""
+        },
+        {
+            "keyword": "Thing",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import models\nimport enum\nfrom enumfields.enum import Enum\nfrom enumfields.fields import EnumField\nclass Outer(object):\n    class Inner(models.CharField):\n        pass\nclass A(models.Model):\n    field = Outer.Inner(max_length=20)\nclass Thing(models.Model):\n    @enum.unique\n    class State(Enum):\n        on = 'on'\n        off = 'off'\n    state = EnumField(enum=State)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12125.py"
+}

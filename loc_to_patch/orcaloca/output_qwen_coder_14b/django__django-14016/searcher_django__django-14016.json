@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when using the | operator on Q objects with a non-pickleable type, such as dict_keys. The issue seems to be related to the pickling process of Q objects. The _combine method in query_utils.py combines Q objects using the _combine method. We need to investigate the _combine method and its interaction with pickling.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "Q",
+            "method_name": "_combine"
+        }
+    ]
+}

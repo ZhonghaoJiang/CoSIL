@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe __add__ method in the Media class concatenates the _css_lists and _js_lists without considering the order of dependencies, which could be causing the MediaOrderConflictWarnings.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/widgets.py",
+            "class_name": "Media",
+            "method_name": "__add__"
+        },
+        {
+            "file_path": "django/forms/widgets.py",
+            "class_name": "",
+            "method_name": "media_property"
+        }
+    ]
+}

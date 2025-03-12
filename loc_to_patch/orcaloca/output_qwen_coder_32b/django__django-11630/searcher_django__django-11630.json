@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nCannot find the definition of validate_unique_table_names. Let's search for check_model_table_names which might be responsible for the validation check introduced in Django 2.2.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/options.py",
+            "class_name": "Options",
+            "method_name": "_prepare"
+        }
+    ]
+}

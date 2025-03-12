@@ -1,0 +1,82 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "get_related_populators",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "select_related",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "RelatedPopulator",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "all",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "__len__",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "_iterable_class",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "CustomModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "AnotherModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "only",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "init_list",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "__iter__",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "BaseCommand",
+            "file_path": ""
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "_fetch_all",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "pk_idx",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "ProxyCustomModel",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import models\n\nclass CustomModel(models.Model):\n    name = models.CharField(max_length=16)\n\nclass ProxyCustomModel(CustomModel):\n    class Meta:\n        proxy = True\n\nclass AnotherModel(models.Model):\n    custom = models.ForeignKey(\n        ProxyCustomModel,\n        on_delete=models.SET_NULL,\n        null=True,\n        blank=True,\n    )\n\nclass Command(BaseCommand):\n    def handle(self, *args, **options):\n        list(AnotherModel.objects.select_related(\"custom\").only(\"custom__name\").all())",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15814.py"
+}

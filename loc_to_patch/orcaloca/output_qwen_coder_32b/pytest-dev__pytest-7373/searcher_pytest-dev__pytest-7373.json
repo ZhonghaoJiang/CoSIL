@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be with the caching mechanism in the `cached_eval` function, which does not consider the item's globals. The `MarkEvaluator._istrue` method uses `cached_eval`, so this is a potential bug location.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/mark/evaluate.py",
+            "class_name": "",
+            "method_name": "cached_eval"
+        },
+        {
+            "file_path": "src/_pytest/mark/evaluate.py",
+            "class_name": "MarkEvaluator",
+            "method_name": "_istrue"
+        }
+    ]
+}

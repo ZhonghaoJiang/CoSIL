@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nCannot find the definition of TimeoutError\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "requests/packages/urllib3/__init__.py",
+            "class_name": "",
+            "method_name": ""
+        },
+        {
+            "file_path": "requests/packages/urllib3/__init__.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

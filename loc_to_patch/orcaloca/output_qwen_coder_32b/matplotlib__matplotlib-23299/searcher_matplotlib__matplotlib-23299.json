@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe get_backend function retrieves the backend from rcParams, which triggers the __getitem__ method in RcParams. The __getitem__ method calls switch_backend if the backend is set to _auto_backend_sentinel. The switch_backend function closes all open figures, which explains why figures are cleared when get_backend() is called.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/pyplot.py",
+            "class_name": "",
+            "method_name": "switch_backend"
+        },
+        {
+            "file_path": "lib/matplotlib/__init__.py",
+            "class_name": "RcParams",
+            "method_name": "__getitem__"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe 'apart' function in 'sympy/polys/partfrac.py' and the 'apart_undetermined_coeffs' function are the primary candidates for the bug. The 'threaded_func' function in 'sympy/utilities/decorator.py' is also relevant.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/polys/partfrac.py",
+            "class_name": "",
+            "method_name": "apart"
+        },
+        {
+            "file_path": "sympy/polys/partfrac.py",
+            "class_name": "",
+            "method_name": "apart_undetermined_coeffs"
+        },
+        {
+            "file_path": "sympy/core/expr.py",
+            "class_name": "Expr",
+            "method_name": "apart"
+        },
+        {
+            "file_path": "sympy/utilities/decorator.py",
+            "class_name": "",
+            "method_name": "threaded_func"
+        }
+    ]
+}

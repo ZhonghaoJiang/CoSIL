@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe ResolverMatch class's __repr__ method does not handle functools.partial objects nicely. The __init__ method does not unwrap functools.partial objects, which could be the cause of the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "ResolverMatch",
+            "method_name": "__repr__"
+        },
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "ResolverMatch",
+            "method_name": "__init__"
+        }
+    ]
+}

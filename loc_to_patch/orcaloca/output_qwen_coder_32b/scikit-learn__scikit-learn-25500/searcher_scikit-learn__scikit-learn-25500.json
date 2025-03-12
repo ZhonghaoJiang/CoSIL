@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe predict method in IsotonicRegression returns a DataFrame when transform_output is set to 'pandas', causing a shape mismatch in the predict_proba method of _CalibratedClassifier.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/calibration.py",
+            "class_name": "_CalibratedClassifier",
+            "method_name": "predict_proba"
+        },
+        {
+            "file_path": "sklearn/isotonic.py",
+            "class_name": "IsotonicRegression",
+            "method_name": "predict"
+        }
+    ]
+}

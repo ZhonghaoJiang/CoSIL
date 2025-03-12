@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "FilePathField",
+            "file_path": ""
+        },
+        {
+            "keyword": "configure_settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "apps",
+            "file_path": "django/apps/registry.py"
+        },
+        {
+            "keyword": "LocalFiles",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "CharField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.conf import settings\nfrom django.db import models\nfrom django.apps import apps\n\ndef configure_settings():\n    if not settings.configured:\n        settings.configure(\n            DEBUG=True,\n            DATABASES={\n                'default': {\n                    'ENGINE': 'django.db.backends.sqlite3',\n                    'NAME': ':memory:',\n                }\n            },\n            INSTALLED_APPS=[\n                'django.contrib.contenttypes',\n            ],\n            LOCAL_FILE_DIR='/path/to/local/files'\n        )\n\nconfigure_settings()\napps.ready = True\n\nclass LocalFiles(models.Model):\n    name = models.CharField(max_length=255)\n    file = models.FilePathField(path=os.path.join(settings.LOCAL_FILE_DIR, 'example_dir'))\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-10924.py"
+}

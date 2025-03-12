@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\njson_script function uses DjangoJSONEncoder hardcoded. Need to add encoder parameter.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/utils/html.py",
+            "class_name": "",
+            "method_name": "json_script"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "TypeError",
+            "file_path": ""
+        },
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "main",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import pytest\npytest.main(['-k', 'xxx'])",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-11143.py"
+}

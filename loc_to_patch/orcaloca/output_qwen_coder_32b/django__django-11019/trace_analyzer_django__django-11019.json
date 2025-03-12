@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "FancyTextWidget",
+            "file_path": ""
+        },
+        {
+            "keyword": "ColorPicker",
+            "file_path": ""
+        },
+        {
+            "keyword": "SimpleTextWidget",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyForm",
+            "file_path": ""
+        },
+        {
+            "keyword": "forms",
+            "file_path": ""
+        },
+        {
+            "keyword": "MediaOrderConflictWarning",
+            "file_path": "django/forms/widgets.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "Media",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nfrom django import forms\nfrom django.conf import settings\nsettings.configure()\nclass ColorPicker(forms.Widget):\n\tclass Media:\n\t\tjs = ['color-picker.js']\nclass SimpleTextWidget(forms.Widget):\n\tclass Media:\n\t\tjs = ['text-editor.js']\nclass FancyTextWidget(forms.Widget):\n\tclass Media:\n\t\tjs = ['text-editor.js', 'text-editor-extras.js', 'color-picker.js']\nclass MyForm(forms.Form):\n\tbackground_color = forms.CharField(widget=ColorPicker())\n\tintro = forms.CharField(widget=SimpleTextWidget())\n\tbody = forms.CharField(widget=FancyTextWidget())\n\nprint(MyForm().media)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-11019.py"
+}

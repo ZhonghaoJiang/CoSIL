@@ -1,0 +1,50 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "is_zero",
+            "file_path": ""
+        },
+        {
+            "keyword": "zeros",
+            "file_path": ""
+        },
+        {
+            "keyword": "extract",
+            "file_path": "sympy/matrices/matrices.py"
+        },
+        {
+            "keyword": "a2idx",
+            "file_path": "sympy/matrices/matrices.py"
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "is_upper",
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixProperties"
+        },
+        {
+            "keyword": "__getitem__",
+            "file_path": "sympy/matrices/dense.py",
+            "class_name": "DenseMatrix"
+        },
+        {
+            "keyword": "key2ij",
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixBase"
+        }
+    ],
+    "related_source_code": "        return all(self[i, j].is_zero\n                   for i in range(1, self.rows)\n                   for j in range(i))",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sympy\n\nA = sympy.zeros(4, 2)\nprint(A.is_upper)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-12454.py"
+}

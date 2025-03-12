@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nInvestigated multiple get_prep_lookup methods. Need to focus on the IsNull lookup specifically.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/lookups.py",
+            "class_name": "IsNull",
+            "method_name": "as_sql"
+        }
+    ]
+}

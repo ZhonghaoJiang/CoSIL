@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe problem involves squashing migrations and transitioning from Meta.index_together to Meta.indexes. The Options class in django/db/models/options.py seems relevant. The index_together attribute is marked with a RemovedInDjango51Warning, indicating it should be removed or handled properly during migration squashing. The contribute_to_class method in django/db/models/options.py handles the index_together attribute and raises a warning. Searching for the squash_migrations functionality in django/db/migrations/squashmigrations.py might help identify where the issue lies.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/options.py",
+            "class_name": "Options",
+            "method_name": "contribute_to_class"
+        }
+    ]
+}

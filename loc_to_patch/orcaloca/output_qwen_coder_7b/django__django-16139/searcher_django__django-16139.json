@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe hardcoded URL in the password field help text of UserChangeForm may be incorrect when accessing UserAdmin via a different field.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/forms.py",
+            "class_name": "UserChangeForm",
+            "method_name": "__init__"
+        }
+    ]
+}

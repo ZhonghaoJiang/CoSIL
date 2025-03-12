@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nModelChoiceIteratorValue is not hashable due to missing __hash__ method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceIteratorValue",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelFormOptions",
+            "method_name": "__init__"
+        }
+    ]
+}

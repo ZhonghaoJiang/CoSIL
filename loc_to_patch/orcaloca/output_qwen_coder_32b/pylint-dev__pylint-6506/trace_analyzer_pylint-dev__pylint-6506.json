@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sys",
+            "file_path": ""
+        },
+        {
+            "keyword": "_UnrecognizedOptionError",
+            "file_path": "pylint/config/exceptions.py"
+        },
+        {
+            "keyword": "PylintRun",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "run_pylint",
+            "file_path": "pylint/__init__.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "pylint/lint/run.py",
+            "class_name": "Run"
+        },
+        {
+            "keyword": "_config_initialization",
+            "file_path": "pylint/config/config_initialization.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_parse_configuration_file",
+            "file_path": "pylint/config/arguments_manager.py",
+            "class_name": "_ArgumentsManager"
+        },
+        {
+            "keyword": "_parse_command_line_configuration",
+            "file_path": "pylint/config/arguments_manager.py",
+            "class_name": "_ArgumentsManager"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import sys\nfrom pylint import run_pylint\nsys.argv = ['pylint', '-Q']\nrun_pylint()",
+    "env_reproduce_path": "/pylint-dev__pylint/reproducer_pylint-dev__pylint-6506.py"
+}

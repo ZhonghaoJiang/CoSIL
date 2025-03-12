@@ -1,0 +1,62 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute_sql",
+            "file_path": "django/db/models/sql/compiler.py"
+        },
+        {
+            "keyword": "setUpClass",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/sqlite3/base.py"
+        },
+        {
+            "keyword": "_do_insert",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "create_superuser",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "save_base",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "setUpTestData",
+            "file_path": "tests/admin_views/test_multidb.py"
+        },
+        {
+            "keyword": "save",
+            "file_path": "django/contrib/auth/base_user.py"
+        },
+        {
+            "keyword": "save",
+            "file_path": ""
+        },
+        {
+            "keyword": "_create_user",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "_execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "_save_table",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/utils.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "A",
+            "file_path": ""
+        },
+        {
+            "keyword": "B",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "C",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\n\nsettings.configure(INSTALLED_APPS=['django.contrib.contenttypes'])\n\nclass A(models.Model):\n    class Meta:\n        abstract = True\n    myfield = models.IntegerField()\n\nclass B(A):\n    pass\n\nclass C(A):\n    pass\n\nprint(len({B._meta.get_field('myfield'), C._meta.get_field('myfield')}))\nprint(B._meta.get_field('myfield') == C._meta.get_field('myfield'))",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13401.py"
+}

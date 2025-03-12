@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\ntrigsimp_groebner function is incorrectly simplifying cos(x) + sqrt(sin(x)**2) as cos(x) + sin(x) for general complex x.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/simplify/trigsimp.py",
+            "class_name": "",
+            "method_name": "trigsimp"
+        }
+    ]
+}

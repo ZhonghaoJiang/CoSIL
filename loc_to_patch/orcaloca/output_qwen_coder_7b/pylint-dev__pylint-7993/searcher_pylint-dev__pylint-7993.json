@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nPylint 2.12.2 does not recognize the argument '{ \"Category\"' in the --msg-template. This suggests an issue with how Pylint 2.12.2 handles custom message templates.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "[redacted]/site-packages/pylint/reporters/text.py",
+            "class_name": "",
+            "method_name": "format"
+        }
+    ]
+}

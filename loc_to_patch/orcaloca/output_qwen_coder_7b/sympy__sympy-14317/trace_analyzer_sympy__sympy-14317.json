@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "var",
+            "file_path": ""
+        },
+        {
+            "keyword": "pretty",
+            "file_path": ""
+        },
+        {
+            "keyword": "Poly",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import var, Poly, pretty\n\na, b, c, x = var('a b c x')\np = Poly([a, 1, b, 2, c, 3], x)\nprint(p)\nprint(pretty(p))\nprint(latex(p))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-14317.py"
+}

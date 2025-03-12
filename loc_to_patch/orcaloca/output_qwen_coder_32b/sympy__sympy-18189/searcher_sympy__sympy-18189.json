@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe diophantine function handles permutations differently based on the order of symbols provided. The issue might be related to how the solutions are merged and permuted. The signed_permutations function generates permutations with different signs, but the problem might be in how these permutations are integrated back into the final solution set.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": "",
+            "method_name": "diophantine"
+        },
+        {
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": "",
+            "method_name": "signed_permutations"
+        }
+    ]
+}

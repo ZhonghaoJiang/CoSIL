@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Order",
+            "file_path": ""
+        },
+        {
+            "keyword": "Product",
+            "file_path": ""
+        },
+        {
+            "keyword": "transaction",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "setup",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models, transaction\n\nsettings.configure(\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    },\n    INSTALLED_APPS=[__name__],\n    SECRET_KEY='dummy'\n)\n\nfrom django import setup\nsetup()\n\nclass Product(models.Model):\n    sku = models.CharField(primary_key=True, max_length=50)\n\nclass Order(models.Model):\n    product = models.ForeignKey(Product, on_delete=models.CASCADE)\n\n# Removed the line causing NameError\n\nwith transaction.atomic():\n    order = Order()\n    order.product = Product()\n    order.product.sku = \"foo\"\n    order.product.save()\n    order.save()\n    assert Order.objects.filter(product_id=\"\").exists() # Succeeds, but shouldn't\n    assert Order.objects.filter(product=order.product).exists() # Fails\n\nwith transaction.atomic():\n    order = Order()\n    order.product = Product(sku=\"foo\")\n    order.product.save()\n    order.save()\n    assert Order.objects.filter(product=order.product).exists() # succeeds\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13964.py"
+}

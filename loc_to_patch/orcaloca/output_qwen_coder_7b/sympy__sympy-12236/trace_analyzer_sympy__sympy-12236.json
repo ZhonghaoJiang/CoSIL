@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "apart",
+            "file_path": "sympy/polys/partfrac.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__new_stage2__",
+            "file_path": "sympy/core/symbol.py",
+            "class_name": "Symbol"
+        },
+        {
+            "keyword": "threaded_func",
+            "file_path": "sympy/utilities/decorator.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "CantSympify"
+        },
+        {
+            "keyword": "as_numer_denom",
+            "file_path": "sympy/core/mul.py",
+            "class_name": "Mul"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import symbols\n\na = symbols('a', real=True)\nt = symbols('t', real=True, negative=False)\n\nbug = a * (-t + (-t + 1) * (2 * t - 1)) / (2 * t - 1)\n\nprint(bug.subs(a, 1).apart())\nprint(bug.subs(a, 1).apart(t))\nprint(bug.apart(t))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-12236.py"
+}

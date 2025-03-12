@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue is related to the KeyTransformIsNull lookup on SQLite and Oracle. The test case needs to be modified to check for JSON null values.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "tests/model_fields/test_jsonfield.py",
+            "class_name": "",
+            "method_name": "test_isnull_key"
+        }
+    ]
+}

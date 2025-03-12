@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the handling of ZeroMatrix blocks during block multiplication in SymPy. The ZeroMatrix blocks are being converted to 'Zero' objects, which do not have the 'cols' attribute, causing an AttributeError. The '_blockmul' method in BlockMatrix and BlockDiagMatrix classes might be responsible for this behavior.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/matrices/expressions/blockmatrix.py",
+            "class_name": "BlockMatrix",
+            "method_name": "_blockmul"
+        },
+        {
+            "file_path": "sympy/matrices/expressions/blockmatrix.py",
+            "class_name": "BlockDiagMatrix",
+            "method_name": "_blockmul"
+        },
+        {
+            "file_path": "sympy/matrices/expressions/blockmatrix.py",
+            "class_name": "BlockDiagMatrix",
+            "method_name": "blocks"
+        },
+        {
+            "file_path": "sympy/matrices/expressions/blockmatrix.py",
+            "class_name": "BlockMatrix",
+            "method_name": "colblocksizes"
+        }
+    ]
+}

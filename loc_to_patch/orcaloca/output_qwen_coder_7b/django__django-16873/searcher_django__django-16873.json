@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe join function in defaultfilters.py escapes the joining string even when autoescape is off.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/template/defaultfilters.py",
+            "class_name": "",
+            "method_name": "join"
+        }
+    ]
+}

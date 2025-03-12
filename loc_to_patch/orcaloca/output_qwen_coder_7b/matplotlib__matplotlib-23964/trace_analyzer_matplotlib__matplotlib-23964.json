@@ -1,0 +1,64 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "add_subplot",
+            "file_path": ""
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/artist.py"
+        },
+        {
+            "keyword": "Figure",
+            "file_path": ""
+        },
+        {
+            "keyword": "_draw_list_compositing_images",
+            "file_path": "lib/matplotlib/image.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/text.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/axes/_base.py"
+        },
+        {
+            "keyword": "draw_text",
+            "file_path": "lib/matplotlib/backends/backend_ps.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "annotate",
+            "file_path": "lib/matplotlib/axes/_axes.py",
+            "class_name": "Axes"
+        },
+        {
+            "keyword": "savefig",
+            "file_path": "lib/matplotlib/figure.py",
+            "class_name": "Figure"
+        },
+        {
+            "keyword": "print_figure",
+            "file_path": "lib/matplotlib/backend_bases.py",
+            "class_name": "FigureCanvasBase"
+        },
+        {
+            "keyword": "_print_ps",
+            "file_path": "lib/matplotlib/backends/backend_ps.py",
+            "class_name": "FigureCanvasPS"
+        },
+        {
+            "keyword": "_print_figure",
+            "file_path": "lib/matplotlib/backends/backend_ps.py",
+            "class_name": "FigureCanvasPS"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom matplotlib.figure import Figure\n\nfigure = Figure()\nax = figure.add_subplot(111)\n# ax.set_title('\\nLower title')  # this would cause an error as well\nax.annotate(text='\\nLower label', xy=(0, 0))\nfigure.savefig('figure.eps')\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23964.py"
+}

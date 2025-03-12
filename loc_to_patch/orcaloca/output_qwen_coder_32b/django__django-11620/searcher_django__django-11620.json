@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe RoutePattern class in django/urls/resolvers.py handles the to_python method of converters. The to_python method in IntConverter raises ValueError, not Http404. The get_object_or_404 function raises Http404 if the object does not exist. We need to check how Http404 is handled in the URL resolver and the implementation of other converters.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "RoutePattern",
+            "method_name": "match"
+        }
+    ]
+}

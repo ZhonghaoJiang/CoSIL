@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe search results show the class skeleton and method signatures for DatasetGroupBy, but do not provide any information about the text representation of the object. We need to search for the __repr__ method to see where the text representation is being generated.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/groupby.py",
+            "class_name": "DatasetGroupBy",
+            "method_name": "map"
+        },
+        {
+            "file_path": "xarray/core/groupby.py",
+            "class_name": "DatasetGroupBy",
+            "method_name": "_combine"
+        }
+    ]
+}

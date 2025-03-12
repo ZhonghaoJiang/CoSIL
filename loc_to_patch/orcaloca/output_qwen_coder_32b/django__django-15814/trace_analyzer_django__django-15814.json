@@ -1,0 +1,114 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "__len__",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "only",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "fetch_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "_fetch_all",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "get_related_populators",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "_iterable_class",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "Command",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "all",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "setup",
+            "file_path": "django/__init__.py"
+        },
+        {
+            "keyword": "index",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "ProxyCustomModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "CustomModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "run_from_argv",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "select_related",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "AnotherModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "__iter__",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "post_migrate",
+            "file_path": ""
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "BaseCommand",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "RelatedPopulator",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": "django/core/management/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.core.management.base import BaseCommand\nfrom django.test import TestCase\nfrom django.db import models\nfrom django.conf import settings\n\nsettings.configure(\n    INSTALLED_APPS=[__name__, 'django.contrib.contenttypes'],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    },\n)\n\nfrom django import setup\nsetup()\n\nclass CustomModel(models.Model):\n    name = models.CharField(max_length=16)\n\nclass ProxyCustomModel(CustomModel):\n    class Meta:\n        proxy = True\n\nclass AnotherModel(models.Model):\n    custom = models.ForeignKey(\n        ProxyCustomModel,\n        on_delete=models.SET_NULL,\n        null=True,\n        blank=True,\n    )\n\nmodels.signals.post_migrate.connect(lambda *args, **kwargs: AnotherModel.objects.create(custom=ProxyCustomModel.objects.create(name='test')))\n\nclass Command(BaseCommand):\n    def handle(self, *args, **options):\n        list(AnotherModel.objects.select_related('custom').only('custom__name').all())\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15814.py"
+}
