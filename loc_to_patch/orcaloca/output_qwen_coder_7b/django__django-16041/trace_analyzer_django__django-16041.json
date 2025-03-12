@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "modelformset_factory",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "render",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_view",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.shortcuts import render\nfrom .models import MyModel\nfrom django.forms.models import modelformset_factory\n\ndef test_view(request):\n    context = {}\n    ff = modelformset_factory(MyModel, fields=['a_field'])\n    context['formset'] = ff(\n        queryset=MyModel.objects.none(),\n        form_kwargs={'empty_permitted': True}  # or form_kwargs={'empty_permitted': False}\n    )\n    return render(request, 'my_app/my_model_formset.html', context)\n\n# urls.py\nfrom django.urls import path, include\nfrom .views import test_view\nurlpatterns = [\n    path('test', test_view)\n]\n\n# my_model_formset.html\n{% extends \"my_app/base.html\" %}\n{% block content %}\n<form id=\"my-form\" method=\"post\">\n {% csrf_token %}\n {{ formset }}\n <input type=\"submit\" value=\"Save\">\n</form>\n{{ formset.empty_form }}\n{% endblock %}",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16041.py"
+}

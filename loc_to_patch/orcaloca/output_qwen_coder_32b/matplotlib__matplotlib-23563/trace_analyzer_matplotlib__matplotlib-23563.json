@@ -1,0 +1,62 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "draw_wrapper",
+            "file_path": "lib/matplotlib/artist.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/backends/backend_agg.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/axes/_base.py"
+        },
+        {
+            "keyword": "ylabel",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "figure",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "title",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "add_subplot",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "xlabel",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "_draw_list_compositing_images",
+            "file_path": "lib/matplotlib/image.py"
+        },
+        {
+            "keyword": "show",
+            "file_path": "lib/matplotlib/pyplot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nimport matplotlib.pyplot as plt\nfrom mpl_toolkits.mplot3d import Axes3D\n\nx_s_0 = np.array([1, 2, 3])\nx_e_0 = np.array([4, 5, 6])\ny_s_0 = np.array([7, 8, 9])\ny_e_0 = np.array([10, 11, 12])\nz_s_0 = np.array([13, 14, 15])\nz_e_0 = np.array([16, 17, 18])\n\nfig = plt.figure()\nax = fig.add_subplot(111, projection='3d')\nax.view_init(elev=90, azim=0)\nax.set_zlim3d(-10, 10)\nclr_list = 'r-'\n\nfor n in range(np.size(z_s_0, axis=0)):\n    ax.plot([int(x_s_0[n]), int(x_e_0[n])],\n            [int(y_s_0[n]), int(y_e_0[n])],\n            [int(z_s_0[n]), int(z_e_0[n])], clr_list)\n\nplt.xlabel('x')\nplt.ylabel('y')\nplt.title('90-0')\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23563.py"
+}

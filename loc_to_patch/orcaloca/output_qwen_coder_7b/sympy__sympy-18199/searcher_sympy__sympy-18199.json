@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe bug might be in the logic that handles the special case when a % p == 0 in the nthroot_mod function.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/ntheory/residue_ntheory.py",
+            "class_name": "",
+            "method_name": "nthroot_mod"
+        }
+    ]
+}

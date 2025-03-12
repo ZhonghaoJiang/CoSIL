@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "SelectMultiple",
+            "file_path": ""
+        },
+        {
+            "keyword": "ModelMultipleChoiceField",
+            "file_path": ""
+        },
+        {
+            "keyword": "MultipleHiddenInput",
+            "file_path": ""
+        },
+        {
+            "keyword": "ModelChoiceField",
+            "file_path": ""
+        },
+        {
+            "keyword": "ChoiceField",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\nclass ModelMultipleChoiceField(ModelChoiceField):\n    \"\"\"A MultipleChoiceField whose choices are a model QuerySet.\"\"\"\n    widget = SelectMultiple\n    hidden_widget = MultipleHiddenInput\n    default_error_messages = {\n        'invalid_list': _('Enter a list of values.'),\n        'invalid_choice': _('Select a valid choice. %(value)s is not one of the'\n                            ' available choices.'),\n        'invalid_pk_value': _('\\u201C%(pk)s\\u201D is not a valid value.')\n    }\n    ...\nclass ModelChoiceField(ChoiceField):\n    \"\"\"A ChoiceField whose choices are a model QuerySet.\"\"\"\n    # This class is a subclass of ChoiceField for purity, but it doesn't\n    # actually use any of ChoiceField's implementation.\n    default_error_messages = {\n        'invalid_choice': _('Select a valid choice. That choice is not one of'\n                            ' the available choices.'),\n    }\n    ...",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

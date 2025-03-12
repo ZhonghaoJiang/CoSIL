@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the _print_Basic method of the MathMLPrinter class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/printing/mathml.py",
+            "class_name": "MathMLPrinter",
+            "method_name": ""
+        }
+    ]
+}

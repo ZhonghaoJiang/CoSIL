@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "OrderedSet",
+            "file_path": "sympy/core/containers.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "__hash__",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "_subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "__new_stage2__",
+            "file_path": "sympy/core/symbol.py",
+            "class_name": "Symbol"
+        },
+        {
+            "keyword": "__eq__",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import *\n\na,b = symbols('a,b')\n\nr = (1/(a+b) + 1/(a-b))/(1/(a+b) - 1/(a-b))\n\nprint(r.subs(b,a))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-13915.py"
+}

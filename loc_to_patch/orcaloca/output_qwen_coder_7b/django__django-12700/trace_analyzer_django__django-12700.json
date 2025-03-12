@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "pprint",
+            "file_path": ""
+        },
+        {
+            "keyword": "SafeExceptionReporterFilter",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nos.environ['DJANGO_SETTINGS_MODULE'] = 'your_project.settings'\nfrom django.conf import settings\nfrom django.views.debug import SafeExceptionReporterFilter\n\nMY_SETTING = {\n\t\"foo\": \"value\",\n\t\"secret\": \"value\",\n\t\"token\": \"value\",\n\t\"something\": [\n\t\t{\"foo\": \"value\"},\n\t\t{\"secret\": \"value\"},\n\t\t{\"token\": \"value\"},\n\t],\n\t\"else\": [\n\t\t[\n\t\t\t{\"foo\": \"value\"},\n\t\t\t{\"secret\": \"value\"},\n\t\t\t{\"token\": \"value\"},\n\t\t],\n\t\t[\n\t\t\t{\"foo\": \"value\"},\n\t\t\t{\"secret\": \"value\"},\n\t\t\t{\"token\": \"value\"},\n\t\t],\n\t]\n}\n\npprint.pprint(SafeExceptionReporterFilter().get_safe_settings()['MY_SETTING'])",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12700.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method Q.vel(A) is not defined, causing a ValueError. The method vel in class Point checks if the velocity has been defined in the given frame, and raises an error if not.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/physics/vector/point.py",
+            "class_name": "Point",
+            "method_name": "vel"
+        }
+    ]
+}

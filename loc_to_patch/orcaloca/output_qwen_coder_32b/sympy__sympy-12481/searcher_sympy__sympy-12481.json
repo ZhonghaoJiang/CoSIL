@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe Permutation constructor raises a ValueError when encountering repeated elements in the cycles. This behavior should be modified to handle non-disjoint cycles correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/combinatorics/permutations.py",
+            "class_name": "Permutation",
+            "method_name": "__new__"
+        }
+    ]
+}

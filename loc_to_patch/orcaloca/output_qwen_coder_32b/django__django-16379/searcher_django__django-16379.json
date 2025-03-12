@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe has_key method in FileBasedCache class has a race condition between checking if the file exists and opening it. The _is_expired method also deletes the file if it is expired, which exacerbates the race condition.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/cache/backends/filebased.py",
+            "class_name": "FileBasedCache",
+            "method_name": "has_key"
+        },
+        {
+            "file_path": "django/core/cache/backends/filebased.py",
+            "class_name": "FileBasedCache",
+            "method_name": "_is_expired"
+        }
+    ]
+}

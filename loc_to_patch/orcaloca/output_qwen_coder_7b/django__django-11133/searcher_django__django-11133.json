@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nHttpResponse's content method does not handle memoryview objects correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/http/response.py",
+            "class_name": "HttpResponse",
+            "method_name": "content"
+        },
+        {
+            "file_path": "django/http/response.py",
+            "class_name": "StreamingHttpResponse",
+            "method_name": "content"
+        }
+    ]
+}

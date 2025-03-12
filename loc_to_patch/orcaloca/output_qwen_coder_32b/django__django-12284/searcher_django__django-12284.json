@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe get_FOO_display method is dynamically created in the contribute_to_class method of the Field class in django/db/models/fields/__init__.py. The issue might be related to how choices are handled in the CharField class or the Field class. The validate method in the Field class checks if the value is in the choices, which might be the source of the bug.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/__init__.py",
+            "class_name": "Field",
+            "method_name": "validate"
+        }
+    ]
+}

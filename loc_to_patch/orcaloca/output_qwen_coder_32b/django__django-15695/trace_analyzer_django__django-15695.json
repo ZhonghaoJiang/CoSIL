@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "test_rename_index",
+            "file_path": ""
+        },
+        {
+            "keyword": "RenameIndex",
+            "file_path": ""
+        },
+        {
+            "keyword": "connection",
+            "file_path": "django/db/__init__.py"
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "ModelState",
+            "file_path": "django/db/migrations/state.py"
+        },
+        {
+            "keyword": "OperationTests",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProjectState",
+            "file_path": "django/db/migrations/state.py"
+        },
+        {
+            "keyword": "ProgrammingError",
+            "file_path": "django/db/utils.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import connection\nfrom django.test import TestCase\nfrom django.db.migrations.state import ProjectState, ModelState\nfrom django.db.migrations.operations.alter_index import RenameIndex\n\nclass OperationTests(TestCase):\n    def test_rename_index(self):\n        table_name = 'pony'\n        app_label = 'test_app'\n        new_state = ProjectState(\n            models={\n                app_label + '.pony': ModelState(\n                    fields=[\n                        ('id', models.AutoField(primary_key=True)),\n                        ('name', models.CharField(max_length=255)),\n                    ],\n                    options={\n                        'unique_together': [('name',)],\n                    },\n                ),\n            }\n        )\n        project_state = ProjectState(\n            models={\n                app_label + '.pony': ModelState(\n                    fields=[\n                        ('id', models.AutoField(primary_key=True)),\n                        ('name', models.CharField(max_length=255)),\n                    ],\n                ),\n            }\n        )\n        operation = RenameIndex(\n            model_name='pony',\n            old_name='',\n            new_name='new_pony_test_idx',\n        )\n        with connection.schema_editor() as editor:\n            operation.database_forwards(app_label, editor, project_state, new_state)\n        with connection.schema_editor() as editor, self.assertNumQueries(0):\n            operation.database_backwards(app_label, editor, new_state, project_state)\n        self.assertIndexNameExists(table_name, 'new_pony_test_idx')\n        # Re-apply renaming.\n        with connection.schema_editor() as editor:\n            operation.database_forwards(app_label, editor, project_state, new_state)\n        self.assertIndexNameExists(table_name, 'new_pony_test_idx')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15695.py"
+}

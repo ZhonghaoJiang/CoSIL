@@ -1,0 +1,44 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sympy",
+            "file_path": ""
+        },
+        {
+            "keyword": "ceiling",
+            "file_path": "sympy/functions/elementary/integers.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "CantSympify"
+        },
+        {
+            "keyword": "simplify",
+            "file_path": "sympy/simplify/simplify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "signsimp",
+            "file_path": "sympy/simplify/simplify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "bottom_up",
+            "file_path": "sympy/simplify/simplify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "done",
+            "file_path": "sympy/simplify/simplify.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import sympy\nresult1 = sympy.sympify('4*ceiling(x/4 - 3/4)', evaluate=False).simplify()\nresult2 = sympy.sympify('4*ceiling(x/4 - 3/4)', evaluate=True).simplify()\nprint(result1)\nprint(result2)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-20322.py"
+}

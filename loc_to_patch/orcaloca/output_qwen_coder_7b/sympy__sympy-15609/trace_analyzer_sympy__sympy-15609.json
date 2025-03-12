@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "MatrixSymbol",
+            "file_path": ""
+        },
+        {
+            "keyword": "latex",
+            "file_path": ""
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import symbols, MatrixSymbol, latex\ni, j, k = symbols(\"i j k\")\nM = MatrixSymbol(\"M\", k, k)\nN = MatrixSymbol(\"N\", k, k)\nlatex((M*N)[i, j])\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-15609.py"
+}

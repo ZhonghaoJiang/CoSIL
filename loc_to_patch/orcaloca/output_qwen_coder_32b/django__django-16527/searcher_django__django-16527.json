@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe 'show_save_as_new' condition in the 'submit_row' function does not include 'has_add_permission'. This aligns with the problem statement suggesting the need for an additional permission check.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/admin/templatetags/admin_modify.py",
+            "class_name": "",
+            "method_name": "submit_row"
+        }
+    ]
+}

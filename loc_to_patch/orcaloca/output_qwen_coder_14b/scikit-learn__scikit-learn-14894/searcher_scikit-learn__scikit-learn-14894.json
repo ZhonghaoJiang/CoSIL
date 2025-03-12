@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe ZeroDivisionError occurs in the _sparse_fit method of the SVM class. The error is likely due to division by zero when the support_vectors_ attribute is empty.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "local/lib/python3.5/dist-packages/sklearn/svm/base.py",
+            "class_name": "SVM",
+            "method_name": ""
+        }
+    ]
+}

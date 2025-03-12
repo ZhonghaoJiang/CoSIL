@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe decompose function in sympy/integrals/intpoly.py returns a list of arbitrary order when separate=True, causing test failures. The decompose method in the DMP and Poly classes also exists but does not directly relate to the issue. We need to further investigate the decompose function in intpoly.py to understand its implementation and potential bug locations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/integrals/intpoly.py",
+            "class_name": "",
+            "method_name": "decompose"
+        },
+        {
+            "file_path": "sympy/polys/polyclasses.py",
+            "class_name": "DMP",
+            "method_name": "decompose"
+        }
+    ]
+}

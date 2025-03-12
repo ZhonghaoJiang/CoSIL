@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe behavior of sympify/simplify with ceiling function is inconsistent between sympy v1.5.1 and v1.6.2. The issue seems to be related to the handling of ceiling function when evaluate is False.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "sympify",
+            "method_name": ""
+        },
+        {
+            "file_path": "sympy/logic/boolalg.py",
+            "class_name": "Or",
+            "method_name": "_eval_simplify"
+        }
+    ]
+}

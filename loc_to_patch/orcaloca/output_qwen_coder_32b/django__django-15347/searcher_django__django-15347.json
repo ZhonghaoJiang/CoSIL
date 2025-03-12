@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe MessageEncoder's default method appends extra_tags only if it is truthy, which means an empty string would be ignored. The MessageDecoder's process_messages method does not handle the case where extra_tags is missing.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/messages/storage/cookie.py",
+            "class_name": "MessageEncoder",
+            "method_name": "default"
+        },
+        {
+            "file_path": "django/contrib/messages/storage/cookie.py",
+            "class_name": "MessageDecoder",
+            "method_name": "process_messages"
+        }
+    ]
+}

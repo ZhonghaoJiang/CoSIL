@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when using exec to execute the command passed via -c option. The issue is likely related to the global namespace not being properly defined.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/commands/shell.py",
+            "class_name": "Command",
+            "method_name": "handle"
+        }
+    ]
+}

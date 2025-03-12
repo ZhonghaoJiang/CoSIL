@@ -1,0 +1,30 @@
+{
+    "conclusion": "<Observation>\nThe decompose() function in intpoly returns a list of arbitrary order, which is causing test failures. The function should be sorted or return a set.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/integrals/intpoly.py",
+            "class_name": "",
+            "method_name": "decompose"
+        },
+        {
+            "file_path": "sympy/polys/polytools.py",
+            "class_name": "",
+            "method_name": "poly_from_expr"
+        },
+        {
+            "file_path": "sympy/polys/polyclasses.py",
+            "class_name": "GenericPoly",
+            "method_name": "_perify_factors"
+        },
+        {
+            "file_path": "sympy/integrals/intpoly.py",
+            "class_name": "",
+            "method_name": "main_integrate"
+        },
+        {
+            "file_path": "sympy/integrals/intpoly.py",
+            "class_name": "",
+            "method_name": "polytope_integrate"
+        }
+    ]
+}

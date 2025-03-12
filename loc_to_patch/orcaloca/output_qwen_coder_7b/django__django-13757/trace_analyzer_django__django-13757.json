@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "assertSequenceEqual",
+            "file_path": ""
+        },
+        {
+            "keyword": "value",
+            "file_path": ""
+        },
+        {
+            "keyword": "NullableJSONModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "filter",
+            "file_path": ""
+        },
+        {
+            "keyword": "j",
+            "file_path": ""
+        },
+        {
+            "keyword": "objs",
+            "file_path": ""
+        },
+        {
+            "keyword": "isnull",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "self.assertSequenceEqual(\n    NullableJSONModel.objects.filter(value__j__isnull=True),\n    self.objs[:4] + self.objs[5:],\n)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13757.py"
+}

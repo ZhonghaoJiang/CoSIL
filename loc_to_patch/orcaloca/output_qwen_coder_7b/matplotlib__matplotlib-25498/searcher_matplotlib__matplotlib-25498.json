@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the inverse method of the LogNorm class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "maxnoe/.local/anaconda3/lib/python3.4/site-packages/matplotlib/colors.py",
+            "class_name": "LogNorm",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": ""
+        },
+        {
+            "keyword": "A",
+            "file_path": ""
+        },
+        {
+            "keyword": "Outer",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "Inner",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import models\n\nclass Outer(object):\n    class Inner(models.CharField):\n        pass\n\nclass A(models.Model):\n    field = Outer.Inner(max_length=20)\n\nif __name__ == '__main__':\n    from django.core.management import execute_from_command_line\n    execute_from_command_line(['manage.py', 'makemigrations'])",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12125.py"
+}

@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "DataArray",
+            "file_path": ""
+        },
+        {
+            "keyword": "xarray",
+            "file_path": ""
+        },
+        {
+            "keyword": "Dataset",
+            "file_path": ""
+        },
+        {
+            "keyword": "array",
+            "file_path": ""
+        },
+        {
+            "keyword": "dask",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import dask.array as da\nimport xarray as xr\nx = da.random.randint(1, 10, size=(100, 25))\nds = xr.Dataset(dict(a=xr.DataArray(x, dims=('x', 'y'))))\ntype(ds.a.data)\ndask.array.core.Array\n\n# Recreate the dataset with the same array, but also redefine the dimensions\nds2 = xr.Dataset(dict(a=(('x', 'y'), ds.a)))\ntype(ds2.a.data)\ndask.array.core.Array",
+    "env_reproduce_path": "/pydata__xarray/reproducer_pydata__xarray-4493.py"
+}

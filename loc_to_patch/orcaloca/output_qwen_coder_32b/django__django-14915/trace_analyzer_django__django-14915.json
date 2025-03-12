@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "ModelChoiceIteratorValue",
+            "file_path": "django/forms/models.py"
+        },
+        {
+            "keyword": "create_option",
+            "file_path": ""
+        },
+        {
+            "keyword": "CustomSelect",
+            "file_path": ""
+        },
+        {
+            "keyword": "Select",
+            "file_path": "django/forms/widgets.py"
+        },
+        {
+            "keyword": "test_custom_select",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.forms.models import ModelChoiceIteratorValue\nfrom django.forms.widgets import Select\nimport json\nclass CustomSelect(Select):\n    def __init__(self, *args, **kwargs):\n        super().__init__(*args, **kwargs)\n        self.show_fields = {1: ['first_name', 'last_name']}\n    def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):\n        context = super().create_option(name, value, label, selected, index, subindex, attrs)\n        if not value:\n            return context\n        if isinstance(value, ModelChoiceIteratorValue):\n            value = value.pk\n        if value in self.show_fields:\n            context['attrs']['data-fields'] = json.dumps(self.show_fields[value])\ndef test_custom_select():\n    custom_select = CustomSelect()\n    option = custom_select.create_option('name', ModelChoiceIteratorValue(1), 'label', False, 0)\n    print(option)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14915.py"
+}

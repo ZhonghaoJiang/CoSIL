@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be with the MCodePrinter class not correctly handling the Max function's arguments order.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/printing/mathematica.py",
+            "class_name": "MCodePrinter",
+            "method_name": "_print_Function"
+        }
+    ]
+}

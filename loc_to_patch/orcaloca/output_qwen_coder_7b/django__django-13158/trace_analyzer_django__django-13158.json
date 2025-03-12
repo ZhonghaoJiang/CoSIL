@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Publication",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "Article",
+            "file_path": ""
+        },
+        {
+            "keyword": "ArticleAdmin",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "ArticleForm",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import models\n\nfrom django.conf import settings\nsettings.configure(USE_I18N=False, USE_L10N=False, USE_TZ=False, INSTALLED_APPS=())\n\nclass Publication(models.Model):\n    pass\n\nclass Article(models.Model):\n    publications = models.ManyToManyField(to=Publication, blank=True, null=True)\n\nclass ArticleForm(forms.ModelForm):\n    publications = forms.ModelMultipleChoiceField(\n        Publication.objects.filter(id__lt=2).union(\n            Publication.objects.filter(id__gt=5)\n        ),\n        required=False,\n    )\n    class Meta:\n        model = Article\n        fields = [\"publications\"]\n\nclass ArticleAdmin(admin.ModelAdmin):\n    form = ArticleForm\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13158.py"
+}

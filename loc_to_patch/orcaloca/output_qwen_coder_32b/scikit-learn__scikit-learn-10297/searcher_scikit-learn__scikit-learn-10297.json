@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe 'store_cv_values' parameter is present in the _BaseRidgeCV class but not in the RidgeClassifierCV class. The RidgeClassifierCV class does not pass the 'store_cv_values' parameter to its superclass _BaseRidgeCV.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/linear_model/ridge.py",
+            "class_name": "RidgeClassifierCV",
+            "method_name": "__init__"
+        }
+    ]
+}

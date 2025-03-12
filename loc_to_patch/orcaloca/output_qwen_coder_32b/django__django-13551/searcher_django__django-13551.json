@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe _make_hash_value method does not include the user's email address, which is necessary to invalidate the password reset token when the email changes.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/tokens.py",
+            "class_name": "PasswordResetTokenGenerator",
+            "method_name": "_make_hash_value"
+        }
+    ]
+}

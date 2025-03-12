@@ -1,0 +1,40 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Array",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/tensor/array/dense_ndim_array.py",
+            "class_name": "ImmutableDenseNDimArray"
+        },
+        {
+            "keyword": "_new",
+            "file_path": "sympy/tensor/array/dense_ndim_array.py",
+            "class_name": "ImmutableDenseNDimArray"
+        },
+        {
+            "keyword": "_scan_iterable_shape",
+            "file_path": "sympy/tensor/array/ndim_array.py",
+            "class_name": "NDimArray"
+        },
+        {
+            "keyword": "f",
+            "file_path": "sympy/tensor/array/ndim_array.py",
+            "class_name": "NDimArray"
+        },
+        {
+            "keyword": "_handle_ndarray_creation_inputs",
+            "file_path": "sympy/tensor/array/ndim_array.py",
+            "class_name": "NDimArray"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sympy\nfrom sympy import Array\na = Array([])\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-23117.py"
+}

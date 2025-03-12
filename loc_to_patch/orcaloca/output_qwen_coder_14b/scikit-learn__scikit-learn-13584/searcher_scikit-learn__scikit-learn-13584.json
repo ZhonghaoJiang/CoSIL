@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error message indicates an issue with evaluating the truth value of an array with more than one element in the __repr__ method of the LogisticRegressionCV class when print_changed_only is set to True. We need to investigate the __repr__ method of the LogisticRegressionCV class to find the bug.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/linear_model/_base.py",
+            "class_name": "LogisticRegressionCV",
+            "method_name": ""
+        }
+    ]
+}

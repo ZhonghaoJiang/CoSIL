@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "KeyError",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "pairplot",
+            "file_path": "seaborn/axisgrid.py",
+            "class_name": "JointGrid"
+        },
+        {
+            "keyword": "map_diag",
+            "file_path": "seaborn/axisgrid.py",
+            "class_name": "PairGrid"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "seaborn/axisgrid.py",
+            "class_name": "PairGrid"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport pandas as pd\nimport seaborn as sns\n\n\ndata = {\n    (\"A\", \"1\"): np.random.rand(100),\n    (\"A\", \"2\"): np.random.rand(100),\n    (\"B\", \"1\"): np.random.rand(100),\n    (\"B\", \"2\"): np.random.rand(100),\n}\ndf = pd.DataFrame(data)\nsns.pairplot(df)\n",
+    "env_reproduce_path": "/mwaskom__seaborn/reproducer_mwaskom__seaborn-3407.py"
+}

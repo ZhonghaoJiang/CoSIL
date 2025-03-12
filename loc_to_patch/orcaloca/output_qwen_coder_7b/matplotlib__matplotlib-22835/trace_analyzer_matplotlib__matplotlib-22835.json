@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "mpl",
+            "file_path": ""
+        },
+        {
+            "keyword": "fig",
+            "file_path": ""
+        },
+        {
+            "keyword": "X",
+            "file_path": ""
+        },
+        {
+            "keyword": "BoundaryNorm",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "pc",
+            "file_path": ""
+        },
+        {
+            "keyword": "ax",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import matplotlib.pyplot as plt\nimport numpy as np\nimport matplotlib as mpl\n\nfig, ax = plt.subplots()\nnorm = mpl.colors.BoundaryNorm(np.linspace(-4, 4, 5), 256)\nX = np.random.randn(10, 10)\npc = ax.imshow(X, cmap='RdBu_r', norm=norm)\n\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-22835.py"
+}

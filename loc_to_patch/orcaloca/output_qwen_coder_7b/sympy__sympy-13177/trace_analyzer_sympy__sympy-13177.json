@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "defaultdict",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "Mod",
+            "file_path": ""
+        },
+        {
+            "keyword": "S",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import Mod, S\n\nx = S(1.5)\nprint(Mod(x**2, x))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-13177.py"
+}

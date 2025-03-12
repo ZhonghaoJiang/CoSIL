@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nGenericSitemap's items method returns an empty list, causing get_latest_lastmod to raise ValueError when trying to find the maximum value in an empty sequence.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/sitemaps/__init__.py",
+            "class_name": "GenericSitemap",
+            "method_name": "get_latest_lastmod"
+        }
+    ]
+}

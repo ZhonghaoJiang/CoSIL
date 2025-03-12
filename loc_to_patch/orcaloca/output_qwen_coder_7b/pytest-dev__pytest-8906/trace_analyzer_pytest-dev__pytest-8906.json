@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "foo",
+            "file_path": ""
+        },
+        {
+            "keyword": "skipif",
+            "file_path": ""
+        },
+        {
+            "keyword": "skip",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sys\n\nif sys.version_info < (3, 8):\n    pytest.skip(msg=\"Requires Python >= 3.8\")\n\n# import must be after the module level skip:\nfrom pos_only import *\n\n@pytest.mark.skipif(sys.version_info < (3, 8), reason=\"Requires Python >= 3.8\")\ndef test_foo():\n    assert foo(10, 20) == 30\n    assert foo(10, b=20) == 30\n    with pytest.raises(TypeError):\n        assert foo(a=10, b=20)",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-8906.py"
+}

@@ -1,0 +1,51 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Mul",
+            "file_path": ""
+        },
+        {
+            "keyword": "Expansion",
+            "file_path": ""
+        },
+        {
+            "keyword": "args_cnc",
+            "file_path": ""
+        },
+        {
+            "keyword": "Operator",
+            "file_path": "sympy/physics/quantum/operator.py"
+        },
+        {
+            "keyword": "TensorProduct",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_eval_expand_tensorproduct",
+            "file_path": "sympy/physics/quantum/tensorproduct.py",
+            "class_name": "TensorProduct"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/physics/quantum/tensorproduct.py",
+            "class_name": "TensorProduct"
+        },
+        {
+            "keyword": "flatten",
+            "file_path": "sympy/physics/quantum/tensorproduct.py",
+            "class_name": "TensorProduct"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/core/operations.py",
+            "class_name": "AssocOp"
+        }
+    ],
+    "related_source_code": "\ndef _eval_expand_tensorproduct(self, **hints):\n                ...\n                for aa in args[i].args:\n                    tp = TensorProduct(*args[:i] + (aa,) + args[i + 1:])\n                    c_part, nc_part = tp.args_cnc() #added\n                    if len(nc_part)==1 and isinstance(nc_part[0], TensorProduct): #modified\n                        nc_part = (nc_part[0]._eval_expand_tensorproduct(), ) #modified\n                    add_args.append(Mul(*c_part)*Mul(*nc_part)) #modified\n                break\n                ...",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import *\nfrom sympy.physics.quantum import *\nU = Operator('U')\nV = Operator('V')\nP = TensorProduct(2*U - V, U + V)\nprint(P) \n# (2*U - V)x(U + V)\nexpanded_P = P.expand(tensorproduct=True)\nprint(expanded_P)\n# Check if the expansion is complete\nif expanded_P != 2*U*(U + V) - V*(U + V):\n    print('Expansion is incomplete')\nelse:\n    print('Expansion is correct')",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24152.py"
+}

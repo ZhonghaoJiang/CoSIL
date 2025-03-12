@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe resolve_lookup_value method in the Query class attempts to reconstitute the tuple using an iterator, which causes a TypeError when using named tuples as arguments to the __range filter in a queryset. The fix is to * expand the contents of the iterator into the constructor.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/sql/query.py",
+            "class_name": "Query",
+            "method_name": "resolve_lookup_value"
+        }
+    ]
+}

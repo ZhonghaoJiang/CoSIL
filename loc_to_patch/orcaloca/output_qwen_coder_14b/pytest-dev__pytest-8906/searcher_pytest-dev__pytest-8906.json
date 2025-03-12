@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe search results indicate that the `skip` function in pytest can be used with the `allow_module_level` flag to skip the entire module. However, the error message suggests using decorators like `@pytest.mark.skipif` instead, which does not work when the module contains Python 3.8-specific syntax. The proposed solution of creating an alternative API like `skip_module` could help improve the user experience.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "Skipped",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "OutcomeException",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "",
+            "method_name": "skip"
+        }
+    ]
+}

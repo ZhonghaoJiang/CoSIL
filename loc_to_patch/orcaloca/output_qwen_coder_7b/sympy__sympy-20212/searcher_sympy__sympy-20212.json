@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe _eval_power method in the Pow class handles 0**-oo incorrectly, returning 0 instead of zoo.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/core/power.py",
+            "class_name": "Pow",
+            "method_name": "__new__"
+        },
+        {
+            "file_path": "sympy/core/power.py",
+            "class_name": "Pow",
+            "method_name": "_eval_power"
+        }
+    ]
+}

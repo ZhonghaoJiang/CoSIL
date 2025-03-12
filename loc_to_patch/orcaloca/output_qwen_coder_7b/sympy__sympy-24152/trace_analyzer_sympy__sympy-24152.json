@@ -1,0 +1,45 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "V",
+            "file_path": ""
+        },
+        {
+            "keyword": "U",
+            "file_path": ""
+        },
+        {
+            "keyword": "Operator",
+            "file_path": ""
+        },
+        {
+            "keyword": "Mul",
+            "file_path": ""
+        },
+        {
+            "keyword": "args_cnc",
+            "file_path": ""
+        },
+        {
+            "keyword": "TensorProduct",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_eval_expand_tensorproduct",
+            "file_path": "sympy/physics/quantum/tensorproduct.py",
+            "class_name": "TensorProduct"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/physics/quantum/tensorproduct.py",
+            "class_name": "TensorProduct"
+        }
+    ],
+    "related_source_code": "\n    def _eval_expand_tensorproduct(self, **hints):\n                ...\n                for aa in args[i].args:\n                    tp = TensorProduct(*args[:i] + (aa,) + args[i + 1:])\n                    c_part, nc_part = tp.args_cnc() #added\n                    if len(nc_part)==1 and isinstance(nc_part[0], TensorProduct): #modified\n                        nc_part = (nc_part[0]._eval_expand_tensorproduct(), ) #modified\n                    add_args.append(Mul(*c_part)*Mul(*nc_part)) #modified\n                break\n                ...\n",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import *\nfrom sympy.physics.quantum import *\nU = Operator('U')\nV = Operator('V')\nP = TensorProduct(2*U - V, U + V)\nprint(P) \n# (2*U - V)x(U + V)\nprint(P.expand(tensorproduct=True)) \n#result: 2*Ux(U + V) - Vx(U + V) #expansion has missed 2nd tensor factor and is incomplete\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24152.py"
+}

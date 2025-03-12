@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "_accessor",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_tmpdir",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nimport pytest\ndef test_tmpdir(tmpdir):\n    pass\nos.environ['LOGNAME'] = 'contoso\\\\john_doe'\npytest.main(['-v', 'test_tmp.py'])",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-8365.py"
+}

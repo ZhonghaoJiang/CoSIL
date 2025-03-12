@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe migration file uses the value of the Enum object instead of its name as the default value for the CharField.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "models.py",
+            "class_name": "Status",
+            "method_name": ""
+        }
+    ]
+}

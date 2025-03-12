@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe StaticNode render method, FileSystemStorage url method, and PrefixNode render method do not prepend SCRIPT_NAME to the URL. We need to check the StaticFilesStorage url method and the get_static_prefix callable.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/templatetags/static.py",
+            "class_name": "StaticNode",
+            "method_name": "render"
+        },
+        {
+            "file_path": "django/core/files/storage.py",
+            "class_name": "FileSystemStorage",
+            "method_name": "url"
+        },
+        {
+            "file_path": "django/templatetags/static.py",
+            "class_name": "PrefixNode",
+            "method_name": "render"
+        },
+        {
+            "file_path": "django/templatetags/static.py",
+            "class_name": "",
+            "method_name": "get_static_prefix"
+        }
+    ]
+}

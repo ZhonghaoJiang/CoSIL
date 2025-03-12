@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method 'display_for_field' in 'django/contrib/admin/utils.py' is responsible for displaying field values in the admin. The problem statement suggests that JSONField values are not properly displayed when they are readonly. The fix proposed is to add a special case in 'display_for_field' to call the 'prepare_value' of the JSONField.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/admin/utils.py",
+            "class_name": "",
+            "method_name": "display_for_field"
+        }
+    ]
+}

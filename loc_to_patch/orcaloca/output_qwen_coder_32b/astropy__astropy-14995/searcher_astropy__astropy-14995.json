@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe _arithmetic_mask method does not handle cases where one operand has a mask and the other does not correctly. The _arithmetic method delegates mask handling to _arithmetic_mask, so the issue likely lies in how _arithmetic_mask processes masks.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin",
+            "method_name": "_arithmetic_mask"
+        }
+    ]
+}

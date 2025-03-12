@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the _setup method of the ContinuousBase class in seaborn/_core/scales.py. The issue arises from attempting to subtract two boolean values using the '-' operator, which is not supported.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "~/code/seaborn/seaborn/_core/scales.py",
+            "class_name": "ContinuousBase",
+            "method_name": ""
+        }
+    ]
+}

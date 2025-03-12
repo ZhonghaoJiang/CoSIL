@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the readlink method of the Path class in pathlib.py. The issue seems to be related to a null byte in the path.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "kez/.pyenv/versions/3.6.2/lib/python3.6/pathlib.py",
+            "class_name": "Path",
+            "method_name": ""
+        }
+    ]
+}

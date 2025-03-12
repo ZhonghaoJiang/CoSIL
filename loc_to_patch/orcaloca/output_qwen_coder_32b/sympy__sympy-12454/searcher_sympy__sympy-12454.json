@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe is_upper method in MatrixProperties is generating incorrect indices for non-square matrices, leading to an IndexError. The key2ij method in MatrixBase might not handle non-square matrices correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixProperties",
+            "method_name": "is_upper"
+        },
+        {
+            "file_path": "sympy/matrices/dense.py",
+            "class_name": "DenseMatrix",
+            "method_name": "__getitem__"
+        }
+    ]
+}

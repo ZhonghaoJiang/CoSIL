@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Item",
+            "file_path": ""
+        },
+        {
+            "keyword": "apps",
+            "file_path": "django/apps/registry.py"
+        },
+        {
+            "keyword": "Status",
+            "file_path": ""
+        },
+        {
+            "keyword": "Enum",
+            "file_path": ""
+        },
+        {
+            "keyword": "gettext_lazy",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from enum import Enum\nfrom django.utils.translation import gettext_lazy as _\nfrom django.db import models\nfrom django.conf import settings\nfrom django.apps import apps\n\nsettings.configure(USE_I18N=True)\napps.populate(['your_app_name'])\n\nclass Status(Enum):\n    GOOD = _('Good')\n    BAD = _('Bad')\n\n    def __str__(self):\n        return self.name\n\nclass Item(models.Model):\n    status = models.CharField(default=Status.GOOD.value, max_length=128)\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-11815.py"
+}

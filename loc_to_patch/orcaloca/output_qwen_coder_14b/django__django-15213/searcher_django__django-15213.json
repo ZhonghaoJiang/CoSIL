@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method set_source_expressions in ExpressionWrapper class only sets the expression attribute to the first element of the exprs list. This might not be sufficient for handling the ~Q(pk__in=[]) case correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/expressions.py",
+            "class_name": "ExpressionWrapper",
+            "method_name": "set_source_expressions"
+        }
+    ]
+}

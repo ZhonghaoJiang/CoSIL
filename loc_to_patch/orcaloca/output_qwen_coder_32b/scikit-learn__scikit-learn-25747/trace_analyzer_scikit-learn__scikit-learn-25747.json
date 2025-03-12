@@ -1,0 +1,60 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "MyTransformer",
+            "file_path": ""
+        },
+        {
+            "keyword": "_wrap_in_pandas_container",
+            "file_path": "sklearn/utils/_set_output.py"
+        },
+        {
+            "keyword": "make_union",
+            "file_path": ""
+        },
+        {
+            "keyword": "TransformerMixin",
+            "file_path": "sklearn/base.py"
+        },
+        {
+            "keyword": "BaseEstimator",
+            "file_path": "sklearn/base.py"
+        },
+        {
+            "keyword": "make_union",
+            "file_path": "sklearn/pipeline.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "set_config",
+            "file_path": "sklearn/_config.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "wrapped",
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_wrap_method_output",
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "fit_transform",
+            "file_path": "sklearn/pipeline.py",
+            "class_name": "FeatureUnion"
+        },
+        {
+            "keyword": "_wrap_data_with_container",
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import pandas as pd\nfrom sklearn.base import BaseEstimator, TransformerMixin\nfrom sklearn import set_config\nfrom sklearn.pipeline import make_union\n\nclass MyTransformer(BaseEstimator, TransformerMixin):\n    def fit(self, X, y=None, **kwargs):\n        return self\n\n    def transform(self, X, y=None):\n        return X[\"value\"].groupby(X[\"date\"]).sum()\n\nindex = pd.date_range(start=\"2020-01-01\", end=\"2020-01-05\", inclusive=\"left\", freq=\"H\")\ndata = pd.DataFrame(index=index, data=[10] * len(index), columns=[\"value\"])\ndata[\"date\"] = index.date\n\n# This works.\nset_config(transform_output=\"default\")\nprint(make_union(MyTransformer()).fit_transform(data))\n\n# This does not work.\nset_config(transform_output=\"pandas\")\nprint(make_union(MyTransformer()).fit_transform(data))",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-25747.py"
+}

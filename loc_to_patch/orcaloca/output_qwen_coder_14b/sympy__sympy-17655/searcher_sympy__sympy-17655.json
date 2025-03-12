@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when trying to add a Point object with a Mul object (result of multiplying a number with a Point). The __add__ method in the Point class does not handle this case correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "~/.virtualenvs/test/lib/python3.6/site-packages/sympy/geometry/point.py",
+            "class_name": "Point",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "test_union_annotated_diff_distinct",
+            "file_path": ""
+        },
+        {
+            "keyword": "setUp",
+            "file_path": ""
+        },
+        {
+            "keyword": "Value",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "IntegerField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "Sample",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db.models import Value, IntegerField\n\ndef setUp(self) -> None:\n    user = self.get_or_create_admin_user()\n    Sample.objects.create(user=user, name=\"Sam1\")\n    Sample.objects.create(user=user, name=\"Sam2 acid\")\n    Sample.objects.create(user=user, name=\"Sam3\")\n    Sample.objects.create(user=user, name=\"Sam4 acid\")\n    Sample.objects.create(user=user, name=\"Dub\")\n    Sample.objects.create(user=user, name=\"Dub\")\n    Sample.objects.create(user=user, name=\"Dub\")\n    self.user = user\ndef test_union_annotated_diff_distinct(self):\n    qs = Sample.objects.filter(user=self.user)\n    qs1 = qs.filter(name='Dub').annotate(rank=Value(0, IntegerField()))\n    qs2 = qs.filter(name='Sam1').annotate(rank=Value(1, IntegerField()))\n    qs = qs1.union(qs2)\n    qs = qs.order_by('name').distinct('name') # THIS DISTINCT DOESN'T WORK\n    print(qs.query)\n    self.assertEqual(qs.count(), 2)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12908.py"
+}

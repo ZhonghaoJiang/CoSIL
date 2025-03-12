@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the formatting of the 'Other parameters' section in the napoleon extension of Sphinx. The current implementation of _parse_other_parameters_section does not respect the napoleon_use_param configuration.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/ext/napoleon.py",
+            "class_name": "NumpyDocstring",
+            "method_name": ""
+        }
+    ]
+}

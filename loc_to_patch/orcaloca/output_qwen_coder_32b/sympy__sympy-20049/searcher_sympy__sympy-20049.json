@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe vel method raises a ValueError if the velocity of the point in the specified reference frame has not been defined. The set_vel method is used to define the velocity, and pos_from might be related to position calculations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/physics/vector/point.py",
+            "class_name": "Point",
+            "method_name": "vel"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe wcs_pix2world method does not handle empty lists/arrays correctly. It raises an InconsistentAxisTypesError.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "astropy/wcs/wcs.py",
+            "class_name": "WCS",
+            "method_name": "wcs_pix2world"
+        },
+        {
+            "file_path": "astropy/wcs/wcs.py",
+            "class_name": "WCS",
+            "method_name": "_array_converter"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue lies in the handling of the returning_fields in the bulk_create method, specifically in the _batched_insert method. The issue might be related to the removal of returning_fields in certain cases when using update_conflicts. The ModelIterable and RawModelIterable classes and their __iter__ methods are also relevant to the query execution process.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "bulk_create"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "_batched_insert"
+        }
+    ]
+}

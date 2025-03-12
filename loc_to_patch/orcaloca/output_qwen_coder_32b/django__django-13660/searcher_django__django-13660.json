@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be with the usage of exec in the handle method of the shell command in Django. The exec function should be passed a dictionary containing a minimal set of globals to avoid NameError.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "{sys.prefix}/lib/python3.7/site-packages/django/core/management/commands/shell.py",
+            "class_name": "",
+            "method_name": "handle"
+        }
+    ]
+}

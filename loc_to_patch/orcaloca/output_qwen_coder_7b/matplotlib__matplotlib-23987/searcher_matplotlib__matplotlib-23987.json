@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe warning is generated due to incompatibility between constrained_layout and subplots_adjust. The issue might be related to how these functions interact in the current version of Matplotlib.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/figure.py",
+            "class_name": "FigureBase",
+            "method_name": "subplots_adjust"
+        },
+        {
+            "file_path": "lib/matplotlib/figure.py",
+            "class_name": "SubplotParams",
+            "method_name": "update"
+        }
+    ]
+}

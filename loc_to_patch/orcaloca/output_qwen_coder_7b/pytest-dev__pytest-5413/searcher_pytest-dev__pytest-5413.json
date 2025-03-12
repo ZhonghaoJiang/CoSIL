@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to how pytest handles exceptions in the context of pytest.raises.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        },
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        }
+    ]
+}

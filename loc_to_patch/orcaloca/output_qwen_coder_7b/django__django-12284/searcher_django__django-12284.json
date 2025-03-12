@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the choices being overridden in the child model and the get_FOO_display method not being updated accordingly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/models.py",
+            "class_name": "B",
+            "method_name": ""
+        }
+    ]
+}

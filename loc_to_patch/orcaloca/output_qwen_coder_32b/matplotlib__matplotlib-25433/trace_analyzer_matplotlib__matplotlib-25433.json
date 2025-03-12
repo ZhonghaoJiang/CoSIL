@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pyplot",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "onchanged",
+            "file_path": ""
+        },
+        {
+            "keyword": "Button",
+            "file_path": "lib/matplotlib/widgets.py"
+        },
+        {
+            "keyword": "onclick",
+            "file_path": ""
+        },
+        {
+            "keyword": "addElements",
+            "file_path": ""
+        },
+        {
+            "keyword": "RangeSlider",
+            "file_path": "lib/matplotlib/widgets.py"
+        },
+        {
+            "keyword": "widgets",
+            "file_path": "lib/matplotlib/widgets.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import matplotlib.pyplot as pyplot\nimport matplotlib.widgets as widgets\n\ndef onchanged(values):\n    print(\"on changed\")\n    print(values)\n    pyplot.clf()\n    addElements()\n    pyplot.draw()\n\ndef onclick(e):\n    print(\"on click\")\n    pyplot.clf()\n    addElements()\n    pyplot.draw()\n\ndef addElements():\n    ax = pyplot.axes([0.1, 0.45, 0.8, 0.1])\n    global slider\n    slider = widgets.RangeSlider(ax, \"Test\", valmin=1, valmax=10, valinit=(1, 10))\n    slider.on_changed(onchanged)\n    ax = pyplot.axes([0.1, 0.30, 0.8, 0.1])\n    global button\n    button = widgets.Button(ax, \"Test\")\n    button.on_clicked(onclick)\n\naddElements()\n\npyplot.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-25433.py"
+}

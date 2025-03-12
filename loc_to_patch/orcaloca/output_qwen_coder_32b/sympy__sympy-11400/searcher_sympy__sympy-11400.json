@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe _print_Function method in CodePrinter checks if the function is known and handles it accordingly. If not, it falls back to _print_not_supported, which calls emptyPrinter. The ccode function uses CodePrinter. We need to investigate the _print_Function method in other printers and the emptyPrinter method in different classes.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/printing/codeprinter.py",
+            "class_name": "CodePrinter",
+            "method_name": "_print_Function"
+        },
+        {
+            "file_path": "sympy/printing/codeprinter.py",
+            "class_name": "CodePrinter",
+            "method_name": "_print_not_supported"
+        },
+        {
+            "file_path": "sympy/printing/codeprinter.py",
+            "class_name": "CodePrinter",
+            "method_name": ""
+        }
+    ]
+}

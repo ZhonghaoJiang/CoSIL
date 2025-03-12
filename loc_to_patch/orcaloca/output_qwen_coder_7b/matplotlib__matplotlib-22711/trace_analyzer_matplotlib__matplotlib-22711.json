@@ -1,0 +1,39 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "RangeSlider",
+            "file_path": "lib/matplotlib/widgets.py"
+        },
+        {
+            "keyword": "update",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__init__",
+            "file_path": "lib/matplotlib/widgets.py",
+            "class_name": "RangeSlider"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "lib/matplotlib/widgets.py",
+            "class_name": "SliderBase"
+        },
+        {
+            "keyword": "set_val",
+            "file_path": "lib/matplotlib/widgets.py",
+            "class_name": "RangeSlider"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "lib/matplotlib/patches.py",
+            "class_name": "Rectangle"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport matplotlib.pyplot as plt\nfrom matplotlib.widgets import RangeSlider\n\n# generate a fake image\nnp.random.seed(19680801)\nN = 128\nimg = np.random.randn(N, N)\n\nfig, axs = plt.subplots(1, 2, figsize=(10, 5))\nfig.subplots_adjust(bottom=0.25)\n\nim = axs[0].imshow(img)\naxs[1].hist(img.flatten(), bins='auto')\naxs[1].set_title('Histogram of pixel intensities')\n\n# Create the RangeSlider\nslider_ax = fig.add_axes([0.20, 0.1, 0.60, 0.03])\nslider = RangeSlider(slider_ax, \"Threshold\", img.min(), img.max(),valinit=[0.0,0.0])\n\n# Create the Vertical lines on the histogram\nlower_limit_line = axs[1].axvline(slider.val[0], color='k')\nupper_limit_line = axs[1].axvline(slider.val[1], color='k')\n\n\ndef update(val):\n    # The val passed to a callback by the RangeSlider will\n    # be a tuple of (min, max)\n\n    # Update the image's colormap\n    im.norm.vmin = val[0]\n    im.norm.vmax = val[1]\n\n    # Update the position of the vertical lines\n    lower_limit_line.set_xdata([val[0], val[0]])\n    upper_limit_line.set_xdata([val[1], val[1]])\n\n    # Redraw the figure to ensure it updates\n    fig.canvas.draw_idle()\n\nslider.on_changed(update)\nplt.show()\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-22711.py"
+}

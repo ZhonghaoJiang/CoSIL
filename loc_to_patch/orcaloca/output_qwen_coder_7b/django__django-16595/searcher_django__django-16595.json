@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe state_forwards method in AddField does not consider the case where the operation is also an AlterField.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/migrations/operations/fields.py",
+            "class_name": "AddField",
+            "method_name": "reduce"
+        }
+    ]
+}

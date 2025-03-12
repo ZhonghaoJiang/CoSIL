@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_print_Derivative",
+            "file_path": ""
+        },
+        {
+            "keyword": "_print_Float",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "def _print_Derivative(self, expr):\n        return \"D[%s]\" % (self.stringify(expr.args, \", \"))\n\n    def _print_Float(self, expr):\n        res =str(expr)\n        return res.replace('e','*^')",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

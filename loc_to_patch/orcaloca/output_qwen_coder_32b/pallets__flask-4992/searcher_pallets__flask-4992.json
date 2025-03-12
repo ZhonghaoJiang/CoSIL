@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method from_file in Config opens files in text mode by default, which is incompatible with tomllib.load() that requires binary mode.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/flask/config.py",
+            "class_name": "Config",
+            "method_name": "from_file"
+        }
+    ]
+}

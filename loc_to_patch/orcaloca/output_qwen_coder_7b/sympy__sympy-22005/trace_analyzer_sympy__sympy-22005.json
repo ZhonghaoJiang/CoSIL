@@ -1,0 +1,40 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "solve_poly_system",
+            "file_path": "sympy/solvers/polysys.py",
+            "class_name": "SolveFailed"
+        },
+        {
+            "keyword": "solve_generic",
+            "file_path": "sympy/solvers/polysys.py",
+            "class_name": "SolveFailed"
+        },
+        {
+            "keyword": "_solve_reduced_system",
+            "file_path": "sympy/solvers/polysys.py",
+            "class_name": "SolveFailed"
+        },
+        {
+            "keyword": "_is_univariate",
+            "file_path": "sympy/solvers/polysys.py",
+            "class_name": "SolveFailed"
+        },
+        {
+            "keyword": "parallel_poly_from_expr",
+            "file_path": "sympy/polys/polytools.py",
+            "class_name": "PurePoly"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import symbols, solve_poly_system\nx, y = symbols('x y')\nsolve_poly_system((x - 1,), x, y)\nsolve_poly_system((y - 1,), x, y)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-22005.py"
+}

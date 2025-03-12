@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "apart",
+            "file_path": "sympy/core/expr.py",
+            "class_name": "Expr"
+        },
+        {
+            "keyword": "apart",
+            "file_path": "sympy/polys/partfrac.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "threaded_func",
+            "file_path": "sympy/utilities/decorator.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "as_numer_denom",
+            "file_path": "sympy/core/mul.py",
+            "class_name": "Mul"
+        },
+        {
+            "keyword": "cancel",
+            "file_path": "sympy/polys/polytools.py",
+            "class_name": "Poly"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import symbols\n\na = symbols('a', real=True)\nt = symbols('t', real=True, negative=False)\nbug = a * (-t + (-t + 1) * (2 * t - 1)) / (2 * t - 1)\nprint(bug.apart(t))\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-12236.py"
+}

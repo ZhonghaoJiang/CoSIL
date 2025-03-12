@@ -1,0 +1,56 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "main",
+            "file_path": ""
+        },
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_skip_location",
+            "file_path": ""
+        },
+        {
+            "keyword": "item",
+            "file_path": ""
+        },
+        {
+            "keyword": "call",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "pytest_runtest_makereport",
+            "file_path": "src/_pytest/skipping.py",
+            "class_name": "Xfail"
+        },
+        {
+            "keyword": "pytest_runtest_makereport",
+            "file_path": "src/_pytest/unittest.py",
+            "class_name": "TestCaseFunction"
+        },
+        {
+            "keyword": "pytest_runtest_makereport",
+            "file_path": "src/_pytest/runner.py",
+            "class_name": "CallInfo"
+        },
+        {
+            "keyword": "skip",
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "_WithException"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "src/_pytest/outcomes.py",
+            "class_name": "Skipped"
+        }
+    ],
+    "related_source_code": "\ndef pytest_runtest_makereport(item, call):\n    if call.when == 'call':\n        if call.excinfo is not None:\n            if call.excinfo.type is pytest.fail.Exception:\n                item.add_marker(pytest.mark.xfail)\n            elif call.excinfo.type is pytest.skip.Exception:\n                item.add_marker(pytest.mark.skip)\n        elif call.excinfo is None:\n            if item.get_marker(pytest.mark.xfail) is not None:\n                item.add_marker(pytest.mark.xfail)\n            elif item.get_marker(pytest.mark.skip) is not None:\n                item.add_marker(pytest.mark.skip)\n",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import pytest\n\n@pytest.mark.skip\ndef test_skip_location() -> None:\n    assert 0\n\npytest.main(['-rs', '--runxfail', __file__])",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-7432.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the draw_text method of the RendererPS class in backend_ps.py. The stream variable is None, which causes the TypeError. The issue seems to be in the TTF font handling part where curr_stream is not being appended to the stream list.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/backends/backend_ps.py",
+            "class_name": "RendererPS",
+            "method_name": "draw_text"
+        }
+    ]
+}

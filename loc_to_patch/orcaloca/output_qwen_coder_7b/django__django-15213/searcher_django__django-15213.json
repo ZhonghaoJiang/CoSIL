@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nExpressionWrapper's as_sql method might be the issue. It calls compiler.compile(self.expression), which might not handle ~Q(pk__in=[]) correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/expressions.py",
+            "class_name": "ExpressionWrapper",
+            "method_name": "as_sql"
+        }
+    ]
+}

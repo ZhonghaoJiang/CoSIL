@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error hint suggests a mistake in using ForeignKey instead of ManyToManyField in an intermediary model for a recursive relationship.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/intermediary_model.py",
+            "class_name": "RecursiveModel",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nTEMPLATES setting is an empty list, which might be causing the dev server not to detect changes.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/conf/global_settings.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

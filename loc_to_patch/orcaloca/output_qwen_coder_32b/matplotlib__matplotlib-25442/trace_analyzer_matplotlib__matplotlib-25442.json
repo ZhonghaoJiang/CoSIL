@@ -1,0 +1,54 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "process",
+            "file_path": ""
+        },
+        {
+            "keyword": "_check_still_parented",
+            "file_path": "lib/matplotlib/offsetbox.py"
+        },
+        {
+            "keyword": "canvas",
+            "file_path": "lib/matplotlib/offsetbox.py"
+        },
+        {
+            "keyword": "mpl_disconnect",
+            "file_path": "lib/matplotlib/offsetbox.py"
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "scatter",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "disconnect",
+            "file_path": "lib/matplotlib/offsetbox.py"
+        },
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "mpl",
+            "file_path": ""
+        },
+        {
+            "keyword": "on_release",
+            "file_path": "lib/matplotlib/offsetbox.py"
+        },
+        {
+            "keyword": "show",
+            "file_path": "lib/matplotlib/pyplot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nimport matplotlib.pyplot as plt\nimport mplcursors as mpl\n\nx = np.arange(1, 11)    \ny1 = x\n\nplt.scatter(x,y1)\n\nmpl.cursor()\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-25442.py"
+}

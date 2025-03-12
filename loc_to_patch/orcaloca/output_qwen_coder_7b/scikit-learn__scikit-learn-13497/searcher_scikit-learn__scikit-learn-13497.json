@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe comparison of a string to an array in _estimate_mi function can lead to errors in future versions of numpy. The function is not tested with discrete_features != 'auto', suggesting potential bugs.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/feature_selection/mutual_info_.py",
+            "class_name": "",
+            "method_name": "_estimate_mi"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe __init__ methods of RepeatedKFold and RepeatedStratifiedKFold are not implementing the __repr__ method correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/model_selection/_split.py",
+            "class_name": "RepeatedKFold",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "sklearn/model_selection/_split.py",
+            "class_name": "RepeatedStratifiedKFold",
+            "method_name": "__init__"
+        }
+    ]
+}

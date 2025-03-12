@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when filtering ProductMetaData with a metadata_type field. The issue is related to the 'filterable' attribute in the ProductMetaDataType model. Changing the label to 'filterable_test' resolves the issue, suggesting that the 'filterable' attribute is causing the NotSupportedError.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/adminpricing/models.py",
+            "class_name": "ProductMetaDataType",
+            "method_name": ""
+        }
+    ]
+}

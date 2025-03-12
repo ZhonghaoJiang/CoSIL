@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe filter_members method in the Documenter class filters out members without docstrings, including inherited ones. The ClassLevelDocumenter class might have additional logic affecting this behavior.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/ext/autodoc/__init__.py",
+            "class_name": "Documenter",
+            "method_name": "filter_members"
+        }
+    ]
+}

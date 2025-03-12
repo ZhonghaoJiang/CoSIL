@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe matrices are copied into new variables before substitution. This might be unnecessary and could lead to performance issues.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "example.py",
+            "class_name": "",
+            "method_name": "sub_in_matrixsymbols"
+        }
+    ]
+}

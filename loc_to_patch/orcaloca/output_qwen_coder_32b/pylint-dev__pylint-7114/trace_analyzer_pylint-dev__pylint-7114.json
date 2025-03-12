@@ -1,0 +1,9 @@
+{
+    "summary": "",
+    "suspicious_code": [],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "# Directory structure\n.\n`-- a/\n    |-- a.py\n    `-- b.py\n\n# Command to reproduce the issue\npylint a",
+    "env_reproduce_path": "/pylint-dev__pylint/reproducer_pylint-dev__pylint-7114.py"
+}

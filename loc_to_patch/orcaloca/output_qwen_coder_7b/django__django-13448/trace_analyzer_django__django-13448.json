@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute_sql",
+            "file_path": "django/db/models/sql/compiler.py"
+        },
+        {
+            "keyword": "cursor",
+            "file_path": "django/db/backends/utils.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

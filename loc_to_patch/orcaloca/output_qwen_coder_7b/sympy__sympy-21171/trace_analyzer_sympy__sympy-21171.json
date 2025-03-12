@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sympy",
+            "file_path": ""
+        },
+        {
+            "keyword": "Function",
+            "file_path": ""
+        },
+        {
+            "keyword": "Matrix",
+            "file_path": ""
+        },
+        {
+            "keyword": "_print_SingularityFunction",
+            "file_path": ""
+        },
+        {
+            "keyword": "Symbol",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-21171.py"
+}

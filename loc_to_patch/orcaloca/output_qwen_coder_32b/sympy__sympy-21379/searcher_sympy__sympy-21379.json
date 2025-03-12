@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe _parallel_poly_from_expr function raises a PolynomialError when encountering piecewise generators. The subs method in the Basic class calls _subs, which in turn calls _eval_subs. The _eval_subs method returns None, leading to a fallback that calls _subs again, potentially causing the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/polys/polytools.py",
+            "class_name": "",
+            "method_name": "_parallel_poly_from_expr"
+        },
+        {
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic",
+            "method_name": "_subs"
+        }
+    ]
+}

@@ -1,0 +1,40 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "NDDataRef",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "multiply",
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin"
+        },
+        {
+            "keyword": "_prepare_then_do_arithmetic",
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin"
+        },
+        {
+            "keyword": "_arithmetic",
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin"
+        },
+        {
+            "keyword": "_arithmetic_mask",
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin"
+        },
+        {
+            "keyword": "_arithmetic_uncertainty",
+            "file_path": "astropy/nddata/mixins/ndarithmetic.py",
+            "class_name": "NDArithmeticMixin"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import numpy as np\nfrom astropy.nddata import NDDataRef\n\narray = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])\nmask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])\n\nnref_nomask = NDDataRef(array)\nnref_mask = NDDataRef(array, mask=mask)\n\n# multiply no mask by constant (no mask * no mask)\nnref_nomask.multiply(1., handle_mask=np.bitwise_or).mask   # returns nothing, no mask,  OK\n\n# multiply no mask by itself (no mask * no mask)\nnref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask # return nothing, no mask, OK\n\n# multiply mask by constant (mask * no mask)\nnref_mask.multiply(1., handle_mask=np.bitwise_or).mask\n\n# multiply mask by itself (mask * mask)\nnref_mask.multiply(nref_mask, handle_mask=np.bitwise_or).mask\n\n# multiply mask by no mask (mask * no mask)\nnref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask\n",
+    "env_reproduce_path": "/astropy__astropy/reproducer_astropy__astropy-14995.py"
+}

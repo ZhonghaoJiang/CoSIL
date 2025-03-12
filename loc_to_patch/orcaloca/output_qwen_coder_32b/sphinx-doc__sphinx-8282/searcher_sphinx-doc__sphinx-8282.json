@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe add_documenter method in sphinx/registry.py adds documenters for object types. We need to check how autodoc_typehints interacts with overloaded callables, specifically looking at how the process_docstring method handles them.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/ext/autodoc/__init__.py",
+            "class_name": "OverloadedFunctionDocumenter",
+            "method_name": ""
+        },
+        {
+            "file_path": "sphinx/ext/autodoc/__init__.py",
+            "class_name": "FunctionDocumenter",
+            "method_name": ""
+        }
+    ]
+}

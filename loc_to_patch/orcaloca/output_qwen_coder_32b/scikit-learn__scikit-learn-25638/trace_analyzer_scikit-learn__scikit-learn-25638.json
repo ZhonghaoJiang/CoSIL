@@ -1,0 +1,35 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pd",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "unique_labels",
+            "file_path": "sklearn/utils/multiclass.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "type_of_target",
+            "file_path": "sklearn/utils/multiclass.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "is_multilabel",
+            "file_path": "sklearn/utils/multiclass.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "unique_values",
+            "file_path": "sklearn/utils/_array_api.py",
+            "class_name": "_NumPyApiWrapper"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport pandas as pd\nfrom sklearn.utils.multiclass import unique_labels\n\nfor dtype in [\"Int64\", \"Float64\", \"boolean\"]:\n    y_true = pd.Series([1, 0, 0, 1, 0, 1, 1, 0, 1], dtype=dtype)\n    y_predicted = pd.Series([0, 0, 1, 1, 0, 1, 1, 1, 1], dtype=\"int64\")\n\n    unique_labels(y_true, y_predicted)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-25638.py"
+}

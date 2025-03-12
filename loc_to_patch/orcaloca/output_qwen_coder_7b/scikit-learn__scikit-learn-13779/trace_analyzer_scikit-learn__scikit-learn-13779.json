@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "RandomForestClassifier",
+            "file_path": ""
+        },
+        {
+            "keyword": "LogisticRegression",
+            "file_path": ""
+        },
+        {
+            "keyword": "VotingClassifier",
+            "file_path": ""
+        },
+        {
+            "keyword": "numpy",
+            "file_path": ""
+        },
+        {
+            "keyword": "fit",
+            "file_path": ""
+        },
+        {
+            "keyword": "load_iris",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sklearn.datasets import load_iris\nfrom sklearn.ensemble import VotingClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier\nimport numpy as np\n\nX, y = load_iris(return_X_y=True)\nvoter = VotingClassifier(\n    estimators=[('lr', LogisticRegression()),\n                ('rf', RandomForestClassifier())]\n)\nvoter.fit(X, y, sample_weight=np.ones(y.shape))\nvoter.set_params(lr=None)\nvoter.fit(X, y, sample_weight=np.ones(y.shape))",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-13779.py"
+}

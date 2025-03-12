@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_setup_scales",
+            "file_path": "seaborn/_core/plot.py"
+        },
+        {
+            "keyword": "_setup",
+            "file_path": "seaborn/_core/scales.py"
+        },
+        {
+            "keyword": "Bar",
+            "file_path": "seaborn/objects.py"
+        },
+        {
+            "keyword": "Plot",
+            "file_path": "seaborn/objects.py"
+        },
+        {
+            "keyword": "_plot",
+            "file_path": "seaborn/_core/plot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import seaborn.objects as so\n\ntry:\n    so.Plot(x=[\"a\", \"b\"], y=[1, 2], color=[True, False]).add(so.Bar())\nexcept Exception as e:\n    print(e)",
+    "env_reproduce_path": "/mwaskom__seaborn/reproducer_mwaskom__seaborn-3190.py"
+}

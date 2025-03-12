@@ -1,0 +1,60 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "NeighborhoodComponentsAnalysis",
+            "file_path": ""
+        },
+        {
+            "keyword": "KNeighborsClassifier",
+            "file_path": ""
+        },
+        {
+            "keyword": "GridSearchCV",
+            "file_path": ""
+        },
+        {
+            "keyword": "Pipeline",
+            "file_path": ""
+        },
+        {
+            "keyword": "_fit_transform_one",
+            "file_path": "sklearn/pipeline.py"
+        },
+        {
+            "keyword": "evaluate_candidates",
+            "file_path": "sklearn/model_selection/_search.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_run_search",
+            "file_path": "sklearn/model_selection/_search.py",
+            "class_name": "GridSearchCV"
+        },
+        {
+            "keyword": "fit",
+            "file_path": "sklearn/neighbors/nca.py",
+            "class_name": "NeighborhoodComponentsAnalysis"
+        },
+        {
+            "keyword": "_validate_params",
+            "file_path": "sklearn/neighbors/nca.py",
+            "class_name": "NeighborhoodComponentsAnalysis"
+        },
+        {
+            "keyword": "check_scalar",
+            "file_path": "sklearn/utils/validation.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "sklearn/model_selection/_search.py",
+            "class_name": "ParameterGrid"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\n\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.model_selection import GridSearchCV\nfrom sklearn.neighbors import NeighborhoodComponentsAnalysis\nfrom sklearn.neighbors import KNeighborsClassifier\n\nX = np.random.random_sample((100, 10))\ny = np.random.randint(2, size=100)\n\nnca = NeighborhoodComponentsAnalysis()\nknn = KNeighborsClassifier()\n\npipe = Pipeline([('nca', nca),\n                 ('knn', knn)])\n                 \nparams = {'nca__tol': [0.1, 0.5, 1],\n          'nca__n_components': np.arange(1, 10)}\n          \ngs = GridSearchCV(estimator=pipe, param_grid=params, error_score='raise')\ngs.fit(X,y)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-14092.py"
+}

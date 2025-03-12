@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe Signal.send_robust() method in Django does not log exceptions raised by receivers. We need to add logging to this method to address the problem statement.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/dispatch/dispatcher.py",
+            "class_name": "Signal",
+            "method_name": "send_robust"
+        }
+    ]
+}

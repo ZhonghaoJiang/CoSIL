@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe DEFAULT_LOG_FORMAT is defined in src/_pytest/logging.py and used in the pytest_addoption function and ColoredLevelFormatter class. The ColoredLevelFormatter class uses the format specified by DEFAULT_LOG_FORMAT. We need to check the __init__ method of ColoredLevelFormatter to see how the format is initialized.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/logging.py",
+            "class_name": "",
+            "method_name": "pytest_addoption"
+        },
+        {
+            "file_path": "src/_pytest/logging.py",
+            "class_name": "ColoredLevelFormatter",
+            "method_name": "__init__"
+        }
+    ]
+}

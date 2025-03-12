@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe ASGIStaticFilesHandler class is missing the get_response_async method. The parent class ASGIHandler might have the get_response_async method. The StaticFilesHandlerMixin has a get_response method instead of get_response_async.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/staticfiles/handlers.py",
+            "class_name": "ASGIStaticFilesHandler",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sys",
+            "file_path": ""
+        },
+        {
+            "keyword": "io_write",
+            "file_path": "astropy/io/ascii/connect.py"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "astropy/table/connect.py"
+        },
+        {
+            "keyword": "QTable",
+            "file_path": ""
+        },
+        {
+            "keyword": "u",
+            "file_path": "astropy/units/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__init__",
+            "file_path": "astropy/table/table.py",
+            "class_name": "Table"
+        },
+        {
+            "keyword": "write",
+            "file_path": "astropy/io/ascii/ui.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "get_writer",
+            "file_path": "astropy/io/ascii/ui.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_get_writer",
+            "file_path": "astropy/io/ascii/core.py",
+            "class_name": "WhitespaceSplitter"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom astropy.table import QTable\nimport astropy.units as u\nimport sys\ntbl = QTable({'wave': [350,950]*u.nm, 'response': [0.7, 1.2]*u.count})\ntbl.write(sys.stdout,  format=\"ascii.rst\", header_rows=[\"name\", \"unit\"])\n",
+    "env_reproduce_path": "/astropy__astropy/reproducer_astropy__astropy-14182.py"
+}

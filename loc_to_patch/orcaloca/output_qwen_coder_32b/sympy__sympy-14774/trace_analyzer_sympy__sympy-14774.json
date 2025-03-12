@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "acsc",
+            "file_path": ""
+        },
+        {
+            "keyword": "latex",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import symbols, acsc, latex\n\nx = symbols('x')\nprint(latex(acsc(x), inv_trig_style=\"full\"))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-14774.py"
+}

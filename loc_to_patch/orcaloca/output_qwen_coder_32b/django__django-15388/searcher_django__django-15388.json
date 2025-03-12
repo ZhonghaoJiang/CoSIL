@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe inner_run method in the Command class handles the server execution but does not directly show how file changes are detected or how the server restarts. We need to investigate the autoreload module, specifically the code_changed function and other relevant functions.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/commands/runserver.py",
+            "class_name": "Command",
+            "method_name": "inner_run"
+        },
+        {
+            "file_path": "django/utils/autoreload.py",
+            "class_name": "",
+            "method_name": "code_changed"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe 'partitions' function reuses output dictionaries, which can lead to confusing behavior and bugs.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/utilities/iterables.py",
+            "class_name": "",
+            "method_name": "partitions"
+        }
+    ]
+}

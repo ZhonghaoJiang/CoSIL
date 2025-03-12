@@ -1,0 +1,62 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Subquery",
+            "file_path": ""
+        },
+        {
+            "keyword": "B",
+            "file_path": ""
+        },
+        {
+            "keyword": "A",
+            "file_path": ""
+        },
+        {
+            "keyword": "Q",
+            "file_path": ""
+        },
+        {
+            "keyword": "Count",
+            "file_path": ""
+        },
+        {
+            "keyword": "gettext_lazy",
+            "file_path": ""
+        },
+        {
+            "keyword": "OuterRef",
+            "file_path": ""
+        },
+        {
+            "keyword": "AB",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProgrammingError",
+            "file_path": "django/db/utils.py"
+        },
+        {
+            "keyword": "C",
+            "file_path": ""
+        },
+        {
+            "keyword": "get_apps",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\nfrom django.db.models import Count, OuterRef, Q, Subquery\nfrom django.utils.translation import gettext_lazy as _\n\nsettings.configure(\n    DEBUG=True,\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    },\n    INSTALLED_APPS=[__name__],\n)\n\nimport django\n\ndjango.setup()\n\nclass A(models.Model):\n    bs = models.ManyToManyField('B', related_name='a', through='AB')\n\nclass B(models.Model):\n    pass\n\nclass AB(models.Model):\n    a = models.ForeignKey(A, on_delete=models.CASCADE, related_name='ab_a')\n    b = models.ForeignKey(B, on_delete=models.CASCADE, related_name='ab_b')\n    status = models.IntegerField()\n\nclass C(models.Model):\n    a = models.ForeignKey(\n        A,\n        null=True,\n        blank=True,\n        on_delete=models.SET_NULL,\n        related_name='c',\n        verbose_name=_('a')\n    )\n    status = models.IntegerField()\n\n# Create tables\nmodels.get_apps()\n\n# Create test data\na = A.objects.create()\nb = B.objects.create()\nab = AB.objects.create(a=a, b=b, status=1)\nc = C.objects.create(a=a, status=1)\n\nab_query = AB.objects.filter(a=OuterRef('pk'), b=1)\nfilter_conditions = Q(pk=1) | Q(ab_a__b=1)\nquery = A.objects\\\n    .filter(filter_conditions)\\\n    .annotate(\n        status=Subquery(ab_query.values('status')),\n        c_count=Count('c'),\n)\nanswer = query.values('status').annotate(total_count=Count('status'))\nprint(answer.query)\nprint(list(answer))",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12589.py"
+}

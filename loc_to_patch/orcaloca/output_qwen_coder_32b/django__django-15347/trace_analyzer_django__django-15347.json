@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "extra_tags",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "MessageDecoder",
+            "file_path": "django/contrib/messages/storage/cookie.py"
+        },
+        {
+            "keyword": "Message",
+            "file_path": "django/contrib/messages/storage/base.py"
+        },
+        {
+            "keyword": "MessageEncoder",
+            "file_path": "django/contrib/messages/storage/cookie.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from django.conf import settings\nsettings.configure()\nfrom django.contrib.messages.storage.base import Message\nfrom django.contrib.messages.storage.cookie import MessageEncoder, MessageDecoder\noriginal_message = Message(10, \"Here is a message\", extra_tags=\"\")\nencoded_message = MessageEncoder().encode(original_message)\ndecoded_message = MessageDecoder().decode(encoded_message)\nassert original_message.extra_tags == \"\"\nassert decoded_message.extra_tags is None\nprint(f\"Original extra_tags: {original_message.extra_tags}\")\nprint(f\"Decoded extra_tags: {decoded_message.extra_tags}\")",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15347.py"
+}

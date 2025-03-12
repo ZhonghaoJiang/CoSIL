@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error seems to be related to the _wrap_in_pandas_container method in the sklearn.utils._set_output module.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": "",
+            "method_name": "_wrap_in_pandas_container"
+        }
+    ]
+}

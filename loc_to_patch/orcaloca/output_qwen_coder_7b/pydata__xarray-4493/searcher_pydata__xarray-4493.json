@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the computation triggered when creating a Dataset with a DataArray and dimension names for a single variable.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset",
+            "method_name": "update"
+        }
+    ]
+}

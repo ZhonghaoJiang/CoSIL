@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the unpickling process of a matplotlib figure on an M1 Mac. The dpi of the figure is doubling each time it is unpickled, leading to an OverflowError after multiple iterations. The __setstate__ method in the Figure class is responsible for restoring the state of the figure during unpickling. The new_figure_manager_given_figure method is called within this method, which might be causing the dpi to double.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/figure.py",
+            "class_name": "Figure",
+            "method_name": "__setstate__"
+        },
+        {
+            "file_path": "lib/matplotlib/figure.py",
+            "class_name": "_AxesStack",
+            "method_name": "add"
+        }
+    ]
+}

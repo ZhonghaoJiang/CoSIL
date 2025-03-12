@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe _check_values method in ModelMultipleChoiceField raises a ValidationError with the correct error message format for invalid choices. However, the validate method in ModelChoiceField does not handle the specific error message formatting for invalid choices. We need to check the validate method in ModelChoiceField to see where the error message is being raised.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceField",
+            "method_name": "validate"
+        },
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelMultipleChoiceField",
+            "method_name": "_check_values"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "__and__",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "Exists",
+            "file_path": "django/db/models/expressions.py"
+        },
+        {
+            "keyword": "User",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "_combine",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "Q",
+            "file_path": "django/db/models/query_utils.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db.models import Q, Exists\nfrom django.contrib.auth.models import User\n\nsettings.configure(INSTALLED_APPS=['django.contrib.auth'])\n\nQ() & Exists(User.objects.all())",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14017.py"
+}

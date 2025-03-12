@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nMultiple 'Command' classes found. Need to narrow down to the specific 'Command' class used in the custom management command.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/tzkt_import.py",
+            "class_name": "Command",
+            "method_name": ""
+        }
+    ]
+}

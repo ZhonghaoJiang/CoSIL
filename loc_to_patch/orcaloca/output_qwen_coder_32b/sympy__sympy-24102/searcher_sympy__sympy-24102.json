@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe parse_mathematica function uses the MathematicaParser class to parse the input string. The parse method in MathematicaParser calls _from_mathematica_to_tokens, _from_tokens_to_fullformlist, _parse_after_braces, and _from_fullformlist_to_sympy. The issue might be in how these methods handle non-ASCII characters like Greek letters.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser",
+            "method_name": "_from_tokens_to_fullformlist"
+        },
+        {
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser",
+            "method_name": "_parse_after_braces"
+        },
+        {
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser",
+            "method_name": "_from_mathematica_to_tokens"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe delete method in django/db/models/deletion.py does not clear the PK for instances with no dependencies. The potential bug location is within the delete method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/deletion.py",
+            "class_name": "",
+            "method_name": "delete"
+        }
+    ]
+}

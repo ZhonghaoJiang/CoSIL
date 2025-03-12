@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "logger",
+            "file_path": ""
+        },
+        {
+            "keyword": "Test",
+            "file_path": ""
+        },
+        {
+            "keyword": "method_decorator",
+            "file_path": ""
+        },
+        {
+            "keyword": "hello_world",
+            "file_path": ""
+        },
+        {
+            "keyword": "wraps",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.utils.decorators import method_decorator\n\nimport functools\nfrom functools import wraps\nimport logging\nlogger = logging.getLogger(__name__)\n\ndef logger(func):\n    @wraps(func)\n    def inner(*args, **kwargs):\n        try:\n            result = func(*args, **kwargs)\n        except Exception as e:\n            result = str(e)\n        finally:\n            logger.debug(f\"{func.__name__} called with args: {args} and kwargs: {kwargs} resulting: {result}\")\n    return inner\n\nclass Test:\n    @method_decorator(logger)\n    def hello_world(self):\n        return \"hello\"\nTest().hello_world()",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14787.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe problem statement indicates that the `to_unstacked_dataset` method is broken for single-dim variables. The code sample provided shows that stacking and unstacking operations are performed on a dataset with single-dimensional variables, resulting in a `MergeError`. We need to investigate the `to_unstacked_dataset` method to understand why this error occurs.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "Migration",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nsettings.configure(INSTALLED_APPS=())\n\nfrom django.db import models\n\nclass MyModel(models.Model):\n    field1 = models.CharField(max_length=100)\n    field2 = models.CharField(max_length=100)\n\n    class Meta:\n        unique_together = ('field1', 'field2')\n        index_together = ('field1', 'field2')\n\n# Delete index_together\nMyModel._meta.index_together = []\n\nfrom django.db import migrations\n\nclass Migration(migrations.Migration):\n\n    dependencies = [\n        ('yourappname', 'previous_migration_number'),\n    ]\n\n    operations = [\n        migrations.RemoveIndex(\n            model_name='mymodel',\n            index_name='field1_field2_idx',\n        ),\n    ]",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12708.py"
+}

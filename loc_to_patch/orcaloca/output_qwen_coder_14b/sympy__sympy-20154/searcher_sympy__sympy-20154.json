@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe partitions() function in sympy/utilities/iterables.py reuses the output dictionaries, which can lead to confusing and subtle bugs. The function is implemented in sympy/utilities/iterables.py.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/utilities/iterables.py",
+            "class_name": "",
+            "method_name": "partitions"
+        }
+    ]
+}

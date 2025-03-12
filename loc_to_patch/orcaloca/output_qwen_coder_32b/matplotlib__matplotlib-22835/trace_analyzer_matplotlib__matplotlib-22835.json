@@ -1,0 +1,54 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "plt",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "on_move",
+            "file_path": ""
+        },
+        {
+            "keyword": "subplots",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "imshow",
+            "file_path": "lib/matplotlib/axes/_axes.py"
+        },
+        {
+            "keyword": "inverse",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "mpl_connect",
+            "file_path": "lib/matplotlib/backend_bases.py"
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "mpl",
+            "file_path": "lib/matplotlib/__init__.py"
+        },
+        {
+            "keyword": "format_cursor_data",
+            "file_path": "lib/matplotlib/artist.py"
+        },
+        {
+            "keyword": "BoundaryNorm",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "show",
+            "file_path": "lib/matplotlib/pyplot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import matplotlib.pyplot as plt\nimport numpy as np\nimport matplotlib as mpl\n\nfig, ax = plt.subplots()\nnorm = mpl.colors.BoundaryNorm(np.linspace(-4, 4, 5), 256)\nX = np.random.randn(10, 10)\npc = ax.imshow(X, cmap='RdBu_r', norm=norm)\n\ndef on_move(event):\n    if event.inaxes:\n        try:\n            print(pc.format_cursor_data(event))\n        except Exception as e:\n            print(f'Error: {e}')\n\ncid = fig.canvas.mpl_connect('motion_notify_event', on_move)\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-22835.py"
+}

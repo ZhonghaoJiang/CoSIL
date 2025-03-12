@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe _estimate_mi function compares discrete_features to 'auto' using '==', which will cause issues in future numpy versions if discrete_features is an array or boolean mask. Additionally, the function is not tested with discrete_features values other than 'auto'.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/feature_selection/mutual_info_.py",
+            "class_name": "",
+            "method_name": "_estimate_mi"
+        },
+        {
+            "file_path": "sklearn/feature_selection/mutual_info_.py",
+            "class_name": "",
+            "method_name": "mutual_info_regression"
+        }
+    ]
+}

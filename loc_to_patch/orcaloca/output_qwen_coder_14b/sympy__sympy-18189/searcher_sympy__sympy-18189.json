@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe diophantine function is sensitive to the order of input symbols when permute=True. The function might be sorting the symbols alphabetically, which could lead to incomplete results.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": "",
+            "method_name": "diophantine"
+        }
+    ]
+}

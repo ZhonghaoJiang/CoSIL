@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "apps",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestQuerying",
+            "file_path": ""
+        },
+        {
+            "keyword": "setup_test_environment",
+            "file_path": ""
+        },
+        {
+            "keyword": "NullableJSONModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.test import TestCase\nfrom django.db import models\nfrom django.conf import settings\nfrom django.test.utils import setup_test_environment\n\nsettings.configure(\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    },\n    INSTALLED_APPS=[__name__,],\n)\nsetup_test_environment()\n\nfrom django.apps import apps\napps.populate()\n\nclass NullableJSONModel(models.Model):\n    value = models.JSONField(null=True)\n\nclass TestQuerying(TestCase):\n    def setUp(self):\n        self.objs = [\n            NullableJSONModel.objects.create(value={}),\n            NullableJSONModel.objects.create(value={'a': 1}),\n            NullableJSONModel.objects.create(value={'a': None}),\n            NullableJSONModel.objects.create(value={'j': None}),\n            NullableJSONModel.objects.create(value={'b': 2}),\n            NullableJSONModel.objects.create(value=None),\n        ]\n\n    def test_isnull_key(self):\n        self.assertSequenceEqual(\n            NullableJSONModel.objects.filter(value__j__isnull=True),\n            self.objs[:4] + self.objs[5:],\n        )\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13757.py"
+}

@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nFileSystemStorage's base_url method does not handle SCRIPT_NAME.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/files/storage.py",
+            "class_name": "FileSystemStorage",
+            "method_name": "base_url"
+        },
+        {
+            "file_path": "django/templatetags/static.py",
+            "class_name": "PrefixNode",
+            "method_name": "render"
+        },
+        {
+            "file_path": "django/forms/widgets.py",
+            "class_name": "Widget",
+            "method_name": "render"
+        }
+    ]
+}

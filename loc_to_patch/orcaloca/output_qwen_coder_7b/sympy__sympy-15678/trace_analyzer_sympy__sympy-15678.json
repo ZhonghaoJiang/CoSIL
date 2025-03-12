@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "idiff",
+            "file_path": ""
+        },
+        {
+            "keyword": "Eq",
+            "file_path": ""
+        },
+        {
+            "keyword": "idiff",
+            "file_path": "sympy/geometry/util.py"
+        },
+        {
+            "keyword": "f",
+            "file_path": ""
+        },
+        {
+            "keyword": "exp",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import idiff, Eq, exp, f\nidiff(Eq(y*exp(y), x*exp(x)), y, x)\nidiff(f(x)*exp(f(x)) - x*exp(x), f(x), x)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-15678.py"
+}

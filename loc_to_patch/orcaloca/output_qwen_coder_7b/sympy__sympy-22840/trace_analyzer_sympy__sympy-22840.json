@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "t44",
+            "file_path": ""
+        },
+        {
+            "keyword": "MatrixSymbol",
+            "file_path": ""
+        },
+        {
+            "keyword": "ccode",
+            "file_path": ""
+        },
+        {
+            "keyword": "sub_in_matrixsymbols",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sympy as sp\nfrom pprint import pprint\n\ndef sub_in_matrixsymbols(exp, matrices):\n    for matrix in matrices:\n        for i in range(matrix.shape[0]):\n            for j in range(matrix.shape[1]):\n                name = \"%s_%d_%d\" % (matrix.name, i, j)\n                sym = sp.symbols(name)\n                exp = exp.subs(sym, matrix[i, j])\n    return exp\n\ndef t44(name):\n    return sp.Matrix(4, 4, lambda i, j: sp.symbols('%s_%d_%d' % (name, i, j)))\n\n# Construct matrices of symbols that work with our\n# expressions. (MatrixSymbols does not.)\na = t44(\"a\")\nb = t44(\"b\")\n\n# Set up expression. This is a just a simple example.\ne = a * b\n\n# Put in matrixsymbols. (Gives array-input in codegen.)\ne2 = sub_in_matrixsymbols(e, [sp.MatrixSymbol(\"a\", 4, 4), sp.MatrixSymbol(\"b\", 4, 4)])\ncse_subs, cse_reduced = sp.cse(e2)\npprint((cse_subs, cse_reduced))\n\n# Codegen, etc..\nprint(\"ccode:\")\nfor sym, expr in cse_subs:\n    constants, not_c, c_expr = sympy.printing.ccode(\n        expr,\n        human=False,\n        assign_to=sympy.printing.ccode(sym),\n    )\n    assert not constants, constants\n    assert not not_c, not_c\n    print(\"%s\\n\" % c_expr)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-22840.py"
+}

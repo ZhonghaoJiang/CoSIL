@@ -1,0 +1,46 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "only",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "CharField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "query",
+            "file_path": "django/db/models/sql/query.py"
+        },
+        {
+            "keyword": "Company",
+            "file_path": ""
+        },
+        {
+            "keyword": "objects",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "defer",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "bulk_create",
+            "file_path": "django/db/models/query.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\n\nsettings.configure(\n    DEBUG=True,\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    },\n    INSTALLED_APPS=[__name__,],\n)\n\n\nclass Company(models.Model):\n    name = models.CharField(max_length=100)\n    trade_number = models.CharField(max_length=100)\n    country = models.CharField(max_length=100)\n\nCompany.objects.bulk_create([\n    Company(name='Foo', trade_number='123', country='USA'),\n    Company(name='Bar', trade_number='456', country='Canada'),\n])\n\n# Test cases\nqs1 = Company.objects.only('name').defer('name')\nqs2 = Company.objects.only('name').defer('name').defer('country')\nqs3 = Company.objects.only('name', 'country').defer('name')\n\nprint(qs1.query)\nprint(qs2.query)\nprint(qs3.query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14667.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when using select_related() and only() methods on a proxy model. The issue seems to be related to the way Django handles proxy models and their concrete models.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "RelatedPopulator",
+            "method_name": "__init__"
+        }
+    ]
+}

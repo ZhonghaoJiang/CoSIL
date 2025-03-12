@@ -1,0 +1,52 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_new",
+            "file_path": "sympy/matrices/dense.py"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/matrices/dense.py"
+        },
+        {
+            "keyword": "Matrix",
+            "file_path": "sympy/matrices/dense.py"
+        },
+        {
+            "keyword": "BlockDiagMatrix",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_handle_creation_inputs",
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixBase"
+        },
+        {
+            "keyword": "as_explicit",
+            "file_path": "sympy/matrices/expressions/matexpr.py",
+            "class_name": "MatrixExpr"
+        },
+        {
+            "keyword": "__getitem__",
+            "file_path": "sympy/matrices/expressions/matexpr.py",
+            "class_name": "MatrixExpr"
+        },
+        {
+            "keyword": "_entry",
+            "file_path": "sympy/matrices/expressions/blockmatrix.py",
+            "class_name": "BlockMatrix"
+        },
+        {
+            "keyword": "do",
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixBase"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sympy\n\nM = sympy.Matrix([[1, 2], [3, 4]])\nD = sympy.BlockDiagMatrix(M)\nB = sympy.Matrix(D)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-18621.py"
+}

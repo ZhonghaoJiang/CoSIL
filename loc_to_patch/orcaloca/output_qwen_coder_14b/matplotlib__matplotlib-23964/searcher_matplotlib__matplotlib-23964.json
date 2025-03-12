@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the PostScript backend when saving a figure with a multi-line text label containing an empty line. The specific error is in the `draw_text` method of the `backend_ps.py` file.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "C:\\temp\\matplotlib_save_ps\\venv\\lib\\site-packages\\matplotlib\\backends\\backend_ps.py",
+            "class_name": "",
+            "method_name": "draw_text"
+        }
+    ]
+}

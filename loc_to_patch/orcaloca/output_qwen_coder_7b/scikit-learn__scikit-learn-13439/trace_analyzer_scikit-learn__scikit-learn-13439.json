@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "f_regression",
+            "file_path": ""
+        },
+        {
+            "keyword": "samples_generator",
+            "file_path": ""
+        },
+        {
+            "keyword": "svm",
+            "file_path": ""
+        },
+        {
+            "keyword": "len",
+            "file_path": ""
+        },
+        {
+            "keyword": "Pipeline",
+            "file_path": ""
+        },
+        {
+            "keyword": "SelectKBest",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sklearn import svm\nfrom sklearn.datasets import samples_generator\nfrom sklearn.feature_selection import SelectKBest\nfrom sklearn.feature_selection import f_regression\nfrom sklearn.pipeline import Pipeline\n\n# generate some data to play with\nX, y = samples_generator.make_classification(\n    n_informative=5, n_redundant=0, random_state=42)\n\nanova_filter = SelectKBest(f_regression, k=5)\nclf = svm.SVC(kernel='linear')\npipe = Pipeline([('anova', anova_filter), ('svc', clf)])\n\nlen(pipe)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-13439.py"
+}

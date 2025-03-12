@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "linear_model",
+            "file_path": "sklearn/linear_model/__init__.py"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": ""
+        },
+        {
+            "keyword": "RidgeClassifierCV",
+            "file_path": "sklearn/linear_model/ridge.py"
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nfrom sklearn import linear_model as lm\n\n#test database\nn = 100\nx = np.random.randn(n, 30)\ny = np.random.normal(size = n)\n\nrr = lm.RidgeClassifierCV(alphas = np.arange(0.1, 1000, 0.1), normalize = True, \n                                         store_cv_values = True).fit(x, y)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-10297.py"
+}

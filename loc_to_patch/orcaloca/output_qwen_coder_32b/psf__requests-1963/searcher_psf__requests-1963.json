@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method resolve_redirects in sessions.py copies the original request object for all subsequent requests, which can lead to incorrect method selection during redirections.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "requests/sessions.py",
+            "class_name": "Session",
+            "method_name": ""
+        }
+    ]
+}

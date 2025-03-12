@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "bad",
+            "file_path": ""
+        },
+        {
+            "keyword": "error",
+            "file_path": ""
+        },
+        {
+            "keyword": "re",
+            "file_path": ""
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "pylint/lint/run.py"
+        },
+        {
+            "keyword": "run_pylint",
+            "file_path": "pylint/__init__.py"
+        },
+        {
+            "keyword": "escape",
+            "file_path": ""
+        },
+        {
+            "keyword": "_config_initialization",
+            "file_path": "pylint/config/config_initialization.py"
+        },
+        {
+            "keyword": "_parse_configuration_file",
+            "file_path": "pylint/config/arguments_manager.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import re\ntry:\n    pattern = r'[\\p{{Han}}a-z_][\\p{{Han}}a-z0-9_]{{2,30}}$'\n    re.compile(pattern)\nexcept re.error as e:\n    print(e)",
+    "env_reproduce_path": "/pylint-dev__pylint/reproducer_pylint-dev__pylint-7228.py"
+}

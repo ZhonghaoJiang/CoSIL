@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe _combine method in the Q class uses deepcopy, which might be failing due to non-pickleable objects like dict_keys. The __deepcopy__ method in the Node class also uses deepcopy, but it handles children recursively. The __or__ method in the Q class calls _combine, so both methods are potential bug locations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "Q",
+            "method_name": "_combine"
+        },
+        {
+            "file_path": "django/utils/tree.py",
+            "class_name": "Node",
+            "method_name": "__deepcopy__"
+        }
+    ]
+}

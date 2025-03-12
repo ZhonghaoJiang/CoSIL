@@ -1,0 +1,60 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "__init__",
+            "file_path": "xarray/core/dataset.py"
+        },
+        {
+            "keyword": "DataArray",
+            "file_path": "xarray/core/dataarray.py"
+        },
+        {
+            "keyword": "merge_data_and_coords",
+            "file_path": "xarray/core/merge.py"
+        },
+        {
+            "keyword": "MergeError",
+            "file_path": ""
+        },
+        {
+            "keyword": "MergeError",
+            "file_path": "xarray/core/merge.py"
+        },
+        {
+            "keyword": "Dataset",
+            "file_path": "xarray/core/dataset.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "to_stacked_array",
+            "file_path": "xarray/core/dataset.py",
+            "class_name": "Dataset"
+        },
+        {
+            "keyword": "to_unstacked_dataset",
+            "file_path": "xarray/core/dataarray.py",
+            "class_name": "DataArray"
+        },
+        {
+            "keyword": "merge_core",
+            "file_path": "xarray/core/merge.py",
+            "class_name": "_MergeResult"
+        },
+        {
+            "keyword": "merge_collected",
+            "file_path": "xarray/core/merge.py",
+            "class_name": "MergeError"
+        },
+        {
+            "keyword": "unique_variable",
+            "file_path": "xarray/core/merge.py",
+            "class_name": "MergeError"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport xarray as xr\n\narr = xr.DataArray(\n     np.arange(3),\n     coords=[(\"x\", [0, 1, 2])],\n )\ndata = xr.Dataset({\"a\": arr, \"b\": arr})\nstacked = data.to_stacked_array('y', sample_dims=['x'])\nunstacked = stacked.to_unstacked_dataset('y')\n",
+    "env_reproduce_path": "/pydata__xarray/reproducer_pydata__xarray-4094.py"
+}

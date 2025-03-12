@@ -1,0 +1,54 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "dump_load_get_dpi",
+            "file_path": ""
+        },
+        {
+            "keyword": "OverflowError",
+            "file_path": ""
+        },
+        {
+            "keyword": "fig",
+            "file_path": ""
+        },
+        {
+            "keyword": "x",
+            "file_path": ""
+        },
+        {
+            "keyword": "run",
+            "file_path": ""
+        },
+        {
+            "keyword": "pickle",
+            "file_path": ""
+        },
+        {
+            "keyword": "matplotlib",
+            "file_path": ""
+        },
+        {
+            "keyword": "y",
+            "file_path": ""
+        },
+        {
+            "keyword": "platform",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nimport matplotlib\nimport matplotlib.pyplot as plt\nimport pickle\nimport platform\n\nprint(matplotlib.get_backend())\nprint('Matplotlib ver:', matplotlib.__version__)\nprint('Platform:', platform.platform())\nprint('System:', platform.system())\nprint('Release:', platform.release())\nprint('Python ver:', platform.python_version())\n\nfig = plt.figure()\nx = np.linspace(0,2*np.pi)\ny = np.sin(x)\n\nfor i in range(32):\n    print(f'{i}: {fig.dpi}')\n    fig, dpi = dump_load_get_dpi(fig)\n\n\ndef dump_load_get_dpi(fig):\n    with open('sinus.pickle','wb') as file:\n        pickle.dump(fig, file)\n\n    with open('sinus.pickle', 'rb') as blob:\n        fig2 = pickle.load(blob)\n    return fig2, fig2.dpi\n\n\nif __name__ == '__main__':\n    run()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23476.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when hue_order does not contain all hue values in seaborn 0.11.1. The issue seems to be related to the handling of NaN values in the hue column.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "seaborn/axisgrid.py",
+            "class_name": "PairGrid",
+            "method_name": "map_diag"
+        }
+    ]
+}

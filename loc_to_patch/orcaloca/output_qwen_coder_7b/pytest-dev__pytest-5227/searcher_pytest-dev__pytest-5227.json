@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nDEFAULT_LOG_FORMAT is defined in src/_pytest/logging.py and used in ColoredLevelFormatter's format method. get_option_ini function is also defined in the same file.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/logging.py",
+            "class_name": "ColoredLevelFormatter",
+            "method_name": "format"
+        },
+        {
+            "file_path": "src/_pytest/logging.py",
+            "class_name": "ColoredLevelFormatter",
+            "method_name": "__init__"
+        }
+    ]
+}

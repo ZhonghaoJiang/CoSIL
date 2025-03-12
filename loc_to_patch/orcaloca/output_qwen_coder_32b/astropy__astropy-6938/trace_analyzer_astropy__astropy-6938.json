@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "replace",
+            "file_path": ""
+        },
+        {
+            "keyword": "encode_ascii",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\n        # Replace exponent separator in floating point numbers\n        if 'D' in format:\n            output_field.replace(encode_ascii('E'), encode_ascii('D'))\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

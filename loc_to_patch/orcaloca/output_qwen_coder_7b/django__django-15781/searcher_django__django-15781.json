@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe help output is consistent, but the code snippet provided does not match the expected usage. The help output shows two examples, but the code snippet only includes one example.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/commands/dumpdata.py",
+            "class_name": "Command",
+            "method_name": "handle"
+        }
+    ]
+}

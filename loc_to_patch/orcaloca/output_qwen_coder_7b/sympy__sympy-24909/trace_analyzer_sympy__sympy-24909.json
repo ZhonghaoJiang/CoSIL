@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "W",
+            "file_path": ""
+        },
+        {
+            "keyword": "milli",
+            "file_path": ""
+        },
+        {
+            "keyword": "watt",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy.physics.units import milli, W\nprint(milli*W)\nprint(W*milli)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24909.py"
+}

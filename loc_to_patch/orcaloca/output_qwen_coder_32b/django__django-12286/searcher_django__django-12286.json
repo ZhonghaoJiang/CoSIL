@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to how Django handles sublanguages when a base language is available. The error E004 is raised when the specified sublanguage is not in the LANGUAGES setting, even though the base language is available. We need to check the implementation of the LANGUAGES setting and how Django processes the LANGUAGE_CODE.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/conf/global_settings.py",
+            "class_name": "",
+            "method_name": "check_for_language_code"
+        },
+        {
+            "file_path": "django/core/checks/translation.py",
+            "class_name": "",
+            "method_name": "check_language_code"
+        }
+    ]
+}

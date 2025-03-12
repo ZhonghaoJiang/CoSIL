@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nCannot find the methods __str__, __repr__, or _repr_html_ in DatasetGroupBy. Searching the entire file groupby.py for any method that might be responsible for generating the text representation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "xarray/core/groupby.py",
+            "class_name": "DatasetGroupBy",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe delete() method in the Collector class does not clear the primary key (PK) after the deletion. The issue is located in the Django.db.models.deletion module, specifically in the delete() method of the Collector class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/deletion.py",
+            "class_name": "Collector",
+            "method_name": "delete"
+        }
+    ]
+}

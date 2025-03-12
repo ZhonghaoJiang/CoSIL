@@ -1,0 +1,14 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "set_xlim",
+            "file_path": "lib/matplotlib/axes/_base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "```python\nmatplotlib/lib/matplotlib/axes/_base.py:\n\n/.../\ndef set_xlim(...)\n/.../\n        if emit:\n            self.callbacks.process('xlim_changed', self)\n            # Call all of the other x-axes that are shared with this one\n            for other in self._shared_x_axes.get_siblings(self):\n                if other is not self:\n                    other.set_xlim(self.viewLim.intervalx,\n                                   emit=False, auto=auto)\n```",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

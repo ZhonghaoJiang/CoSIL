@@ -1,0 +1,78 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "UserProfile",
+            "file_path": ""
+        },
+        {
+            "keyword": "ModelForm",
+            "file_path": ""
+        },
+        {
+            "keyword": "_",
+            "file_path": ""
+        },
+        {
+            "keyword": "UserProfileAdmin",
+            "file_path": ""
+        },
+        {
+            "keyword": "UserAdmin",
+            "file_path": "django/contrib/auth/admin.py"
+        },
+        {
+            "keyword": "setup_django_env",
+            "file_path": ""
+        },
+        {
+            "keyword": "ReadOnlyPasswordHashField",
+            "file_path": ""
+        },
+        {
+            "keyword": "admin",
+            "file_path": "django/contrib/admin/__init__.py"
+        },
+        {
+            "keyword": "UserChangeForm",
+            "file_path": ""
+        },
+        {
+            "keyword": "path",
+            "file_path": "django/urls/conf.py"
+        },
+        {
+            "keyword": "User",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "TestUserAdmin",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "setup_test_environment",
+            "file_path": "django/test/utils.py"
+        },
+        {
+            "keyword": "Client",
+            "file_path": "django/test/client.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\nclass UserChangeForm(forms.ModelForm):\n    password = ReadOnlyPasswordHashField(\n        label=_('Password'),\n        help_text=_(\n            'Raw passwords are not stored, so there is no way to see this '\n            'user\\u2019s password, but you can change the password using '\n            '<a href=\"{}\">this form</a>.'\n        ),\n    )\n    ...\n    ...\n    def __init__(self, *args, **kwargs):\n        super().__init__(*args, **kwargs)\n        password = self.fields.get(\"password\")\n        if password:\n            password.help_text = password.help_text.format(\"../password/\")\n    ...\n    ...\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.contrib.auth.admin import UserAdmin\nfrom django.contrib import admin\nfrom django.contrib.auth.models import User\nfrom django.urls import path\nfrom django.conf import settings\nfrom django.test.utils import setup_test_environment\nfrom django.test import TestCase\nfrom django.test.client import Client\n\n# Set up Django environment\ndef setup_django_env():\n    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\n    setup_test_environment()\n    settings.configure(\n        DEBUG=True,\n        INSTALLED_APPS=[\n            'django.contrib.admin',\n            'django.contrib.auth',\n            'django.contrib.contenttypes',\n            'django.contrib.sessions',\n            'django.contrib.messages',\n            'django.contrib.staticfiles',\n        ],\n        ROOT_URLCONF=__name__,\n        DATABASES={\n            'default': {\n                'ENGINE': 'django.db.backends.sqlite3',\n                'NAME': ':memory:',\n            }\n        },\n        MIDDLEWARE=[\n            'django.middleware.security.SecurityMiddleware',\n            'django.contrib.sessions.middleware.SessionMiddleware',\n            'django.middleware.common.CommonMiddleware',\n            'django.middleware.csrf.CsrfViewMiddleware',\n            'django.contrib.auth.middleware.AuthenticationMiddleware',\n            'django.contrib.messages.middleware.MessageMiddleware',\n            'django.middleware.clickjacking.XFrameOptionsMiddleware',\n        ],\n        TEMPLATES=[\n            {\n                'BACKEND': 'django.template.backends.django.DjangoTemplates',\n                'DIRS': [],\n                'APP_DIRS': True,\n                'OPTIONS': {\n                    'context_processors': [\n                        'django.template.context_processors.debug',\n                        'django.template.context_processors.request',\n                        'django.contrib.auth.context_processors.auth',\n                        'django.contrib.messages.context_processors.messages',\n                    ],\n                },\n            },\n        ],\n        STATIC_URL='/static/',\n    )\n\nsetup_django_env()\n\n# Example model referencing User with to_field\nfrom django.db import models\nclass UserProfile(models.Model):\n    user = models.OneToOneField(User, on_delete=models.CASCADE, to_field='uuid')\n    bio = models.TextField()\n\nclass UserProfileAdmin(admin.ModelAdmin):\n    list_display = ('user', 'bio')\n\nadmin.site.register(UserProfile, UserProfileAdmin)\n\n# URL configuration\nurlpatterns = [\n    path('admin/', admin.site.urls),\n]\n\nclass TestUserAdmin(TestCase):\n    def setUp(self):\n        self.client = Client()\n        self.user = User.objects.create_user(username='testuser', password='testpass', uuid='22222222-3333-4444-5555-666677778888')\n        self.user_profile = UserProfile.objects.create(user=self.user, bio='Test Bio')\n        self.client.login(username='testuser', password='testpass')\n\n    def test_user_admin_to_field(self):\n        response = self.client.get(f'/admin/auth/user/{self.user.uuid}/change/?_to_field=uuid')\n        self.assertEqual(response.status_code, 200)\n        self.assertContains(response, '<a href=\"../../{}/password/\">this form</a>'.format(self.user.pk))",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16139.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe addoption method in the OptionGroup class is responsible for adding options. We need to check where the --collect-only option is added.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/config/argparsing.py",
+            "class_name": "OptionGroup",
+            "method_name": "addoption"
+        }
+    ]
+}

@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "n",
+            "file_path": ""
+        },
+        {
+            "keyword": "m",
+            "file_path": ""
+        },
+        {
+            "keyword": "set",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "diophantine",
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "classify_diop",
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "diop_solve",
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_diop_general_sum_of_even_powers",
+            "file_path": "sympy/solvers/diophantine.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "signed_permutations",
+            "file_path": "sympy/utilities/iterables.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy.solvers.diophantine import diophantine\nfrom sympy.abc import n, m\nprint(diophantine(n**4 + m**4 - 2**4 - 3**4, syms=(m,n), permute=True))\nprint(diophantine(n**4 + m**4 - 2**4 - 3**4, syms=(n,m), permute=True))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-18189.py"
+}

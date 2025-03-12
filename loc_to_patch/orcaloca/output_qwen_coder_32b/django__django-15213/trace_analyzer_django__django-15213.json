@@ -1,0 +1,58 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "BooleanField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "post_migrate",
+            "file_path": "django/db/models/signals.py"
+        },
+        {
+            "keyword": "ExpressionWrapper",
+            "file_path": "django/db/models/expressions.py"
+        },
+        {
+            "keyword": "setUp",
+            "file_path": ""
+        },
+        {
+            "keyword": "pre_migrate",
+            "file_path": "django/db/models/signals.py"
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "TestExpressionWrapper",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "Q",
+            "file_path": "django/db/models/query_utils.py"
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db.models import BooleanField, Q, ExpressionWrapper\nfrom django.db import models\nfrom django.test import TestCase\n\nclass TestExpressionWrapper(TestCase):\n    def setUp(self):\n        settings.configure(INSTALLED_APPS=['django.contrib.contenttypes'])\n        models.signals.post_migrate.disconnect(\n            dispatch_uid='create_permissions'\n        )\n        models.signals.pre_migrate.disconnect(\n            dispatch_uid='remove_stale_contenttypes'\n        )\n        self.call_command('migrate')\n\n    def test_expression_wrapper(self):\n        class MyModel(models.Model):\n            pass\n\n        queryset = MyModel.objects.all()\n\n        # Working case\n        print(queryset.annotate(foo=ExpressionWrapper(Q(pk__in=[]), output_field=BooleanField())).values(\"foo\").query)\n\n        # Not working case\n        print(queryset.annotate(foo=ExpressionWrapper(~Q(pk__in=[]), output_field=BooleanField())).values(\"foo\").query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15213.py"
+}

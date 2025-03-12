@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nThe search results show the implementation of the `unique_labels` function in `sklearn/utils/multiclass.py`. The function checks the types of the input labels and raises a `ValueError` if there is a mix of label types. The issue might be related to how the function handles nullable pandas dtypes ('Int64', 'Float64', 'boolean'). We need to investigate further to understand how these dtypes are being treated and if there are any specific checks or conversions needed.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/utils/multiclass.py",
+            "class_name": "",
+            "method_name": "unique_labels"
+        },
+        {
+            "file_path": "sklearn/utils/multiclass.py",
+            "class_name": "",
+            "method_name": "_unique_multiclass"
+        },
+        {
+            "file_path": "sklearn/utils/multiclass.py",
+            "class_name": "",
+            "method_name": "_unique_indicator"
+        }
+    ]
+}

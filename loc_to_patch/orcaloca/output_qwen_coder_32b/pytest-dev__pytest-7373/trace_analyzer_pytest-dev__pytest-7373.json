@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "sys",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "# test_module_1.py\nimport pytest\n\nskip = True\n\n@pytest.mark.skipif(\"skip\")\ndef test_should_skip():\n    assert False\n\n# test_module_2.py\nimport pytest\n\nskip = False\n\n@pytest.mark.skipif(\"skip\")\ndef test_should_not_skip():\n    assert False\n\nif __name__ == \"__main__\":\n    import sys\n    pytest.main([\"test_module_1.py\", \"test_module_2.py\"])",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-7373.py"
+}

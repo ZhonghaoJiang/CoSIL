@@ -1,0 +1,132 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/backends/backend_agg.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/axes/_base.py"
+        },
+        {
+            "keyword": "_process_values",
+            "file_path": "lib/matplotlib/colorbar.py"
+        },
+        {
+            "keyword": "show",
+            "file_path": "lib/matplotlib/backend_bases.py"
+        },
+        {
+            "keyword": "_draw_all",
+            "file_path": "lib/matplotlib/colorbar.py"
+        },
+        {
+            "keyword": "_draw_idle",
+            "file_path": "lib/matplotlib/backends/backend_qt.py"
+        },
+        {
+            "keyword": "_draw_list_compositing_images",
+            "file_path": "lib/matplotlib/image.py"
+        },
+        {
+            "keyword": "ion",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "update_scalarmappable",
+            "file_path": "lib/matplotlib/collections.py"
+        },
+        {
+            "keyword": "update_normal",
+            "file_path": "lib/matplotlib/colorbar.py"
+        },
+        {
+            "keyword": "_changed",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "colorbar",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "process",
+            "file_path": "lib/matplotlib/cbook.py"
+        },
+        {
+            "keyword": "LogNorm",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "changed",
+            "file_path": "lib/matplotlib/cm.py"
+        },
+        {
+            "keyword": "inverse",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "to_rgba",
+            "file_path": "lib/matplotlib/cm.py"
+        },
+        {
+            "keyword": "__call__",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "_exception_printer",
+            "file_path": "lib/matplotlib/cbook.py"
+        },
+        {
+            "keyword": "plt",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "subplots",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "pause",
+            "file_path": "lib/matplotlib/pyplot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "norm",
+            "file_path": "lib/matplotlib/cm.py",
+            "class_name": "ScalarMappable"
+        },
+        {
+            "keyword": "autoscale",
+            "file_path": "lib/matplotlib/cm.py",
+            "class_name": "ScalarMappable"
+        },
+        {
+            "keyword": "pcolormesh",
+            "file_path": "lib/matplotlib/axes/_axes.py",
+            "class_name": "Axes"
+        },
+        {
+            "keyword": "autoscale",
+            "file_path": "lib/matplotlib/colors.py",
+            "class_name": "Normalize"
+        },
+        {
+            "keyword": "vmin",
+            "file_path": "lib/matplotlib/colors.py",
+            "class_name": "Normalize"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport matplotlib.pyplot as plt\nfrom matplotlib.colors import LogNorm\nimport numpy as np\n\n# create some random data to fill a 2d plot\nrng = np.random.default_rng(0)\nimg = rng.uniform(1, 5, (25, 25))\n\n# plot it\nfig, ax = plt.subplots(layout=\"constrained\")\nplot = ax.pcolormesh(img)\ncbar = fig.colorbar(plot, ax=ax)\n\nvmin = 1\nvmax = 5\n\nplt.ion()\nfig.show()\nplt.pause(0.5)\n\nplot.norm = LogNorm(vmin, vmax)\nplot.autoscale()\nplt.pause(0.5)\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-25079.py"
+}

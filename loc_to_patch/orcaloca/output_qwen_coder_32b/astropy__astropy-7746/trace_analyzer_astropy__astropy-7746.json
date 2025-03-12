@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_return_list_of_arrays",
+            "file_path": "astropy/wcs/wcs.py"
+        },
+        {
+            "keyword": "WCS",
+            "file_path": "astropy/wcs/__init__.py"
+        },
+        {
+            "keyword": "wcs_pix2world",
+            "file_path": "astropy/wcs/wcs.py"
+        },
+        {
+            "keyword": "_array_converter",
+            "file_path": "astropy/wcs/wcs.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from astropy.wcs import WCS\n\nwcs = WCS('2MASS_h.fits')\nwcs.wcs_pix2world([], [], 0)",
+    "env_reproduce_path": "/astropy__astropy/reproducer_astropy__astropy-7746.py"
+}

@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Documenter",
+            "file_path": ""
+        },
+        {
+            "keyword": "Sphinx",
+            "file_path": "sphinx/application.py"
+        },
+        {
+            "keyword": "AutodocDirective",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom sphinx.ext.autodoc import Documenter, Sphinx\nfrom sphinx.application import Sphinx\n\n# Create necessary directories and files\nos.makedirs('source', exist_ok=True)\nos.makedirs('build', exist_ok=True)\nwith open('source/conf.py', 'w') as f:\n    f.write('extensions = [\\'sphinx.ext.autodoc\\']\\n')\nwith open('source/index.rst', 'w') as f:\n    f.write('.. autoclass:: example.Bar\\n   :members:\\n   :inherited-members:\\n')\n\n# Define classes\nwith open('source/example.py', 'w') as f:\n    f.write('class Foo:\\n    \\'\\'\\'docstring\\'\\'\\'\\n    attr1: int  #:\\' docstring\\'\\'\\'\\n\\nclass Bar(Foo):\\n    \\'\\'\\'docstring\\'\\'\\'\\n    attr2: str  #:\\' docstring\\'\\'\\'\\n')\n\n# Initialize Sphinx app\napp = Sphinx('source', 'build', 'source/_templates', 'build/_doctrees', 'html')\napp.setup_extension('sphinx.ext.autodoc')\n\n# Run autodoc directive\nfrom sphinx.ext.autodoc import AutodocDirective\n\ndirective = AutodocDirective(name='autoclass', arguments=['example.Bar'], options={'members': None, 'inherited-members': None}, content=[], lineno=0, content_offset=0, block_text='', state=None, state_machine=None)\ndirective.run()",
+    "env_reproduce_path": "/sphinx-doc__sphinx/reproducer_sphinx-doc__sphinx-8801.py"
+}

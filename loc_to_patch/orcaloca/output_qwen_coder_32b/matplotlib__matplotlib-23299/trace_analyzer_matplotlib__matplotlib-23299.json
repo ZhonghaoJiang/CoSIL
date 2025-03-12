@@ -1,0 +1,64 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "plt",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "get_backend",
+            "file_path": "lib/matplotlib/__init__.py"
+        },
+        {
+            "keyword": "_pylab_helpers",
+            "file_path": ""
+        },
+        {
+            "keyword": "FigureManagerQT",
+            "file_path": "lib/matplotlib/backends/backend_qt.py"
+        },
+        {
+            "keyword": "figure",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "Gcf",
+            "file_path": "lib/matplotlib/_pylab_helpers.py"
+        },
+        {
+            "keyword": "rc_context",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__getitem__",
+            "file_path": "lib/matplotlib/__init__.py",
+            "class_name": "RcParams"
+        },
+        {
+            "keyword": "_get_backend_mod",
+            "file_path": "lib/matplotlib/pyplot.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__setitem__",
+            "file_path": "lib/matplotlib/__init__.py",
+            "class_name": "RcParams"
+        },
+        {
+            "keyword": "switch_backend",
+            "file_path": "lib/matplotlib/pyplot.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "backend_mod",
+            "file_path": "lib/matplotlib/pyplot.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport matplotlib.pyplot as plt\nfrom matplotlib import get_backend, rc_context\n\n# fig1 = plt.figure()  # <- UNCOMMENT THIS LINE AND IT WILL WORK\n# plt.ion()            # <- ALTERNATIVELY, UNCOMMENT THIS LINE AND IT WILL ALSO WORK\nwith rc_context():\n    fig2 = plt.figure()\nbefore = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\nget_backend()\nafter = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\n\nassert before == after, '\\n' + before + '\\n' + after\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23299.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method _recursive_to_string is responsible for converting arguments to strings, and it seems to be missing a comma when handling tuples with one element.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pytest",
+            "file_path": ""
+        },
+        {
+            "keyword": "private_dir",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_show_wrong_path",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nimport errno\nimport shutil\n\nimport pytest\n\n\n@pytest.fixture\ndef private_dir():  # or (monkeypatch)\n    out_dir = 'ddd'\n\n    try:\n        shutil.rmtree(out_dir)\n    except OSError as ex:\n        if ex.errno != errno.ENOENT:\n            raise\n    os.mkdir(out_dir)\n\n    old_dir = os.getcwd()\n    os.chdir(out_dir)\n    yield out_dir\n    os.chdir(old_dir)\n\n    # Same issue if using:\n    # monkeypatch.chdir(out_dir)\n\ndef test_show_wrong_path(private_dir):\n    assert False\n\nif __name__ == '__main__':\n    pytest.main(['-v', 'test_path_error.py'])\n",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-7220.py"
+}

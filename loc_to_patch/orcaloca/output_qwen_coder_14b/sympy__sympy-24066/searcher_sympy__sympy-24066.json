@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method _collect_factor_and_dimension in the SI class is not handling the exponential function correctly. We need to investigate the implementation of this method to find the bug.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/physics/units/systems/si.py",
+            "class_name": "SI",
+            "method_name": ""
+        }
+    ]
+}

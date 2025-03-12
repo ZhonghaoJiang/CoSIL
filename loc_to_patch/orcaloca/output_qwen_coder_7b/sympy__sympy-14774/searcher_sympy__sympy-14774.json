@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe inv_trig_table is missing acsc and asec entries, causing incorrect inverse trig function names in latex output.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/printing/latex.py",
+            "class_name": "",
+            "method_name": "latex"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe bug is related to the SQLCompiler.get_order_by() method, specifically in how it handles multiline RawSQL expressions.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/sql/compiler.py",
+            "class_name": "SQLCompiler",
+            "method_name": "get_order_by"
+        }
+    ]
+}

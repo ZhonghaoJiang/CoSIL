@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nManyToManyField's __init__ method does not check for related_name when symmetrical is True. The _check_relationship_model method should be responsible for this check.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "_check_relationship_model"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": ""
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "_get_field_name"
+        }
+    ]
+}

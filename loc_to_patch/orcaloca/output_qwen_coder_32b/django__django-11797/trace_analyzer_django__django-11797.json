@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "Max",
+            "file_path": "django/db/models/aggregates.py"
+        },
+        {
+            "keyword": "django",
+            "file_path": ""
+        },
+        {
+            "keyword": "User",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/contrib/auth/models.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nimport django\ndjango.setup()\nfrom django.contrib.auth import models\nfrom django.db.models import Max\n\na = models.User.objects.filter(email__isnull=True).values('email').annotate(m=Max('id')).values('m')\nprint(a.query) # good\n# SELECT MAX(\"auth_user\".\"id\") AS \"m\" FROM \"auth_user\" WHERE \"auth_user\".\"email\" IS NULL GROUP BY \"auth_user\".\"email\"\nprint(a[:1].query) # good\n# SELECT MAX(\"auth_user\".\"id\") AS \"m\" FROM \"auth_user\" WHERE \"auth_user\".\"email\" IS NULL GROUP BY \"auth_user\".\"email\" LIMIT 1\nb = models.User.objects.filter(id__in=a[:1].values_list('m', flat=True))\nprint(b.query) # GROUP BY U0.\"id\" should be GROUP BY U0.\"email\"\n# SELECT ... FROM \"auth_user\" WHERE \"auth_user\".\"id\" IN (SELECT U0.\"id\" FROM \"auth_user\" U0 WHERE U0.\"email\" IS NULL GROUP BY U0.\"email\" LIMIT 1)\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-11797.py"
+}

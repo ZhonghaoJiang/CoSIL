@@ -1,0 +1,44 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "plt",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "mtri",
+            "file_path": ""
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "figure",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "get_facecolors",
+            "file_path": ""
+        },
+        {
+            "keyword": "add_subplot",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "method",
+            "file_path": "lib/matplotlib/_api/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "get_facecolor",
+            "file_path": "lib/mpl_toolkits/mplot3d/art3d.py",
+            "class_name": "Poly3DCollection"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport matplotlib.tri as mtri\nimport matplotlib.pyplot as plt\nfrom mpl_toolkits.mplot3d import Axes3D\n\ny,x = np.ogrid[1:10:100j, 1:10:100j]\nz2 = np.cos(x)**3 - np.sin(y)**2\nfig = plt.figure()\nax = fig.add_subplot(111, projection='3d')\nr = ax.plot_surface(x,y,z2, cmap='hot')\nr.get_facecolors()\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23562.py"
+}

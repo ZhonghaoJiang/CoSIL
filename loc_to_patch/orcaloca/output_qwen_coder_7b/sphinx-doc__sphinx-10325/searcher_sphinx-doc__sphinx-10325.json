@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe :inherited-members: option in automodule does not support a list of classes to ignore.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        },
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        }
+    ]
+}

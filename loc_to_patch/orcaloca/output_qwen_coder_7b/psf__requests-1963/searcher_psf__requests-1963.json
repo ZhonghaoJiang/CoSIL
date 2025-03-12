@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method resolve_redirects in the Session class is likely the source of the bug. It incorrectly changes the HTTP method during a redirection chain.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "requests/sessions.py",
+            "class_name": "Session",
+            "method_name": ""
+        }
+    ]
+}

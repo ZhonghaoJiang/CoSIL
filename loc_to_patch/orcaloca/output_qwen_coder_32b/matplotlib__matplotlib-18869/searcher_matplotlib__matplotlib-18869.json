@@ -1,0 +1,30 @@
+{
+    "conclusion": "<Observation>\nFound multiple __version__ definitions in different files. The main __init__.py file defines __version__ using __getattr__, which fetches the version dynamically. Other files have static __version__ definitions.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/__init__.py",
+            "class_name": "",
+            "method_name": "__getattr__"
+        },
+        {
+            "file_path": "lib/matplotlib/backends/qt_editor/_formlayout.py",
+            "class_name": "",
+            "method_name": ""
+        },
+        {
+            "file_path": "lib/matplotlib/sphinxext/plot_directive.py",
+            "class_name": "",
+            "method_name": "setup"
+        },
+        {
+            "file_path": "lib/matplotlib/sphinxext/plot_directive.py",
+            "class_name": "",
+            "method_name": ""
+        },
+        {
+            "file_path": "lib/matplotlib/sankey.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

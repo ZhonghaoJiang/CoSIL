@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the `set_val` method of the `RangeSlider` class in the `matplotlib.widgets` module. The issue is that the line `xy[4] = val[0], .25` is trying to access an index that is out of bounds for the `xy` array.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "Vincent/opt/anaconda3/envs/py38/lib/python3.8/site-packages/matplotlib/widgets.py",
+            "class_name": "RangeSlider",
+            "method_name": ""
+        }
+    ]
+}

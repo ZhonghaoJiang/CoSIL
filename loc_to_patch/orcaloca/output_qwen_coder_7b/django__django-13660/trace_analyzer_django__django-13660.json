@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "handle",
+            "file_path": "django/core/management/commands/shell.py"
+        },
+        {
+            "keyword": "f",
+            "file_path": ""
+        },
+        {
+            "keyword": "django",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import django\n\ndef f():\n    print(django.__version__)\n    f()\n\nif __name__ == '__main__':\n    f()",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13660.py"
+}

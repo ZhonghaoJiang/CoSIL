@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nset_visible() not found in Axes3D. Alternative methods like set_axis_off() and set_axis_on() are available.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/mpl_toolkits/mplot3d/axes3d.py",
+            "class_name": "Axes3D",
+            "method_name": ""
+        }
+    ]
+}

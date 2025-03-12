@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nparse_latex function is responsible for parsing LaTeX expressions. The issue seems to be related to the handling of nested fractions.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/parsing/latex/_parse_latex_antlr.py",
+            "class_name": "",
+            "method_name": "parse_latex"
+        }
+    ]
+}

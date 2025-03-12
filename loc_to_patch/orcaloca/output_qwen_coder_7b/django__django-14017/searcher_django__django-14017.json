@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe __rand__ method is missing in the Exists class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/expressions.py",
+            "class_name": "Exists",
+            "method_name": ""
+        }
+    ]
+}

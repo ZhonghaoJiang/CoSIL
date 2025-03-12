@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the set_xlim method in the _base.py file, specifically the handling of the emit parameter.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "matplotlib/lib/matplotlib/axes/_base.py",
+            "class_name": "",
+            "method_name": "set_xlim"
+        }
+    ]
+}

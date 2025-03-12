@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe _delete_composed_index method in django/db/backends/base/schema.py raises a ValueError when it finds more than one constraint for the specified fields, which is likely due to both unique_together and index_together constraints being present on the same fields.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/backends/base/schema.py",
+            "class_name": "BaseDatabaseSchemaEditor",
+            "method_name": "_delete_composed_index"
+        }
+    ]
+}

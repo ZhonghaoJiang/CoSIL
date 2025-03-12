@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sympify",
+            "file_path": ""
+        },
+        {
+            "keyword": "ceiling",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sympy\nsympy.sympify('4*ceiling(x/4 - 3/4)', evaluate=False).simplify()\nsympy.sympify('4*ceiling(x/4 - 3/4)', evaluate=True).simplify()",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-20322.py"
+}

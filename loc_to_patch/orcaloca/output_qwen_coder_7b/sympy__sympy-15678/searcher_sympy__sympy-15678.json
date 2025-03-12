@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nidiff function does not support Eq or f(x) expressions\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/geometry/util.py",
+            "class_name": "",
+            "method_name": "idiff"
+        }
+    ]
+}

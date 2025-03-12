@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "doprint",
+            "file_path": "sympy/printing/mathml.py"
+        },
+        {
+            "keyword": "_print_Basic",
+            "file_path": "sympy/printing/mathml.py"
+        },
+        {
+            "keyword": "printing",
+            "file_path": ""
+        },
+        {
+            "keyword": "_print",
+            "file_path": "sympy/printing/printer.py"
+        },
+        {
+            "keyword": "sympy",
+            "file_path": ""
+        },
+        {
+            "keyword": "abc",
+            "file_path": "sympy/abc.py"
+        },
+        {
+            "keyword": "IndexedBase",
+            "file_path": "sympy/tensor/indexed.py"
+        },
+        {
+            "keyword": "mathml",
+            "file_path": "sympy/printing/mathml.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sympy\nfrom sympy.abc import (a, b)\ntry:\n    sympy.printing.mathml(sympy.IndexedBase(a)[b])\nexcept Exception as e:\n    print(e)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-16106.py"
+}

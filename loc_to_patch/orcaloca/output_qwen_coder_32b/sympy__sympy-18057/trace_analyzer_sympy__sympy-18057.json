@@ -1,0 +1,52 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Symbol",
+            "file_path": "sympy/core/symbol.py"
+        },
+        {
+            "keyword": "Symbol",
+            "file_path": "sympy/core/expr.py"
+        },
+        {
+            "keyword": "__repr__",
+            "file_path": ""
+        },
+        {
+            "keyword": "C",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__eq__",
+            "file_path": "sympy/core/expr.py",
+            "class_name": "Expr"
+        },
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "CantSympify"
+        },
+        {
+            "keyword": "parse_expr",
+            "file_path": "sympy/parsing/sympy_parser.py",
+            "class_name": "ParenthesisGroup"
+        },
+        {
+            "keyword": "eval_expr",
+            "file_path": "sympy/parsing/sympy_parser.py",
+            "class_name": "ParenthesisGroup"
+        },
+        {
+            "keyword": "stringify_expr",
+            "file_path": "sympy/parsing/sympy_parser.py",
+            "class_name": "ParenthesisGroup"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sympy\nclass C:\n    def __repr__(self):\n        return 'x.y'\n_ = sympy.Symbol('x') == C()\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-18057.py"
+}

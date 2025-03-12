@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\ncheck_array function does not handle pandas DataFrames correctly, as it does not raise a warning when warn_on_dtype is True and the input is a DataFrame.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/utils/validation.py",
+            "class_name": "",
+            "method_name": "check_array"
+        }
+    ]
+}

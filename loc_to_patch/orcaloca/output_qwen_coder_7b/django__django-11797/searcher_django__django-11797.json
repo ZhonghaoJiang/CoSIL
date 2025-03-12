@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the GROUP BY clause in the subquery used in the filter condition.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/models.py",
+            "class_name": "User",
+            "method_name": ""
+        }
+    ]
+}

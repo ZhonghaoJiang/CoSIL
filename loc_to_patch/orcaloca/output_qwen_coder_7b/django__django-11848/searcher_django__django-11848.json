@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nparse_http_date function is incorrectly handling two-digit years. http_date function is not related to the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/utils/http.py",
+            "class_name": "",
+            "method_name": "parse_http_date"
+        }
+    ]
+}

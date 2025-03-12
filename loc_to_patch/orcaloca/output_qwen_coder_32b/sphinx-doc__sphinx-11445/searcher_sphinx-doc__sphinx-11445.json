@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nCannot find the definition of 'process_docname'. Need to investigate how Sphinx handles rst_prolog and domain directives.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/environment/adapters/toctree.py",
+            "class_name": "",
+            "method_name": "process_docname"
+        },
+        {
+            "file_path": "sphinx/parsers/rst/__init__.py",
+            "class_name": "",
+            "method_name": "parse"
+        }
+    ]
+}

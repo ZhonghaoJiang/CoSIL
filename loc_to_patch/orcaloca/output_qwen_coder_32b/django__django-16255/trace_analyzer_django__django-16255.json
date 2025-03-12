@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "_get_response",
+            "file_path": "django/core/handlers/base.py"
+        },
+        {
+            "keyword": "inner",
+            "file_path": "django/core/handlers/exception.py"
+        },
+        {
+            "keyword": "index",
+            "file_path": "django/contrib/sitemaps/views.py"
+        },
+        {
+            "keyword": "get_latest_lastmod",
+            "file_path": "django/contrib/sitemaps/__init__.py"
+        },
+        {
+            "keyword": "_wrapped_view",
+            "file_path": ""
+        },
+        {
+            "keyword": "inner",
+            "file_path": "django/contrib/sitemaps/views.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe current logging format in DEFAULT_LOG_FORMAT does not include the module name. The problem statement suggests changing the format to include the module name.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/logging.py",
+            "class_name": "",
+            "method_name": "DEFAULT_LOG_FORMAT"
+        }
+    ]
+}

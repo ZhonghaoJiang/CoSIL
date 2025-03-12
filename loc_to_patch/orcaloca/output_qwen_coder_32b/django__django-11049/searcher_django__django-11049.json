@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe DurationField class in django/db/models/fields/__init__.py has the incorrect error message format in its default_error_messages dictionary. The to_python method in the same file raises a ValidationError with the incorrect format message.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/__init__.py",
+            "class_name": "DurationField",
+            "method_name": "to_python"
+        },
+        {
+            "file_path": "django/db/models/fields/__init__.py",
+            "class_name": "DurationField",
+            "method_name": ""
+        }
+    ]
+}

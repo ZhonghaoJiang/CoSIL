@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe UniqueConstraint class does not check if the fields exist in the model. The constraint_sql and create_sql methods assume the fields exist and attempt to retrieve their columns. We need to find where makemigrations processes UniqueConstraints and compare it with how it handles unique_together.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/constraints.py",
+            "class_name": "UniqueConstraint",
+            "method_name": "constraint_sql"
+        },
+        {
+            "file_path": "django/db/models/constraints.py",
+            "class_name": "UniqueConstraint",
+            "method_name": "create_sql"
+        }
+    ]
+}

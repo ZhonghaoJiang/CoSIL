@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nautodoc_type_aliases not applied to variables and attributes\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "example.py",
+            "class_name": "MyString",
+            "method_name": ""
+        }
+    ]
+}

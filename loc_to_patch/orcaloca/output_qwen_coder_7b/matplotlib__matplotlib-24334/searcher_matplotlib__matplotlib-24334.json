@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe method set_xticks in Axes class is not validating kwargs if ticklabels are not set.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "matplotlib/axes/_base.py",
+            "class_name": "Axes",
+            "method_name": ""
+        }
+    ]
+}

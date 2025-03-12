@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "test_order_by_rawsql",
+            "file_path": ""
+        },
+        {
+            "keyword": "RawSQL",
+            "file_path": "django/db/models/expressions.py"
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "TestOrderBy",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "Meta",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db.models.expressions import RawSQL\nfrom django.db import models\nfrom django.test import TestCase\n\nsettings.configure(\n    INSTALLED_APPS=[__name__, 'django.contrib.contenttypes'],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:'\n        }\n    }\n)\n\nclass MyModel(models.Model):\n    status = models.CharField(max_length=50)\n    accepted_datetime = models.DateTimeField()\n    preferred_datetime = models.DateTimeField()\n    created_at = models.DateTimeField()\n\n    class Meta:\n        app_label = __name__\n\n\nclass TestOrderBy(TestCase):\n    def test_order_by_rawsql(self):\n        MyModel.objects.create(status='accepted', accepted_datetime='2023-01-01T00:00:00Z', preferred_datetime='2023-01-02T00:00:00Z', created_at='2023-01-03T00:00:00Z')\n        MyModel.objects.create(status='pending', accepted_datetime='2023-01-04T00:00:00Z', preferred_datetime='2023-01-05T00:00:00Z', created_at='2023-01-06T00:00:00Z')\n\n        queryset = MyModel.objects.all().order_by(\n            RawSQL('''\n                case when status in ('accepted', 'verification')\n                     then 2 else 1 end''', []).desc(),\n            RawSQL('''\n                case when status in ('accepted', 'verification')\n                     then (accepted_datetime, preferred_datetime)\n                     else null end''', []).asc(),\n            RawSQL('''\n                case when status not in ('accepted', 'verification')\n                     then (accepted_datetime, preferred_datetime, created_at)\n                     else null end''', []).desc()\n        )\n\n        print(queryset.query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-11001.py"
+}

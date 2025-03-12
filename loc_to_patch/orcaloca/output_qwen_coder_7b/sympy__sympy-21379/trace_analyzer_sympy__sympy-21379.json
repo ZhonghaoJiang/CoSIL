@@ -1,0 +1,76 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "parallel_poly_from_expr",
+            "file_path": "sympy/polys/polytools.py"
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "exp",
+            "file_path": ""
+        },
+        {
+            "keyword": "getit",
+            "file_path": "sympy/core/assumptions.py"
+        },
+        {
+            "keyword": "Piecewise",
+            "file_path": ""
+        },
+        {
+            "keyword": "sinh",
+            "file_path": ""
+        },
+        {
+            "keyword": "gcd",
+            "file_path": "sympy/polys/polytools.py"
+        },
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/core/function.py"
+        },
+        {
+            "keyword": "__mod__",
+            "file_path": "sympy/core/expr.py"
+        },
+        {
+            "keyword": "clear_cache",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "_subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "eval",
+            "file_path": "sympy/functions/elementary/exponential.py",
+            "class_name": "exp"
+        },
+        {
+            "keyword": "_eval_subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "_parallel_poly_from_expr",
+            "file_path": "sympy/polys/polytools.py",
+            "class_name": "PurePoly"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import *\nfrom sympy.core.cache import clear_cache\n\nx, y, z = symbols('x y z')\nclear_cache()\nexpr = exp(sinh(Piecewise((x, y > x), (y, True)) / z))\n# This works fine\nexpr.subs({1: 1.0})\n\n\nclear_cache()\nx, y, z = symbols('x y z', real=True)\nexpr = exp(sinh(Piecewise((x, y > x), (y, True)) / z))\n# This fails with \"PolynomialError: Piecewise generators do not make sense\"\nexpr.subs({1: 1.0})  # error\n# Now run it again (isympy...) w/o clearing cache and everything works as expected without error\nexpr.subs({1: 1.0})\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-21379.py"
+}

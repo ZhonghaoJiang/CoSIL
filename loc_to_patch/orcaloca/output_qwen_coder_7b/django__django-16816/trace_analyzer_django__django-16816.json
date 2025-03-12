@@ -1,0 +1,70 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "render",
+            "file_path": "django/template/backends/django.py"
+        },
+        {
+            "keyword": "_get_non_gfk_field",
+            "file_path": "django/contrib/admin/utils.py"
+        },
+        {
+            "keyword": "result_list",
+            "file_path": "django/contrib/admin/templatetags/admin_list.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/response.py"
+        },
+        {
+            "keyword": "inner",
+            "file_path": "django/core/handlers/exception.py"
+        },
+        {
+            "keyword": "rendered_content",
+            "file_path": "django/template/response.py"
+        },
+        {
+            "keyword": "FieldDoesNotExist",
+            "file_path": "django/core/exceptions.py"
+        },
+        {
+            "keyword": "result_headers",
+            "file_path": "django/contrib/admin/templatetags/admin_list.py"
+        },
+        {
+            "keyword": "Question",
+            "file_path": ""
+        },
+        {
+            "keyword": "choice",
+            "file_path": ""
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/contrib/admin/templatetags/base.py"
+        },
+        {
+            "keyword": "label_for_field",
+            "file_path": "django/contrib/admin/utils.py"
+        },
+        {
+            "keyword": "QuestionAdmin",
+            "file_path": ""
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/base.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/library.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

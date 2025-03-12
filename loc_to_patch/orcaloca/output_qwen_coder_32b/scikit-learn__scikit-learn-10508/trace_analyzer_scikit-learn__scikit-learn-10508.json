@@ -1,0 +1,20 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "LabelEncoder",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "transform",
+            "file_path": "sklearn/preprocessing/label.py",
+            "class_name": "LabelEncoder"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sklearn.preprocessing import LabelEncoder\n\nle = LabelEncoder()\nle.fit([\"a\",\"b\"])\nle.transform([])\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-10508.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue might be related to the widget's rendering or the label's association with the widget.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/forms.py",
+            "class_name": "ReadOnlyPasswordHashWidget",
+            "method_name": "get_context"
+        }
+    ]
+}

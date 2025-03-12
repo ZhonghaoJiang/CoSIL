@@ -1,0 +1,58 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "base",
+            "file_path": ""
+        },
+        {
+            "keyword": "Mod",
+            "file_path": ""
+        },
+        {
+            "keyword": "exp",
+            "file_path": ""
+        },
+        {
+            "keyword": "Zero",
+            "file_path": "sympy/core/numbers.py"
+        },
+        {
+            "keyword": "S",
+            "file_path": ""
+        },
+        {
+            "keyword": "is_Integer",
+            "file_path": ""
+        },
+        {
+            "keyword": "defaultdict",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "is_integer",
+            "file_path": ""
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "S",
+            "file_path": "sympy/core/singleton.py"
+        },
+        {
+            "keyword": "is_Pow",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\nif (p == q or p == -q or\n        p.is_Pow and p.exp.is_Integer and p.base == q or\n        p.is_integer and q == 1):\n    return S.Zero\n",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import S, Mod\n\n# Case 1: Integer base\nx = S(2)\nprint(Mod(x**2, x))  # Expected output: 0\n\n# Case 2: Non-integer base\nx = S(1.5)\nprint(Mod(x**2, x))  # Expected output: 0.75\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-13177.py"
+}

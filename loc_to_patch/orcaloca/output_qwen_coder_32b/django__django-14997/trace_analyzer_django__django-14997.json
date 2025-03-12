@@ -1,0 +1,146 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "alter_field",
+            "file_path": "django/db/backends/sqlite3/schema.py"
+        },
+        {
+            "keyword": "_execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "database_forwards",
+            "file_path": "django/db/migrations/operations/fields.py"
+        },
+        {
+            "keyword": "handle",
+            "file_path": "django/core/management/commands/migrate.py"
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "_alter_field",
+            "file_path": "django/db/backends/sqlite3/schema.py"
+        },
+        {
+            "keyword": "UniqueConstraint",
+            "file_path": "django/db/models/constraints.py"
+        },
+        {
+            "keyword": "SlugField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "apply_migration",
+            "file_path": "django/db/migrations/executor.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "_migrate_all_forwards",
+            "file_path": "django/db/migrations/executor.py"
+        },
+        {
+            "keyword": "_remake_table",
+            "file_path": "django/db/backends/sqlite3/schema.py"
+        },
+        {
+            "keyword": "wrapped",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "alter_field",
+            "file_path": "django/db/backends/base/schema.py"
+        },
+        {
+            "keyword": "Tag",
+            "file_path": ""
+        },
+        {
+            "keyword": "_execute_with_wrappers",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "AlterField",
+            "file_path": "django/db/migrations/operations/fields.py"
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "__exit__",
+            "file_path": "django/db/utils.py"
+        },
+        {
+            "keyword": "Migration",
+            "file_path": "django/db/migrations/__init__.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "migrate",
+            "file_path": "django/db/migrations/executor.py"
+        },
+        {
+            "keyword": "run_from_argv",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/sqlite3/base.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/base/schema.py"
+        },
+        {
+            "keyword": "CharField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "CreateModel",
+            "file_path": "django/db/migrations/operations/models.py"
+        },
+        {
+            "keyword": "Meta",
+            "file_path": ""
+        },
+        {
+            "keyword": "apply",
+            "file_path": "django/db/migrations/migration.py"
+        },
+        {
+            "keyword": "AddConstraint",
+            "file_path": ""
+        },
+        {
+            "keyword": "BigAutoField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "migrations",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.conf import settings\nfrom django.db import models\nfrom django.db import migrations\nfrom django.core.management import call_command\n\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nsettings.configure(\n    INSTALLED_APPS=[\n        'django.contrib.contenttypes',\n        'myapp',\n    ],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': 'test_db.sqlite3',\n        }\n    },\n)\n\n# Models\nclass Tag(models.Model):\n    name = models.SlugField(help_text=\"The tag key.\")\n    value = models.CharField(max_length=150, help_text=\"The tag value.\")\n    class Meta:\n        ordering = [\"name\", \"value\"]\n        constraints = [\n            models.UniqueConstraint(\n                fields=[\"name\", \"value\"],\n                name=\"unique_name_value\",\n            )\n        ]\n    def __str__(self):\n        return f\"{self.name}={self.value}\"\n\n# Migrations\nclass Migration(migrations.Migration):\n    initial = True\n    dependencies = [\n    ]\n    operations = [\n        migrations.CreateModel(\n            name='Tag',\n            fields=[\n                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),\n                ('name', models.SlugField(help_text='The tag key.')),\n                ('value', models.CharField(help_text='The tag value.', max_length=200)),\n            ],\n            options={\n                'ordering': ['name', 'value'],\n            },\n        ),\n        migrations.AddConstraint(\n            model_name='tag',\n            constraint=models.UniqueConstraint(fields=['name', 'value'], name='unique_name_value'),\n        ),\n    ]\n\nclass Migration(migrations.Migration):\n    dependencies = [\n        ('myapp', '0001_initial'),\n    ]\n    operations = [\n        migrations.AlterField(\n            model_name='tag',\n            name='value',\n            field=models.CharField(help_text='The tag value.', max_length=150),\n        ),\n    ]\n\n# Run migrations\ncall_command('makemigrations', 'myapp')\ncall_command('migrate')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14997.py"
+}

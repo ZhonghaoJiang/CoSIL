@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe method getfixtureinfo collects fixture information but does not include the scope. The class PseudoFixtureDef includes the scope attribute. We need to find where the fixture scope is handled and displayed.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/fixtures.py",
+            "class_name": "",
+            "method_name": "getfixtureinfo"
+        },
+        {
+            "file_path": "src/_pytest/fixtures.py",
+            "class_name": "PseudoFixtureDef",
+            "method_name": ""
+        }
+    ]
+}

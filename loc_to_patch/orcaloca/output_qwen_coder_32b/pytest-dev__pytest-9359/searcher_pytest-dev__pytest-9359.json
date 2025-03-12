@@ -1,0 +1,30 @@
+{
+    "conclusion": "<Observation>\nThe methods `getstatement`, `getstatementrange`, `repr_traceback_entry`, `get_statement_startend2`, `firstlineno`, `lineno`, and `statement` are likely involved in the issue of extra lines in the error message.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/_code/source.py",
+            "class_name": "Source",
+            "method_name": "getstatementrange"
+        },
+        {
+            "file_path": "src/_pytest/_code/source.py",
+            "class_name": "",
+            "method_name": "get_statement_startend2"
+        },
+        {
+            "file_path": "src/_pytest/_code/code.py",
+            "class_name": "Frame",
+            "method_name": "statement"
+        },
+        {
+            "file_path": "src/_pytest/_code/code.py",
+            "class_name": "Code",
+            "method_name": "firstlineno"
+        },
+        {
+            "file_path": "src/_pytest/_code/code.py",
+            "class_name": "",
+            "method_name": "repr_traceback_entry"
+        }
+    ]
+}

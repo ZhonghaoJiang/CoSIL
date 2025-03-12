@@ -1,0 +1,46 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "make_blobs",
+            "file_path": ""
+        },
+        {
+            "keyword": "NearestNeighbors",
+            "file_path": ""
+        },
+        {
+            "keyword": "TypeError",
+            "file_path": ""
+        },
+        {
+            "keyword": "query",
+            "file_path": "sklearn/neighbors/binary_tree.pxi"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "sklearn/neighbors/binary_tree.pxi"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "kneighbors",
+            "file_path": "sklearn/neighbors/base.py",
+            "class_name": "KNeighborsMixin"
+        },
+        {
+            "keyword": "check_array",
+            "file_path": "sklearn/utils/validation.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_num_samples",
+            "file_path": "sklearn/utils/validation.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sklearn.neighbors import NearestNeighbors\nfrom sklearn.datasets import make_blobs\nX, y = make_blobs()\nneighbors = NearestNeighbors(n_neighbors=3.0)\nneighbors.fit(X)\nneighbors.kneighbors(X)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-11040.py"
+}

@@ -1,0 +1,66 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "qdp",
+            "file_path": "astropy/io/ascii/qdp.py"
+        },
+        {
+            "keyword": "ValueError",
+            "file_path": ""
+        },
+        {
+            "keyword": "read",
+            "file_path": "astropy/table/connect.py"
+        },
+        {
+            "keyword": "read",
+            "file_path": "astropy/io/ascii/qdp.py"
+        },
+        {
+            "keyword": "read",
+            "file_path": "astropy/io/registry/core.py"
+        },
+        {
+            "keyword": "read",
+            "file_path": "astropy/io/ascii/ui.py"
+        },
+        {
+            "keyword": "raise",
+            "file_path": ""
+        },
+        {
+            "keyword": "Table",
+            "file_path": "astropy/table/table.py"
+        },
+        {
+            "keyword": "_read_table_qdp",
+            "file_path": "astropy/io/ascii/qdp.py"
+        },
+        {
+            "keyword": "io_read",
+            "file_path": "astropy/io/ascii/connect.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_get_tables_from_qdp_file",
+            "file_path": "astropy/io/ascii/qdp.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_get_type_from_list_of_lines",
+            "file_path": "astropy/io/ascii/qdp.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_line_type",
+            "file_path": "astropy/io/ascii/qdp.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom astropy.table import Table\n\nTable.read('test.qdp', format='ascii.qdp')\n",
+    "env_reproduce_path": "/astropy__astropy/reproducer_astropy__astropy-14365.py"
+}

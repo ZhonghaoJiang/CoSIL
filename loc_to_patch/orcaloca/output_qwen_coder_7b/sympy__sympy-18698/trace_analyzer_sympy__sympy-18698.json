@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "sqf_list",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import symbols, sqf_list\nx = symbols('x')\nsqf_list(  (x**2 + 1)  * (x - 1)**2 * (x - 2)**3 * (x - 3)**3  )\nsqf_list( x**5 - 2*x**4 - 2*x**3 + 4*x**2 + x - 2 )",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-18698.py"
+}

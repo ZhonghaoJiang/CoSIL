@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nCannot find UnicodeUsernameValidator in contrib/auth/validators.py. Need to check ASCIIUsernameValidator.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "contrib/auth/validators.py",
+            "class_name": "ASCIIUsernameValidator",
+            "method_name": ""
+        },
+        {
+            "file_path": "contrib/auth/validators.py",
+            "class_name": "UnicodeUsernameValidator",
+            "method_name": ""
+        }
+    ]
+}

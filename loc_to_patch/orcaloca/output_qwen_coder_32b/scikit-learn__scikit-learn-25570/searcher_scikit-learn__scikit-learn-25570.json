@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to how ColumnTransformer handles transformers with no features when the output is set to 'pandas'. The _hstack method is responsible for stacking the results horizontally, and the _iter method is used to iterate over the transformers. The _iter method skips transformers with no features, which causes issues in _hstack when trying to concatenate the results.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/compose/_column_transformer.py",
+            "class_name": "ColumnTransformer",
+            "method_name": "_hstack"
+        },
+        {
+            "file_path": "sklearn/compose/_column_transformer.py",
+            "class_name": "ColumnTransformer",
+            "method_name": "_iter"
+        }
+    ]
+}

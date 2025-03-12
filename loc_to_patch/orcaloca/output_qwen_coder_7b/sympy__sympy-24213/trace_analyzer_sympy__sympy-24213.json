@@ -1,0 +1,56 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Quantity",
+            "file_path": ""
+        },
+        {
+            "keyword": "set_quantity_dimension",
+            "file_path": ""
+        },
+        {
+            "keyword": "SI",
+            "file_path": ""
+        },
+        {
+            "keyword": "units",
+            "file_path": ""
+        },
+        {
+            "keyword": "set_quantity_scale_factor",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_collect_factor_and_dimension",
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem"
+        },
+        {
+            "keyword": "get_quantity_scale_factor",
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem"
+        },
+        {
+            "keyword": "get_quantity_dimension",
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem"
+        },
+        {
+            "keyword": "get_dimension_system",
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem"
+        },
+        {
+            "keyword": "sympify",
+            "file_path": "sympy/core/sympify.py",
+            "class_name": "CantSympify"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy.physics import units\nfrom sympy.physics.units.systems.si import SI\n\nv1 = units.Quantity('v1')\nSI.set_quantity_dimension(v1, units.velocity)\nSI.set_quantity_scale_factor(v1, 2 * units.meter / units.second)\n\na1 = units.Quantity('a1')\nSI.set_quantity_dimension(a1, units.acceleration)\nSI.set_quantity_scale_factor(a1, -9.8 * units.meter / units.second**2)\n\nt1 = units.Quantity('t1')\nSI.set_quantity_dimension(t1, units.time)\nSI.set_quantity_scale_factor(t1, 5 * units.second)\n\nexpr1 = a1*t1 + v1\nSI._collect_factor_and_dimension(expr1)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24213.py"
+}

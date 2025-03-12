@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe 'fit' method in IsolationForest does not call the '_fit' method from BaseBagging, which could lead to inconsistencies.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/ensemble/iforest.py",
+            "class_name": "IsolationForest",
+            "method_name": "fit"
+        },
+        {
+            "file_path": "sklearn/ensemble/bagging.py",
+            "class_name": "BaseBagging",
+            "method_name": "fit"
+        }
+    ]
+}

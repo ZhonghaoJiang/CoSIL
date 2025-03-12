@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe MigrationRecorder class does not check the db_router's allow_migrate rules before creating the django_migrations table or performing other operations. This could lead to issues in a multi-db setup.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/migrations/recorder.py",
+            "class_name": "MigrationRecorder",
+            "method_name": "ensure_schema"
+        },
+        {
+            "file_path": "django/db/migrations/recorder.py",
+            "class_name": "MigrationRecorder",
+            "method_name": "record_applied"
+        },
+        {
+            "file_path": "django/db/migrations/recorder.py",
+            "class_name": "MigrationRecorder",
+            "method_name": "record_unapplied"
+        },
+        {
+            "file_path": "django/db/migrations/recorder.py",
+            "class_name": "MigrationRecorder",
+            "method_name": "applied_migrations"
+        }
+    ]
+}

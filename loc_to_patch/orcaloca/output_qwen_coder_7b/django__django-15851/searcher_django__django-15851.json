@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the order of arguments in the dbshell command. The additional parameters should be passed before the dbname.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "manage.py",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

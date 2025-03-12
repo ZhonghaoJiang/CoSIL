@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe '__eq__' method in 'ModelChoiceIteratorValue' only compares the 'value' attribute, but does not ensure hashability. The '__hash__' method is missing in the 'ModelChoiceIteratorValue' class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceIteratorValue",
+            "method_name": "__eq__"
+        },
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceIteratorValue",
+            "method_name": ""
+        }
+    ]
+}

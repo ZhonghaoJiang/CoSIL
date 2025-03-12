@@ -1,0 +1,9 @@
+{
+    "summary": "",
+    "suspicious_code": [],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "# example.py\n__all__ = []\ndef foo():\n    \"docstring\"\ndef bar():\n    \"docstring\"\ndef baz():\n    \"docstring\"\n\n# index.rst\n.. automodule:: example\n   :members:",
+    "env_reproduce_path": "/sphinx-doc__sphinx/reproducer_sphinx-doc__sphinx-8595.py"
+}

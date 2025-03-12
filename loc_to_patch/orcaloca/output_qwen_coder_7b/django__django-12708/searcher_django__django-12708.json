@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during the deletion of an index_together if there is a unique_together on the same fields. The issue seems to be related to the handling of constraints in Django migrations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/backends/base/schema.py",
+            "class_name": "BaseDatabaseSchemaEditor",
+            "method_name": "_delete_composed_index"
+        }
+    ]
+}

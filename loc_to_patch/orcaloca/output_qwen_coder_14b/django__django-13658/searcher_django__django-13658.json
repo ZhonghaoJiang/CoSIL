@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe provided search results show the __init__ method of the ManagementUtility class in django/core/management/__init__.py. The method correctly computes the prog_name from the provided argv or sys.argv. However, the problem statement indicates that the CommandParser instantiation should use self.prog_name instead of relying on sys.argv[0]. We need to search for the method where CommandParser is instantiated to identify the potential bug location.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/core/management/__init__.py",
+            "class_name": "ManagementUtility",
+            "method_name": "execute"
+        }
+    ]
+}

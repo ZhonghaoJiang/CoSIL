@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe __init__ method of ResolverMatch does not handle functools.partial objects, and the __repr__ method uses self._func_path directly, which would show 'functools.partial' for partial functions. The lookup_str method in URLPattern handles functools.partial by unwrapping it, which could be a useful reference.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "ResolverMatch",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "ResolverMatch",
+            "method_name": "__repr__"
+        }
+    ]
+}

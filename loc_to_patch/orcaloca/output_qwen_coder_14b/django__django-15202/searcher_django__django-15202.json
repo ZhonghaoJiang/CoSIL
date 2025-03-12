@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe provided search results show the class definition of URLField in django/forms/fields.py. The to_python method includes a split_url function that raises a ValidationError if the URL is malformed. The problem statement indicates that a ValueError is being raised instead of a ValidationError. This suggests that the issue might be related to the URL validation logic in the to_python method or the clean method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/fields.py",
+            "class_name": "URLField",
+            "method_name": "to_python"
+        }
+    ]
+}

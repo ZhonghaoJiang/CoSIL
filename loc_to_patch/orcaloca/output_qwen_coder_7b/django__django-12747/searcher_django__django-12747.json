@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe inconsistency in QuerySet.Delete method's result when zero objects deleted is related to the handling of foreign keys and simple models.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "delete"
+        },
+        {
+            "file_path": "django/db/models/deletion.py",
+            "class_name": "Collector",
+            "method_name": "delete"
+        }
+    ]
+}

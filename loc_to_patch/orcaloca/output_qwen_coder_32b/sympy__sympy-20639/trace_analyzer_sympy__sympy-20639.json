@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "pi",
+            "file_path": ""
+        },
+        {
+            "keyword": "pretty",
+            "file_path": ""
+        },
+        {
+            "keyword": "E",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_print_Pow",
+            "file_path": "sympy/printing/pretty/pretty.py",
+            "class_name": "PrettyPrinter"
+        },
+        {
+            "keyword": "_print_nth_root",
+            "file_path": "sympy/printing/pretty/pretty.py",
+            "class_name": "PrettyPrinter"
+        },
+        {
+            "keyword": "_print_Atom",
+            "file_path": "sympy/printing/pretty/pretty.py",
+            "class_name": "PrettyPrinter"
+        },
+        {
+            "keyword": "as_base_exp",
+            "file_path": "sympy/core/power.py",
+            "class_name": "Pow"
+        },
+        {
+            "keyword": "fraction",
+            "file_path": "sympy/simplify/radsimp.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import pi, E\nfrom sympy.printing import pretty\n\nprint(pretty(pi**(1/E)))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-20639.py"
+}

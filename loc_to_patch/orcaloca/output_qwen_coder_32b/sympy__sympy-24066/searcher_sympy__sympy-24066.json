@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe _collect_factor_and_dimension method in UnitSystem incorrectly handles cases where the exponent is dimensionless. The _eval_power and __pow__ methods in Dimension might also be relevant.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem",
+            "method_name": "_collect_factor_and_dimension"
+        },
+        {
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "Dimension",
+            "method_name": "_eval_power"
+        },
+        {
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "Dimension",
+            "method_name": "__pow__"
+        },
+        {
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "DimensionSystem",
+            "method_name": "_get_dimensional_dependencies_for_name"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe validate method in ModelChoiceField simply calls Field.validate, which does not provide the value of the invalid choice in the error message. We need to investigate the implementation of the validation logic in ModelChoiceField and ModelMultipleChoiceField to identify where the value of the invalid choice is not being included in the error message.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelChoiceField",
+            "method_name": "validate"
+        },
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelMultipleChoiceField",
+            "method_name": ""
+        }
+    ]
+}

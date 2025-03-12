@@ -1,0 +1,52 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "TransformerMixin",
+            "file_path": ""
+        },
+        {
+            "keyword": "BaseEstimator",
+            "file_path": ""
+        },
+        {
+            "keyword": "ValueError",
+            "file_path": ""
+        },
+        {
+            "keyword": "fit_transform",
+            "file_path": "sklearn/utils/_set_output.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "make_union",
+            "file_path": "sklearn/pipeline.py",
+            "class_name": "FeatureUnion"
+        },
+        {
+            "keyword": "wrapped",
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_wrap_data_with_container",
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_wrap_in_pandas_container",
+            "file_path": "sklearn/utils/_set_output.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "sklearn/pipeline.py",
+            "class_name": "FeatureUnion"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import pandas as pd\nfrom sklearn.base import BaseEstimator, TransformerMixin\nfrom sklearn import set_config\nfrom sklearn.pipeline import make_union\n\nindex = pd.date_range(start=\"2020-01-01\", end=\"2020-01-05\", inclusive=\"left\", freq=\"H\")\ndata = pd.DataFrame(index=index, data=[10] * len(index), columns=[\"value\"])\ndata[\"date\"] = index.date\n\nclass MyTransformer(BaseEstimator, TransformerMixin):\n    def fit(self, X: pd.DataFrame, y: pd.Series = None, **kwargs):\n        return self\n\n    def transform(self, X: pd.DataFrame, y: pd.Series = None) -> pd.DataFrame:\n        return X[\"value\"].groupby(X[\"date\"]).sum()\n\n# This works.\nset_config(transform_output=\"default\")\nprint(make_union(MyTransformer()).fit_transform(data))\n\n# This does not work.\nset_config(transform_output=\"pandas\")\nprint(make_union(MyTransformer()).fit_transform(data))",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-25747.py"
+}

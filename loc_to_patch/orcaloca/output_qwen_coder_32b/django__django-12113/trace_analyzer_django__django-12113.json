@@ -1,0 +1,94 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "create_superuser",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "save_base",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "setUpClass",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "_execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "setUpTestData",
+            "file_path": "tests/admin_views/test_multidb.py"
+        },
+        {
+            "keyword": "save",
+            "file_path": "django/contrib/auth/base_user.py"
+        },
+        {
+            "keyword": "_do_insert",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "manager_method",
+            "file_path": "django/db/models/manager.py"
+        },
+        {
+            "keyword": "_execute_with_wrappers",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "admin_views",
+            "file_path": ""
+        },
+        {
+            "keyword": "__exit__",
+            "file_path": "django/db/utils.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/utils.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/db/backends/sqlite3/base.py"
+        },
+        {
+            "keyword": "_create_user",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "execute_sql",
+            "file_path": "django/db/models/sql/compiler.py"
+        },
+        {
+            "keyword": "runtests",
+            "file_path": ""
+        },
+        {
+            "keyword": "_insert",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "system",
+            "file_path": ""
+        },
+        {
+            "keyword": "_save_table",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "test_multidb",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "DATABASES = {\n     'default': {\n         'ENGINE': 'django.db.backends.sqlite3',\n         'TEST': {\n             'NAME': 'test_default.sqlite3'\n         },\n     },\n     'other': {\n         'ENGINE': 'django.db.backends.sqlite3',\n         'TEST': {\n             'NAME': 'test_other.sqlite3'\n         },\n     }\n}\n\nimport os\nos.system('tests/runtests.py admin_views.test_multidb -v 3 --keepdb --parallel 1')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12113.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe __init__ method of the NearestNeighbors class does not validate the n_neighbors parameter to ensure it is an integer. This allows float values to be passed, which can lead to errors when the NeighborsHeap is initialized.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/neighbors/unsupervised.py",
+            "class_name": "NearestNeighbors",
+            "method_name": "__init__"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Command",
+            "file_path": ""
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "BaseCommand",
+            "file_path": "django/core/management/base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.core.management.base import BaseCommand\n\nclass Command(BaseCommand):\n    help = '''\n    Import a contract from tzkt.\n    Example usage:\n        ./manage.py tzkt_import 'Tezos Mainnet' KT1HTDtMBRCKoNHjfWEEvXneGQpCfPAt6BRe\n    '''\n\nif __name__ == '__main__':\n    from django.core.management import call_command\n    call_command('help', 'tzkt_import')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15781.py"
+}

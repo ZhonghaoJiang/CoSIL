@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the PolyFit class when trying to fit a polynomial to the data. The issue is likely due to the presence of None values in the data, which causes the np.polyfit function to fail. The _fit_predict method should handle missing data appropriately.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "seaborn/_stats/regression.py",
+            "class_name": "PolyFit",
+            "method_name": "_fit_predict"
+        }
+    ]
+}

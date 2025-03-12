@@ -1,0 +1,66 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "time",
+            "file_path": ""
+        },
+        {
+            "keyword": "acceleration",
+            "file_path": ""
+        },
+        {
+            "keyword": "meter",
+            "file_path": ""
+        },
+        {
+            "keyword": "set_quantity_dimension",
+            "file_path": "sympy/physics/units/systems/si.py"
+        },
+        {
+            "keyword": "set_quantity_scale_factor",
+            "file_path": "sympy/physics/units/systems/si.py"
+        },
+        {
+            "keyword": "velocity",
+            "file_path": ""
+        },
+        {
+            "keyword": "second",
+            "file_path": ""
+        },
+        {
+            "keyword": "SI",
+            "file_path": "sympy/physics/units/systems/si.py"
+        },
+        {
+            "keyword": "Quantity",
+            "file_path": "sympy/physics/units/quantities.py"
+        },
+        {
+            "keyword": "units",
+            "file_path": "sympy/physics/units/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_collect_factor_and_dimension",
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem"
+        },
+        {
+            "keyword": "__mul__",
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "Dimension"
+        },
+        {
+            "keyword": "__eq__",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy.physics import units\nfrom sympy.physics.units.systems.si import SI\n\nv1 = units.Quantity('v1')\nSI.set_quantity_dimension(v1, units.velocity)\nSI.set_quantity_scale_factor(v1, 2 * units.meter / units.second)\n\na1 = units.Quantity('a1')\nSI.set_quantity_dimension(a1, units.acceleration)\nSI.set_quantity_scale_factor(a1, -9.8 * units.meter / units.second**2)\n\nt1 = units.Quantity('t1')\nSI.set_quantity_dimension(t1, units.time)\nSI.set_quantity_scale_factor(t1, 5 * units.second)\n\nexpr1 = a1*t1 + v1\nSI._collect_factor_and_dimension(expr1)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24213.py"
+}

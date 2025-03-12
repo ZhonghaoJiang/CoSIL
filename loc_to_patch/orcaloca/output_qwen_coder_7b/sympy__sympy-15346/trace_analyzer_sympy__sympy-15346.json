@@ -1,0 +1,64 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "acos",
+            "file_path": ""
+        },
+        {
+            "keyword": "sin",
+            "file_path": ""
+        },
+        {
+            "keyword": "Rational",
+            "file_path": ""
+        },
+        {
+            "keyword": "Matrix",
+            "file_path": ""
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "diophantine",
+            "file_path": "sympy/solvers/diophantine.py"
+        },
+        {
+            "keyword": "cos",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "dot",
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixBase"
+        },
+        {
+            "keyword": "__new_stage2__",
+            "file_path": "sympy/core/symbol.py",
+            "class_name": "Symbol"
+        },
+        {
+            "keyword": "_handle_creation_inputs",
+            "file_path": "sympy/matrices/matrices.py",
+            "class_name": "MatrixBase"
+        },
+        {
+            "keyword": "__mul__",
+            "file_path": "sympy/matrices/common.py",
+            "class_name": "MatrixArithmetic"
+        },
+        {
+            "keyword": "_eval_matrix_mul",
+            "file_path": "sympy/matrices/dense.py",
+            "class_name": "DenseMatrix"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import * \n\nx, y = symbols('x, y', real=True) \nr = sin(x)*sin(y) + cos(x)*cos(y) \nprint(r) \nprint(r.simplify()) \n\nr = Rational(1, 50) - Rational(1, 25) \nprint(r) \nprint(r.simplify()) \n\n\nt1 = Matrix([sin(Rational(1, 50)), cos(Rational(1, 50)), 0]) \nt2 = Matrix([sin(Rational(1, 25)), cos(Rational(1, 25)), 0]) \nr = t1.dot(t2) \nprint(r) \nprint(r.simplify()) \n\nr = sin(Rational(1, 50))*sin(Rational(1, 25)) + cos(Rational(1, 50))*cos(Rational(1, 25)) \nprint(r) \nprint(r.simplify()) \n\nprint(acos(r)) \nprint(acos(r).simplify()) \n\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-15346.py"
+}

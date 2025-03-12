@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe BaseFormSet class initializes the _non_form_errors attribute with an instance of ErrorList. The ErrorList class does not include a 'nonform' CSS class. The full_clean method populates _non_form_errors with non-form errors, and the non_form_errors method returns these errors. We need to ensure that the 'nonform' CSS class is added to the error_class attribute of ErrorList when used for non-form errors in FormSets.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/formsets.py",
+            "class_name": "BaseFormSet",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/forms/utils.py",
+            "class_name": "ErrorList",
+            "method_name": "__init__"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe search results show that both ASCIIUsernameValidator and UnicodeUsernameValidator classes in the django/contrib/auth/validators.py file use the regex pattern r'^[\\w.@+-]+$', which allows usernames with trailing newlines. The suggested fix is to replace this pattern with r'\\A[\\w.@+-]+\\Z' to ensure that usernames do not end with a newline.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/validators.py",
+            "class_name": "ASCIIUsernameValidator",
+            "method_name": ""
+        },
+        {
+            "file_path": "django/contrib/auth/validators.py",
+            "class_name": "UnicodeUsernameValidator",
+            "method_name": ""
+        }
+    ]
+}

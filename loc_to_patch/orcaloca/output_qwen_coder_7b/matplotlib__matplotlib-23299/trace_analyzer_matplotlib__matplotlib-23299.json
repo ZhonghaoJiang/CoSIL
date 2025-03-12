@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "get_backend",
+            "file_path": ""
+        },
+        {
+            "keyword": "_pylab_helpers",
+            "file_path": ""
+        },
+        {
+            "keyword": "rc_context",
+            "file_path": ""
+        },
+        {
+            "keyword": "ion",
+            "file_path": ""
+        },
+        {
+            "keyword": "pyplot",
+            "file_path": ""
+        },
+        {
+            "keyword": "figure",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import matplotlib.pyplot as plt\nfrom matplotlib import get_backend, rc_context\n\n# fig1 = plt.figure()  # <- UNCOMMENT THIS LINE AND IT WILL WORK\n# plt.ion()            # <- ALTERNATIVELY, UNCOMMENT THIS LINE AND IT WILL ALSO WORK\nwith rc_context():\n    fig2 = plt.figure()\nbefore = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\nget_backend()\nafter = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\n\nassert before == after, '\\n' + before + '\\n' + after",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23299.py"
+}

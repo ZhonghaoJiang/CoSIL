@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe Legend class does not have a 'draggable' keyword in its __init__ method. The draggable functionality is controlled through the set_draggable and get_draggable methods. The DraggableLegend class is used to enable or disable mouse dragging support of the legend.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/legend.py",
+            "class_name": "Legend",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "lib/matplotlib/legend.py",
+            "class_name": "Legend",
+            "method_name": "set_draggable"
+        }
+    ]
+}

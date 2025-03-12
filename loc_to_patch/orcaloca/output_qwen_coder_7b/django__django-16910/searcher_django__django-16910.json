@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the interaction between select_related() and only() on a reverse OneToOneField relation in Django 4.2.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "select_related"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "only"
+        }
+    ]
+}

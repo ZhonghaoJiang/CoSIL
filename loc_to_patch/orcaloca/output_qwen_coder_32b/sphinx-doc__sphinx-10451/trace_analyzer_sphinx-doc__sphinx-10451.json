@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Documenter",
+            "file_path": ""
+        },
+        {
+            "keyword": "_ClassWithDocumentedInitAndStarArgs",
+            "file_path": ""
+        },
+        {
+            "keyword": "ClassDocumenter",
+            "file_path": ""
+        },
+        {
+            "keyword": "autodoc",
+            "file_path": ""
+        },
+        {
+            "keyword": "DocumenterBridge",
+            "file_path": "sphinx/ext/autodoc/directive.py"
+        },
+        {
+            "keyword": "prepare_docstring",
+            "file_path": "sphinx/util/docstrings.py"
+        },
+        {
+            "keyword": "Sphinx",
+            "file_path": "sphinx/application.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sphinx.ext.autodoc\nfrom sphinx.application import Sphinx\nfrom sphinx.ext.autodoc.directive import DocumenterBridge\nfrom sphinx.ext.autodoc import Documenter\nfrom sphinx.util.docstrings import prepare_docstring\n\nclass _ClassWithDocumentedInitAndStarArgs:\n    \"\"\"Class docstring.\"\"\"\n\n    def __init__(self, x: int, *args: int, **kwargs: int) -> None:\n        \"\"\"Init docstring.\n\n        :param x: Some integer\n        :param *args: Some integer\n        :param **kwargs: Some integer\n        \"\"\"\n\n# Create a minimal conf.py\nwith open('conf.py', 'w') as f:\n    f.write(\"extensions = ['sphinx.ext.autodoc']\\n\")\n\napp = Sphinx(srcdir='.', confdir='.', outdir='_build', doctreedir='_build/.doctrees', buildername='html')\napp.setup_extension('sphinx.ext.autodoc')\napp.config.autodoc_typehints = 'description'\ndocumenter = sphinx.ext.autodoc.ClassDocumenter(app, '_ClassWithDocumentedInitAndStarArgs', objtype='class', content_offset=0, lineno=0, options={}, doc=None, filename=None)\ndocumenter.generate(more_content=None)\nprint(prepare_docstring(documenter.get_doc()))",
+    "env_reproduce_path": "/sphinx-doc__sphinx/reproducer_sphinx-doc__sphinx-10451.py"
+}

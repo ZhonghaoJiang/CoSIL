@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the ordering of the Parent model. The Child model inherits from Parent, and the ordering is specified as ['-pk'] in Parent's Meta class. However, the query generated for Child is ordering by 'id' ASC instead of 'pk' DESC.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/parent_model.py",
+            "class_name": "Parent",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe _batched_insert method in django/db/models/query.py conditionally calls the _insert method with returning_fields based on the bulk_return and on_conflict flags. When update_conflicts is True, the returning_fields are not passed to the _insert method, which is likely the cause of the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "_batched_insert"
+        }
+    ]
+}

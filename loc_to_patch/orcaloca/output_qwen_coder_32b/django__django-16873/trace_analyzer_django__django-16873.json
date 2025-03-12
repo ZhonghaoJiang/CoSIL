@@ -1,0 +1,46 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "SimpleTestCase",
+            "file_path": "django/test/testcases.py"
+        },
+        {
+            "keyword": "Context",
+            "file_path": "django/template/context.py"
+        },
+        {
+            "keyword": "test_join02",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_join01",
+            "file_path": ""
+        },
+        {
+            "keyword": "escape",
+            "file_path": "django/template/defaultfilters.py"
+        },
+        {
+            "keyword": "inner",
+            "file_path": "django/test/utils.py"
+        },
+        {
+            "keyword": "inner",
+            "file_path": "tests/template_tests/utils.py"
+        },
+        {
+            "keyword": "RegressionTests",
+            "file_path": ""
+        },
+        {
+            "keyword": "Template",
+            "file_path": "django/template/base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.template.defaultfilters import escape\nfrom django.test import SimpleTestCase\nfrom django.template import Template, Context\n\nclass RegressionTests(SimpleTestCase):\n    def test_join01(self):\n        some_list = [\"<p>Hello World!</p>\", \"beta & me\", \"<script>Hi!</script>\"]\n        some_var = \"<br/>\"\n        template = Template('{{ some_list|join:some_var }}')\n        context = Context({'some_list': some_list, 'some_var': some_var})\n        output = template.render(context)\n        self.assertEqual(output, escape(some_var.join(some_list)))\n\n    def test_join02(self):\n        some_list = [\"<p>Hello World!</p>\", \"beta & me\", \"<script>Hi!</script>\"]\n        some_var = \"<br/>\"\n        template = Template('{% autoescape off %}{{ some_list|join:some_var }}{% endautoescape %}')\n        context = Context({'some_list': some_list, 'some_var': some_var})\n        output = template.render(context)\n        print(output)  # Added print statement to see the output\n        self.assertEqual(output, some_var.join(some_list))",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16873.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe caching mechanism in MarkEvaluator._istrue method is causing incorrect results due to the caching key being only the string itself, while the evaluation depends on the item's globals.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/mark/evaluate.py",
+            "class_name": "MarkEvaluator",
+            "method_name": "_istrue"
+        }
+    ]
+}

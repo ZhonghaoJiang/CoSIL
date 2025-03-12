@@ -1,0 +1,82 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/backends/backend_agg.py"
+        },
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "z_e_0",
+            "file_path": ""
+        },
+        {
+            "keyword": "clr_list",
+            "file_path": ""
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/artist.py"
+        },
+        {
+            "keyword": "fig",
+            "file_path": ""
+        },
+        {
+            "keyword": "_draw_list_compositing_images",
+            "file_path": "lib/matplotlib/image.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/axes/_base.py"
+        },
+        {
+            "keyword": "z_s_0",
+            "file_path": ""
+        },
+        {
+            "keyword": "y_s_0",
+            "file_path": ""
+        },
+        {
+            "keyword": "show",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "x_e_0",
+            "file_path": ""
+        },
+        {
+            "keyword": "x_s_0",
+            "file_path": ""
+        },
+        {
+            "keyword": "y_e_0",
+            "file_path": ""
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "n",
+            "file_path": ""
+        },
+        {
+            "keyword": "ax",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nimport matplotlib.pyplot as plt\n\nx_s_0 = np.array([1, 2, 3])\nx_e_0 = np.array([4, 5, 6])\ny_s_0 = np.array([7, 8, 9])\ny_e_0 = np.array([10, 11, 12])\nz_s_0 = np.array([13, 14, 15])\nz_e_0 = np.array([16, 17, 18])\n\nfig = plt.figure()\nax = fig.add_subplot(111, projection='3d')\nax.view_init(elev=90, azim=0)\nax.set_zlim3d(-10, 10)\nclr_list = 'r-'\n\nfor n in range(np.size(z_s_0, axis=0)):\n    ax.plot([x_s_0[n], x_e_0[n]],\n            [y_s_0[n], y_e_0[n]],\n            [z_s_0[n], z_e_0[n]], clr_list)\n\nplt.xlabel('x')\nplt.ylabel('y')\n# ax.zlabel('z')\nplt.title('90-0')\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23563.py"
+}

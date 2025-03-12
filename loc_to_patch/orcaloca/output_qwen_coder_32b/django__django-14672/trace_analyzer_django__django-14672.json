@@ -1,0 +1,86 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "run_checks",
+            "file_path": "django/core/checks/registry.py"
+        },
+        {
+            "keyword": "fetch_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "check",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": "django/db/models/__init__.py"
+        },
+        {
+            "keyword": "ManyToManyModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProxyParent",
+            "file_path": ""
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "run_from_argv",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "check_all_models",
+            "file_path": "django/core/checks/model_checks.py"
+        },
+        {
+            "keyword": "Parent",
+            "file_path": ""
+        },
+        {
+            "keyword": "execute",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "BaseCommand",
+            "file_path": "django/core/management/base.py"
+        },
+        {
+            "keyword": "Child",
+            "file_path": ""
+        },
+        {
+            "keyword": "execute_from_command_line",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "__hash__",
+            "file_path": "django/db/models/fields/reverse_related.py"
+        },
+        {
+            "keyword": "check",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "_check_field_name_clashes",
+            "file_path": "django/db/models/base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nfrom django.conf import settings\nfrom django.db import models\n\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nsettings.configure()\n\nclass Parent(models.Model):\n    name = models.CharField(max_length=256)\nclass ProxyParent(Parent):\n    class Meta:\n        proxy = True\nclass Child(models.Model):\n    parent = models.ForeignKey(Parent, on_delete=models.CASCADE)\n    many_to_many_field = models.ManyToManyField(\n        to=Parent,\n        through='ManyToManyModel',\n        through_fields=['child', 'parent'],\n        related_name='something'\n    )\nclass ManyToManyModel(models.Model):\n    parent = models.ForeignKey(Parent, on_delete=models.CASCADE, related_name='+')\n    child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name='+')\n    second_child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True, default=None)\n\n# Run checks\nfrom django.core.management.base import BaseCommand\nBaseCommand().check()",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14672.py"
+}

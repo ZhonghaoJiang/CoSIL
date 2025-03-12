@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe ReadOnlyPasswordHashWidget class does not have a 'for' attribute in its get_context method, which suggests that the issue might be in the template rendering. We need to check the template to see if it is incorrectly generating the 'for' attribute.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/forms.py",
+            "class_name": "ReadOnlyPasswordHashWidget",
+            "method_name": "get_context"
+        }
+    ]
+}

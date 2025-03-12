@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when using lambdify with MatrixSymbol names containing curly braces, even with dummify=True. The issue seems to be related to how lambdify processes these names.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter",
+            "method_name": "_subexpr"
+        },
+        {
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "lambdify",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to how QuerySet.union() behaves differently from the OR operator in ModelMultipleChoiceField. Specifically, the clean method in ModelMultipleChoiceField returns self.queryset.none() when no value is provided, which works as expected with OR queries but not with union queries. The union method in QuerySet combines querysets differently, which might be causing the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/models.py",
+            "class_name": "ModelMultipleChoiceField",
+            "method_name": "clean"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "union"
+        }
+    ]
+}

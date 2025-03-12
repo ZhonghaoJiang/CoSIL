@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe col_insert method in sympy is not working as expected.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/matrices/common.py",
+            "class_name": "MutableDenseMatrix",
+            "method_name": ""
+        }
+    ]
+}

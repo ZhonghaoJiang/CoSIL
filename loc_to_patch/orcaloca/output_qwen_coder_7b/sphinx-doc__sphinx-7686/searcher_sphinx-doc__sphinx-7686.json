@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe bug seems to be related to the handling of imported members in the autosummary template. The members variable is including imported members even when autosummary_imported_members is False.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "_templates/autosummary/module.rst",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

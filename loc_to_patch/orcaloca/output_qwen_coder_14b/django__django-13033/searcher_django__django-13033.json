@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe search for the class 'OneModel' failed with an error. We need to investigate further to understand the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/file",
+            "class_name": "OneModel",
+            "method_name": ""
+        },
+        {
+            "file_path": "path/to/file",
+            "class_name": "TwoModel",
+            "method_name": ""
+        }
+    ]
+}

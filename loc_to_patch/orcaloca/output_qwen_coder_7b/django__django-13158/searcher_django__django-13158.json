@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the use of `union()` in the queryset for `ModelMultipleChoiceField`. The behavior of `union()` is different from `OR` in that it returns all objects that match any of the querysets, not just the intersection.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        },
+        {
+            "file_path": "path/to/file",
+            "class_name": "class_name",
+            "method_name": ""
+        }
+    ]
+}

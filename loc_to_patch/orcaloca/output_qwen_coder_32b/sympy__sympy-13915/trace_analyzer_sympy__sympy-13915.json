@@ -1,0 +1,70 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "NDimArray",
+            "file_path": "sympy/core/function.py"
+        },
+        {
+            "keyword": "MatrixCommon",
+            "file_path": "sympy/core/function.py"
+        },
+        {
+            "keyword": "MutableSet",
+            "file_path": "sympy/core/containers.py"
+        },
+        {
+            "keyword": "Iterable",
+            "file_path": "sympy/core/function.py"
+        },
+        {
+            "keyword": "limit",
+            "file_path": ""
+        },
+        {
+            "keyword": "Tuple",
+            "file_path": "sympy/core/function.py"
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "OrderedSet",
+            "file_path": "sympy/core/containers.py"
+        },
+        {
+            "keyword": "defaultdict",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        },
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "_subs",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        },
+        {
+            "keyword": "fallback",
+            "file_path": "sympy/core/basic.py",
+            "class_name": "Basic"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import *\na, b = symbols('a, b')\nr = (1/(a+b) + 1/(a-b))/(1/(a+b) - 1/(a-b))\nprint(r.subs(b, a))\nprint(r.limit(b, a))\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-13915.py"
+}

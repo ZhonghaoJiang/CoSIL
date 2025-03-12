@@ -1,0 +1,70 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "readlines",
+            "file_path": ""
+        },
+        {
+            "keyword": "subprocess",
+            "file_path": ""
+        },
+        {
+            "keyword": "split",
+            "file_path": ""
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "Popen",
+            "file_path": ""
+        },
+        {
+            "keyword": "PIPE",
+            "file_path": ""
+        },
+        {
+            "keyword": "open",
+            "file_path": ""
+        },
+        {
+            "keyword": "strip",
+            "file_path": ""
+        },
+        {
+            "keyword": "communicate",
+            "file_path": ""
+        },
+        {
+            "keyword": "writelines",
+            "file_path": ""
+        },
+        {
+            "keyword": "enumerate",
+            "file_path": ""
+        },
+        {
+            "keyword": "chdir",
+            "file_path": ""
+        },
+        {
+            "keyword": "run_command",
+            "file_path": ""
+        },
+        {
+            "keyword": "next",
+            "file_path": ""
+        },
+        {
+            "keyword": "decode",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import subprocess\nimport os\ndef run_command(command):\n    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n    stdout, stderr = process.communicate()\n    print(stdout.decode())\n    print(stderr.decode())\n\nrun_command('pip install -U django')\nrun_command('django-admin startproject myproject')\nos.chdir('myproject/myproject')\n\n# Modify settings.py to add BASE_DIR to TEMPLATES[0]['DIRS']\nwith open('settings.py', 'r') as file:\n    lines = file.readlines()\n\nbase_dir_line = next(line for line in lines if 'BASE_DIR' in line)\nbase_dir_value = base_dir_line.split('=')[1].strip()\n\nfor i, line in enumerate(lines):\n    if \"'DIRS': []\" in line:\n        lines[i] = f\"        'DIRS': [{base_dir_value}],\\n\"\n        break\n\nwith open('settings.py', 'w') as file:\n    file.writelines(lines)\n\nrun_command('../manage.py runserver')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15388.py"
+}

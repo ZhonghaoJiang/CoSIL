@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe dpi attribute is being doubled each time the figure is pickled and unpickled. This is likely due to the __setstate__ method not properly handling the dpi attribute.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/figure.py",
+            "class_name": "Figure",
+            "method_name": "__setstate__"
+        }
+    ]
+}

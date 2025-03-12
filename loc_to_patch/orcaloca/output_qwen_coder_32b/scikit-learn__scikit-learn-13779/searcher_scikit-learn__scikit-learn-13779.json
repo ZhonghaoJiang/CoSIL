@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe fit method in VotingClassifier does not check if any of the estimators are None before using them with sample weights. The _parallel_fit_estimator function directly uses the estimator without checking if it is None.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/ensemble/voting.py",
+            "class_name": "_BaseVoting",
+            "method_name": "fit"
+        },
+        {
+            "file_path": "sklearn/ensemble/voting.py",
+            "class_name": "",
+            "method_name": "_parallel_fit_estimator"
+        }
+    ]
+}

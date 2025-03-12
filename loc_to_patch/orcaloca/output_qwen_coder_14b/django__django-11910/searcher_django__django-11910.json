@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe provided migration operations include a RenameField operation and an AlterField operation, but the AlterField operation still references the old field name ('field_wrong') instead of the new field name ('field_fixed'). This indicates a potential bug in the migration file.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/migrations/0002_auto_20230401_1234.py",
+            "class_name": "Migration",
+            "method_name": ""
+        }
+    ]
+}

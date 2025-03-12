@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Integral",
+            "file_path": ""
+        },
+        {
+            "keyword": "sin",
+            "file_path": ""
+        },
+        {
+            "keyword": "exp",
+            "file_path": ""
+        },
+        {
+            "keyword": "abs",
+            "file_path": ""
+        },
+        {
+            "keyword": "refine",
+            "file_path": ""
+        },
+        {
+            "keyword": "doit",
+            "file_path": ""
+        },
+        {
+            "keyword": "var",
+            "file_path": ""
+        },
+        {
+            "keyword": "arg",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sympy import * \nvar('a,x') \nJ = Integral(sin(x)*exp(-a*x),(x,0,oo)) \nJ.doit() \nrefine(J.doit(),Q.positive(a)) \nrefine(abs(a),Q.positive(a)) \nrefine(arg(a),Q.positive(a))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-21055.py"
+}

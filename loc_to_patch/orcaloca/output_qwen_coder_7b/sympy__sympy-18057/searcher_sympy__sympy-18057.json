@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe eval call in the __eq__ method of sympy.core.expr is suspicious.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/core/expr.py",
+            "class_name": "Expr",
+            "method_name": "__eq__"
+        }
+    ]
+}

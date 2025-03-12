@@ -1,0 +1,72 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/axes/_base.py"
+        },
+        {
+            "keyword": "wrapper",
+            "file_path": "lib/matplotlib/backends/backend_ps.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/text.py"
+        },
+        {
+            "keyword": "_print_ps",
+            "file_path": "lib/matplotlib/backends/backend_ps.py"
+        },
+        {
+            "keyword": "wrapper",
+            "file_path": "lib/matplotlib/_api/deprecation.py"
+        },
+        {
+            "keyword": "savefig",
+            "file_path": ""
+        },
+        {
+            "keyword": "savefig",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "draw",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "print_figure",
+            "file_path": "lib/matplotlib/backend_bases.py"
+        },
+        {
+            "keyword": "Figure",
+            "file_path": "lib/matplotlib/figure.py"
+        },
+        {
+            "keyword": "add_subplot",
+            "file_path": ""
+        },
+        {
+            "keyword": "annotate",
+            "file_path": ""
+        },
+        {
+            "keyword": "_draw_list_compositing_images",
+            "file_path": "lib/matplotlib/image.py"
+        },
+        {
+            "keyword": "_print_figure",
+            "file_path": "lib/matplotlib/backends/backend_ps.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "draw_text",
+            "file_path": "lib/matplotlib/backends/backend_ps.py",
+            "class_name": "RendererPS"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom matplotlib.figure import Figure\n\nfigure = Figure()\nax = figure.add_subplot(111)\n# ax.set_title('\\nLower title')  # this would cause an error as well\nax.annotate(text='\\nLower label', xy=(0, 0))\nfigure.savefig('figure.eps')\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23964.py"
+}

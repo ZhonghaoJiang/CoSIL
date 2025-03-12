@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when trying to use the 'header_rows' keyword argument with the 'ascii.rst' format in the 'write' method of the 'QTable' class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/python3/dist-packages/astropy/io/ascii/rst.py",
+            "class_name": "RST",
+            "method_name": ""
+        }
+    ]
+}

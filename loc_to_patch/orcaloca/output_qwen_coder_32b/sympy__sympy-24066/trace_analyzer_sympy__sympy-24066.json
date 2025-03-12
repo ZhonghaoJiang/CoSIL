@@ -1,0 +1,46 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "is_dimensionless",
+            "file_path": "sympy/physics/units/dimensions.py"
+        },
+        {
+            "keyword": "exp",
+            "file_path": ""
+        },
+        {
+            "keyword": "get_dimension_system",
+            "file_path": ""
+        },
+        {
+            "keyword": "SI",
+            "file_path": "sympy/physics/units/systems/si.py"
+        },
+        {
+            "keyword": "units",
+            "file_path": "sympy/physics/units/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_collect_factor_and_dimension",
+            "file_path": "sympy/physics/units/unitsystem.py",
+            "class_name": "UnitSystem"
+        },
+        {
+            "keyword": "_get_dimensional_dependencies_for_name",
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "DimensionSystem"
+        },
+        {
+            "keyword": "__pow__",
+            "file_path": "sympy/physics/units/dimensions.py",
+            "class_name": "Dimension"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import exp\nfrom sympy.physics import units\nfrom sympy.physics.units.systems.si import SI\n\nexpr = units.second / (units.ohm * units.farad)\ndim = SI._collect_factor_and_dimension(expr)[1]\n\nassert SI.get_dimension_system().is_dimensionless(dim)\n\nbuggy_expr = 100 + exp(expr)\nSI._collect_factor_and_dimension(buggy_expr)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24066.py"
+}

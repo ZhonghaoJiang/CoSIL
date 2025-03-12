@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "Abs",
+            "file_path": ""
+        },
+        {
+            "keyword": "sign",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy import sign, Abs, symbols\n\nx = symbols('x')\n\nprint(sign(x).rewrite(Abs))\nprint(sign(0))\nprint(0 / Abs(0))",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-19487.py"
+}

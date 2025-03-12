@@ -1,0 +1,82 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "manager_method",
+            "file_path": "django/db/models/manager.py"
+        },
+        {
+            "keyword": "_add_q",
+            "file_path": "django/db/models/sql/query.py"
+        },
+        {
+            "keyword": "test_filter_with_metadata_type",
+            "file_path": ""
+        },
+        {
+            "keyword": "filter",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "setUp",
+            "file_path": ""
+        },
+        {
+            "keyword": "NotSupportedError",
+            "file_path": "django/db/utils.py"
+        },
+        {
+            "keyword": "add_q",
+            "file_path": "django/db/models/sql/query.py"
+        },
+        {
+            "keyword": "ProductMetaDataType",
+            "file_path": ""
+        },
+        {
+            "keyword": "gettext_lazy",
+            "file_path": ""
+        },
+        {
+            "keyword": "TestCase",
+            "file_path": ""
+        },
+        {
+            "keyword": "timezone",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProductMetaData",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_checkpolicywarning_by_fields",
+            "file_path": ""
+        },
+        {
+            "keyword": "build_filter",
+            "file_path": "django/db/models/sql/query.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "_filter_or_exclude",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "check_filterable",
+            "file_path": "django/db/models/sql/query.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\nfrom django.utils.translation import gettext_lazy as _\nfrom django.utils import timezone\nfrom django.test import TestCase\n\nsettings.configure(INSTALLED_APPS=['django.contrib.contenttypes', 'django.contrib.auth', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles'], DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3'}})\n\nclass ProductMetaDataType(models.Model):\n    label = models.CharField(max_length=255, unique=True, blank=False, null=False)\n    filterable = models.BooleanField(default=False, verbose_name=_('filterable'))\n    class Meta:\n        app_label = \"adminpricing\"\n        verbose_name = _('product meta data type')\n        verbose_name_plural = _('product meta data types')\n    def __str__(self):\n        return self.label\n\nclass ProductMetaData(models.Model):\n    id = models.BigAutoField(primary_key=True)\n    product = models.ForeignKey(\n        'self', null=False, blank=False, on_delete=models.CASCADE\n    )\n    value = models.TextField(null=False, blank=False)\n    marketplace = models.ForeignKey(\n        'self', null=False, blank=False, on_delete=models.CASCADE\n    )\n    date_created = models.DateTimeField(null=True, default=timezone.now)\n    metadata_type = models.ForeignKey(\n        ProductMetaDataType, null=False, blank=False, on_delete=models.CASCADE\n    )\n    class Meta:\n        app_label = \"adminpricing\"\n        verbose_name = _('product meta data')\n        verbose_name_plural = _('product meta datas')\n\nclass TestProductMetaData(TestCase):\n    def setUp(self):\n        ProductMetaDataType.objects.create(label='Test Label', filterable=False)\n        self.brand_metadata = ProductMetaDataType.objects.first()\n        ProductMetaData.objects.create(value='Dark Vador', metadata_type=self.brand_metadata)\n\n    def test_filter_with_metadata_type(self):\n        with self.assertRaises(django.db.utils.NotSupportedError) as context:\n            ProductMetaData.objects.filter(value='Dark Vador', metadata_type=self.brand_metadata)\n        self.assertEqual(str(context.exception), 'ProductMetaDataType is disallowed in the filter clause.')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13028.py"
+}

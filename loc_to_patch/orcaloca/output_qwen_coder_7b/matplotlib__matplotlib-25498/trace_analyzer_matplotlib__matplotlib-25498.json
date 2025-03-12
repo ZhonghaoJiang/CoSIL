@@ -1,0 +1,46 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "update_bruteforce",
+            "file_path": ""
+        },
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "draw_all",
+            "file_path": "lib/matplotlib/colorbar.py"
+        },
+        {
+            "keyword": "LogNorm",
+            "file_path": "lib/matplotlib/colors.py"
+        },
+        {
+            "keyword": "_process_values",
+            "file_path": "lib/matplotlib/colorbar.py"
+        },
+        {
+            "keyword": "imshow",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "colorbar",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "update_normal",
+            "file_path": "lib/matplotlib/colorbar.py"
+        },
+        {
+            "keyword": "inverse",
+            "file_path": "lib/matplotlib/colors.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import matplotlib.pyplot as plt\nfrom matplotlib.colors import LogNorm\nimport numpy as np\n\nimg = 10**np.random.normal(1, 1, size=(50, 50))\n\nfig, ax = plt.subplots(1, 1)\nplot = ax.imshow(img, cmap='gray')\ncb = fig.colorbar(plot, ax=ax)\nplot.norm = LogNorm(vmin=1, vmax=10)\ncb.update_normal(plot)  # no effect\ncb.update_bruteforce(plot)  # throws ZeroDivisionError\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-25498.py"
+}

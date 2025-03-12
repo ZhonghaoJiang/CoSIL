@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Authors",
+            "file_path": ""
+        },
+        {
+            "keyword": "Project",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProjectDataSet",
+            "file_path": ""
+        },
+        {
+            "keyword": "DataSet",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "class Authors(models.Model):\n    project_data_set = models.ForeignKey(\n        ProjectDataSet,\n        on_delete=models.PROTECT\n    )\n    state = models.IntegerField()\n    start_date = models.DateField()\n    class Meta:\n        unique_together = (('project_data_set', 'state', 'start_date'),)\n\nclass DataSet(models.Model):\n    name = models.TextField(max_length=50)\n\nclass Project(models.Model):\n    data_sets = models.ManyToManyField(\n        DataSet,\n        through='ProjectDataSet',\n    )\n    name = models.TextField(max_length=50)\n\nclass ProjectDataSet(models.Model):\n    data_set = models.ForeignKey(DataSet, on_delete=models.PROTECT)\n    project = models.ForeignKey(Project, on_delete=models.PROTECT)\n    class Meta:\n        unique_together = (('data_set', 'project'),)\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

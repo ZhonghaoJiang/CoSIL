@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "ModelB",
+            "file_path": ""
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "ModelA",
+            "file_path": ""
+        },
+        {
+            "keyword": "Migration",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "migrations",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project.settings')\nfrom django.conf import settings\nsettings.configure()\nfrom django.db import models, migrations\nclass ModelA(models.Model):\n    field_wrong = models.CharField('field1', max_length=50, primary_key=True)\nclass ModelB(models.Model):\n    field_fk = models.ForeignKey(ModelA, blank=True, null=True, on_delete=models.CASCADE)\nclass Migration(migrations.Migration):\n    dependencies = [\n        ('app1', '0001_initial'),\n    ]\n    operations = [\n        migrations.RenameField(\n            model_name='modela',\n            old_name='field_wrong',\n            new_name='field_fixed',\n        ),\n        migrations.AlterField(\n            model_name='modelb',\n            name='field_fk',\n            field=models.ForeignKey(blank=True, null=True, on_delete=models.CASCADE, to='app1.ModelA', to_field='field_wrong'),\n        ),\n    ]\n",
+    "env_reproduce_path": "/django__django/reproducer_django__django-11910.py"
+}

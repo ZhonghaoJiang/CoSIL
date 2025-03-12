@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nMyBigAutoField does not subclass AutoField, causing the error.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "example/core/models.py",
+            "class_name": "MyBigAutoField",
+            "method_name": ""
+        }
+    ]
+}

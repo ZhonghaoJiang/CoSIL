@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe problem statement indicates that the `@` operator (`__matmul__`) should fail if one argument is not a matrix. Currently, it seems to be copying the behavior of `__mul__`, which allows scalar multiplication. We need to identify where the `__matmul__` method is defined and ensure it checks if both operands are matrices.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/matrices/dense.py",
+            "class_name": "Matrix",
+            "method_name": ""
+        }
+    ]
+}

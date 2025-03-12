@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "KeyError",
+            "file_path": ""
+        },
+        {
+            "keyword": "plt",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "style",
+            "file_path": ""
+        },
+        {
+            "keyword": "library",
+            "file_path": "lib/matplotlib/style/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport matplotlib.pyplot as plt\nthe_rc = plt.style.library[\"seaborn-colorblind\"]\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-24265.py"
+}

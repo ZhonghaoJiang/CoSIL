@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the matplotlib library when using mplcursor with matplotlib 3.7.1. The traceback points to an AttributeError in the 'offsetbox.py' file, specifically in the 'disconnect' method. The error suggests that the 'canvas' attribute is 'NoneType', indicating a potential issue with the figure or artist objects.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "C:\\Users\\MrAni\\Python\\miniconda3\\lib\\site-packages\\matplotlib\\offsetbox.py",
+            "class_name": "",
+            "method_name": "disconnect"
+        }
+    ]
+}

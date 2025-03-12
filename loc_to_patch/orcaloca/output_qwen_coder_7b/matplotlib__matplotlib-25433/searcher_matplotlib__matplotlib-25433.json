@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe disconnect_events method in AxesWidget is responsible for disconnecting all events created by the widget. The connect_event method is used to connect a callback function with an event. The issue might be related to the interaction between these two methods or the handling of events in the on_changed callback of the RangeSlider.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/widgets.py",
+            "class_name": "RangeSlider",
+            "method_name": "on_changed"
+        }
+    ]
+}

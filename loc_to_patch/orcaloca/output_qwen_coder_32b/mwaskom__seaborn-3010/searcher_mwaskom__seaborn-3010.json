@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during the execution of np.polyfit, which is called within the _fit_predict method of the PolyFit class. The presence of None in the data causes the issue.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "~/code/seaborn/seaborn/_stats/regression.py",
+            "class_name": "PolyFit",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nCannot find the definition of handle_note_tag. Let's search for process_notes to find where note tags are processed.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "pylint/checkers/misc.py",
+            "class_name": "FixmeChecker",
+            "method_name": ""
+        }
+    ]
+}

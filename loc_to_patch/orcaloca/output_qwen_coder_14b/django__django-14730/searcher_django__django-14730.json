@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe '__init__' method of the ManyToManyField class is the most relevant for checking the related_name and symmetrical attributes. The 'check' method calls other check methods, including '_check_unique'. The '_check_unique' method checks if the field is unique, which is not applicable to ManyToManyFields. The 'resolve_relation' function transforms the relation into a model or fully-qualified model string. The 'create_many_to_many_intermediary_model' function creates the intermediary model for ManyToManyFields.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "check"
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sklearn",
+            "file_path": ""
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "SVR",
+            "file_path": ""
+        },
+        {
+            "keyword": "scipy",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_sparse_fit",
+            "file_path": "sklearn/svm/base.py",
+            "class_name": "BaseLibSVM"
+        },
+        {
+            "keyword": "fit",
+            "file_path": "sklearn/svm/base.py",
+            "class_name": "BaseLibSVM"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport scipy\nimport sklearn\nfrom sklearn.svm import SVR\nx_train = np.array([[0, 1, 0, 0],\n[0, 0, 0, 1],\n[0, 0, 1, 0],\n[0, 0, 0, 1]])\ny_train = np.array([0.04, 0.04, 0.10, 0.16])\nmodel = SVR(C=316.227766017, cache_size=200, coef0=0.0, degree=3, epsilon=0.1,\n  \t    gamma=1.0, kernel='linear', max_iter=15000,\n  \t    shrinking=True, tol=0.001, verbose=False)\n# dense x_train has no error\nmodel.fit(x_train, y_train)\n\n# convert to sparse\nxtrain= scipy.sparse.csr_matrix(x_train)\nmodel.fit(xtrain, y_train)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-14894.py"
+}

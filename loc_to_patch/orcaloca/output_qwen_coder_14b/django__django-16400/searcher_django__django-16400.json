@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe search for the class 'TenantDatabaseRouter' failed with an error indicating that it cannot unpack a non-iterable NoneType object. This suggests that the class might not be found or there might be an issue with the search method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "utils/tenant_db_router.py",
+            "class_name": "TenantDatabaseRouter",
+            "method_name": ""
+        },
+        {
+            "file_path": "utils/tenant_db_router.py",
+            "class_name": "TenantDatabaseRouter",
+            "method_name": ""
+        }
+    ]
+}

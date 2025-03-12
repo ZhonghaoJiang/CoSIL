@@ -1,0 +1,14 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "slugify",
+            "file_path": "django/utils/text.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.utils import text\ntext.slugify(\"___This is a test ---\")",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12983.py"
+}

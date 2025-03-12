@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the viewcode extension and its behavior when generating HTML and EPUB outputs. The bug is that viewcode creates pages for EPUB even if `viewcode_enable_epub=False` is set.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/ext/viewcode.py",
+            "class_name": "",
+            "method_name": "doctree_read"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe bug is likely in the MessageDecoder class, specifically in the decode method where extra_tags is processed.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/messages/storage/cookie.py",
+            "class_name": "MessageEncoder",
+            "method_name": "default"
+        },
+        {
+            "file_path": "django/contrib/messages/storage/cookie.py",
+            "class_name": "MessageDecoder",
+            "method_name": "decode"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+    "conclusion": "<Observation>\nRenameModel's state_forwards and database_forwards methods do not handle db_table. AlterModelTable's state_forwards and database_forwards methods should be checked.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/migrations/operations/models.py",
+            "class_name": "RenameModel",
+            "method_name": "state_forwards"
+        },
+        {
+            "file_path": "django/db/migrations/operations/models.py",
+            "class_name": "RenameModel",
+            "method_name": "database_forwards"
+        },
+        {
+            "file_path": "django/db/migrations/operations/models.py",
+            "class_name": "RenameModel",
+            "method_name": "reduce"
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "ValueError",
+            "file_path": ""
+        },
+        {
+            "keyword": "LogisticRegressionCV",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "set_config",
+            "file_path": "sklearn/_config.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "__repr__",
+            "file_path": "sklearn/base.py",
+            "class_name": "BaseEstimator"
+        },
+        {
+            "keyword": "_safe_repr",
+            "file_path": "sklearn/utils/_pprint.py",
+            "class_name": "_EstimatorPrettyPrinter"
+        },
+        {
+            "keyword": "_changed_params",
+            "file_path": "sklearn/utils/_pprint.py",
+            "class_name": "KeyValTupleParam"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "sklearn/utils/_pprint.py",
+            "class_name": "_EstimatorPrettyPrinter"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sklearn\nimport numpy as np\nfrom sklearn.linear_model import LogisticRegressionCV\nsklearn.set_config(print_changed_only=True)\nprint(LogisticRegressionCV(Cs=np.array([0.1, 1])))\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-13584.py"
+}

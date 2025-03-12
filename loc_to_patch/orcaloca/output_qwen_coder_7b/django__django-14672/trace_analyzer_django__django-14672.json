@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Child",
+            "file_path": ""
+        },
+        {
+            "keyword": "ProxyParent",
+            "file_path": ""
+        },
+        {
+            "keyword": "TypeError",
+            "file_path": ""
+        },
+        {
+            "keyword": "Parent",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "ManyToManyModel",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db import models\n\nclass Parent(models.Model):\n    name = models.CharField(max_length=256)\n\nclass ProxyParent(Parent):\n    class Meta:\n        proxy = True\n\nclass Child(models.Model):\n    parent = models.ForeignKey(Parent, on_delete=models.CASCADE)\n    many_to_many_field = models.ManyToManyField(\n        to=Parent,\n        through=\"ManyToManyModel\",\n        through_fields=[\"child\", \"parent\"],\n        related_name=\"something\"\n    )\n\nclass ManyToManyModel(models.Model):\n    parent = models.ForeignKey(Parent, on_delete=models.CASCADE, related_name='+')\n    child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name='+')\n    second_child = models.ForeignKey(Child, on_delete=models.CASCADE, null=True, default=None)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-14672.py"
+}

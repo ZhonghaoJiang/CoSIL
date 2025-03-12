@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs in the _check_still_parented method, which calls the disconnect method. The ref_artist.figure might be None, causing the disconnect method to fail when accessing self.canvas.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/offsetbox.py",
+            "class_name": "DraggableBase",
+            "method_name": "disconnect"
+        },
+        {
+            "file_path": "lib/matplotlib/offsetbox.py",
+            "class_name": "PaddedBox",
+            "method_name": ""
+        }
+    ]
+}

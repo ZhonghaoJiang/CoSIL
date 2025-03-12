@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe help output is missing the example usage part. The expected output includes the example usage, but the actual output does not.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "path/to/file",
+            "class_name": "Command",
+            "method_name": ""
+        }
+    ]
+}

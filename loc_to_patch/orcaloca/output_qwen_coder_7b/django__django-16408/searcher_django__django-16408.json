@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error might be related to how select_related() is used with FilteredRelation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "FilteredRelation",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "DeferredAttribute",
+            "method_name": "__get__"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe RenameModel operation is incorrectly dropping and recreating foreign key constraints in Postgres. The '__init__', 'deconstruct', 'state_forwards', 'database_forwards', and 'database_backwards' methods could be involved in handling the db_table attribute and performing the rename operation.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/migrations/operations/models.py",
+            "class_name": "RenameModel",
+            "method_name": "database_forwards"
+        },
+        {
+            "file_path": "django/db/migrations/operations/models.py",
+            "class_name": "RenameModel",
+            "method_name": "database_backwards"
+        }
+    ]
+}

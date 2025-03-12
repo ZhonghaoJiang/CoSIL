@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "RepeatedKFold",
+            "file_path": ""
+        },
+        {
+            "keyword": "RepeatedKFold",
+            "file_path": "sklearn/model_selection/_split.py"
+        },
+        {
+            "keyword": "RepeatedStratifiedKFold",
+            "file_path": ""
+        },
+        {
+            "keyword": "RepeatedStratifiedKFold",
+            "file_path": "sklearn/model_selection/_split.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sklearn.model_selection import RepeatedKFold, RepeatedStratifiedKFold\nprint(repr(RepeatedKFold()))\nprint(repr(RepeatedStratifiedKFold()))",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-14983.py"
+}

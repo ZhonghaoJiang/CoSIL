@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Child",
+            "file_path": ""
+        },
+        {
+            "keyword": "apps",
+            "file_path": ""
+        },
+        {
+            "keyword": "Parent",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nsettings.configure(USE_I18N=False, USE_L10N=False, USE_TZ=False, DEBUG=True, DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:'}})\n\nfrom django.db import models\n\nclass Parent(models.Model):\n    class Meta:\n        ordering = ['-pk']\nclass Child(Parent):\n    pass\n\nfrom django.apps import apps\napps.populate(settings.INSTALLED_APPS)\n\nprint(Child.objects.all().query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-12470.py"
+}

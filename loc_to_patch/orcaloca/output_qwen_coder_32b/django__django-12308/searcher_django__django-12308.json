@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\ndisplay_for_field does not handle JSONField specifically. It uses display_for_value for generic value display. prepare_value in JSONField uses json.dumps, which might not handle InvalidJSONInput correctly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/admin/utils.py",
+            "class_name": "",
+            "method_name": "display_for_field"
+        },
+        {
+            "file_path": "django/forms/fields.py",
+            "class_name": "JSONField",
+            "method_name": "prepare_value"
+        }
+    ]
+}

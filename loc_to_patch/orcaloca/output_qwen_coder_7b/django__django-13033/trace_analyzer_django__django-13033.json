@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "OneModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "qs",
+            "file_path": ""
+        },
+        {
+            "keyword": "TwoModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "class OneModel(models.Model):\n    class Meta:\n        ordering = (\"-id\",\n    id = models.BigAutoField(primary_key=True)\n    root = models.ForeignKey(\"OneModel\", on_delete=models.CASCADE, null=True)\n    oneval = models.BigIntegerField(null=True)\nclass TwoModel(models.Model):\n    id = models.BigAutoField(primary_key=True)\n    record = models.ForeignKey(OneModel, on_delete=models.CASCADE)\n    twoval = models.BigIntegerField(null=True)\nqs = TwoModel.objects.filter(record__oneval__in=[1,2,3])\nqs = qs.order_by(\"record__root_id\")\nprint(qs.query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13033.py"
+}

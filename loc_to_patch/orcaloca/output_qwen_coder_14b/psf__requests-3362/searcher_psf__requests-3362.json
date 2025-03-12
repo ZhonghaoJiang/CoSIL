@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe user is experiencing a discrepancy between the `iter_content` method and the `text` attribute of the `requests.Response` object. The user expects both to return unicode objects, but `iter_content` with `decode_unicode=True` returns bytes, while `text` returns unicode. The user is using Python 3.5.1 and requests 2.10.0.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "requests/models.py",
+            "class_name": "Response",
+            "method_name": "iter_content"
+        },
+        {
+            "file_path": "requests/models.py",
+            "class_name": "Response",
+            "method_name": "text"
+        }
+    ]
+}

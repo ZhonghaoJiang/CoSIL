@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "plt",
+            "file_path": ""
+        },
+        {
+            "keyword": "fig",
+            "file_path": ""
+        },
+        {
+            "keyword": "speed",
+            "file_path": ""
+        },
+        {
+            "keyword": "time",
+            "file_path": ""
+        },
+        {
+            "keyword": "pickle",
+            "file_path": ""
+        },
+        {
+            "keyword": "FigureCanvasQTAgg",
+            "file_path": ""
+        },
+        {
+            "keyword": "leg",
+            "file_path": ""
+        },
+        {
+            "keyword": "ax",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import matplotlib.pyplot as plt\nimport pickle\n\nfig = plt.figure()\nax = fig.add_subplot(111)\n\ntime=[0,1,2,3,4]\nspeed=[40,43,45,47,48]\n\nax.plot(time,speed,label=\"speed\")\n\nleg=ax.legend()\nleg.set_draggable(True) #pickling works after removing this line \n\npickle.dumps(fig)\nplt.show()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-25311.py"
+}

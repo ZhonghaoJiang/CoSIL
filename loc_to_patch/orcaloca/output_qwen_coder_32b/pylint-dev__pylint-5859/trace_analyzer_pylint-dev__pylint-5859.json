@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "run",
+            "file_path": ""
+        },
+        {
+            "keyword": "subprocess",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "# YES: yes\n# ???: no\n\nimport subprocess\nsubprocess.run(['pylint', 'test.py', '--notes=YES,???'], check=True)",
+    "env_reproduce_path": "/pylint-dev__pylint/reproducer_pylint-dev__pylint-5859.py"
+}

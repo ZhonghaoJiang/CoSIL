@@ -1,0 +1,44 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "LogisticRegressionCV",
+            "file_path": ""
+        },
+        {
+            "keyword": "IndexError",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "fit",
+            "file_path": "sklearn/linear_model/logistic.py",
+            "class_name": "LogisticRegressionCV"
+        },
+        {
+            "keyword": "_check_solver",
+            "file_path": "sklearn/linear_model/logistic.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "check_cv",
+            "file_path": "sklearn/model_selection/_split.py",
+            "class_name": "_CVIterableWrapper"
+        },
+        {
+            "keyword": "check_array",
+            "file_path": "sklearn/utils/validation.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "check_consistent_length",
+            "file_path": "sklearn/utils/validation.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sys\nimport sklearn\nfrom sklearn.linear_model import LogisticRegressionCV\nimport numpy as np\n\nnp.random.seed(29)\nX = np.random.normal(size=(1000, 3))\nbeta = np.random.normal(size=3)\nintercept = np.random.normal(size=None)\ny = np.sign(intercept + X @ beta)\n\nLogisticRegressionCV(\ncv=5,\nsolver='saga', # same error with 'liblinear'\ntol=1e-2,\nrefit=False).fit(X, y)\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-14087.py"
+}

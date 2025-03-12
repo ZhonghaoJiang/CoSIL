@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "connection",
+            "file_path": ""
+        },
+        {
+            "keyword": "TwoModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "F",
+            "file_path": ""
+        },
+        {
+            "keyword": "OneModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "setup",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.conf import settings\nfrom django.db import models\nfrom django.db.models import F\n\nsettings.configure(\n    INSTALLED_APPS=['__main__'],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:'\n        }\n    }\n)\n\nfrom django import setup\nsetup()\n\nclass OneModel(models.Model):\n    class Meta:\n        ordering = (\"-id\",)\n    id = models.BigAutoField(primary_key=True)\n    root = models.ForeignKey(\"OneModel\", on_delete=models.CASCADE, null=True)\n    oneval = models.BigIntegerField(null=True)\n\nclass TwoModel(models.Model):\n    id = models.BigAutoField(primary_key=True)\n    record = models.ForeignKey(OneModel, on_delete=models.CASCADE)\n    twoval = models.BigIntegerField(null=True)\n\nfrom django.db import connection\nconnection.ensure_connection()\n\nqs = TwoModel.objects.filter(record__oneval__in=[1,2,3])\nqs = qs.order_by(\"record__root_id\")\nprint(qs.query)\n\nqs = TwoModel.objects.filter(record__oneval__in=[1,2,3])\nqs = qs.order_by(\"record__root\")\nprint(qs.query)\n\nqs = TwoModel.objects.filter(record__oneval__in=[1,2,3])\nqs = qs.order_by(\"record__root__id\")\nprint(qs.query)\n\nqs = TwoModel.objects.filter(record__oneval__in=[1,2,3])\nqs = qs.annotate(root_id=F(\"record__root_id\"))\nqs = qs.order_by(\"root_id\")\nprint(qs.query)\n\nqs = TwoModel.objects.filter(record__oneval__in=[1,2,3])\nqs = qs.order_by(\"-record__root_id\")\nprint(qs.query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-13033.py"
+}

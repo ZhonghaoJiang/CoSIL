@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nBoth ASCIIUsernameValidator and UnicodeUsernameValidator use the same regex pattern, which allows trailing newlines. The suggested fix is to modify the regex to use \\A and \\Z to ensure usernames cannot end with a newline.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/validators.py",
+            "class_name": "ASCIIUsernameValidator",
+            "method_name": ""
+        },
+        {
+            "file_path": "django/contrib/auth/validators.py",
+            "class_name": "UnicodeUsernameValidator",
+            "method_name": ""
+        }
+    ]
+}

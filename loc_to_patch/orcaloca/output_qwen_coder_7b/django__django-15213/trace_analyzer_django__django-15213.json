@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "BooleanField",
+            "file_path": ""
+        },
+        {
+            "keyword": "ExpressionWrapper",
+            "file_path": ""
+        },
+        {
+            "keyword": "QuerySet",
+            "file_path": ""
+        },
+        {
+            "keyword": "Q",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.db.models import Q, ExpressionWrapper, BooleanField\nfrom django.db.models.query import QuerySet\n\nqueryset = QuerySet()\n\ntry:\n    print(queryset.annotate(foo=ExpressionWrapper(~Q(pk__in=[]), output_field=BooleanField())).values(\"foo\").query)\nexcept Exception as e:\n    print(e)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15213.py"
+}

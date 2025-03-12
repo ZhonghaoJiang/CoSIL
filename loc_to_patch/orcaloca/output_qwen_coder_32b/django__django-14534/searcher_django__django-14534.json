@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe BoundWidget.id_for_label method is generating its own id instead of using the one provided in the attributes.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/boundfield.py",
+            "class_name": "BoundWidget",
+            "method_name": "id_for_label"
+        }
+    ]
+}

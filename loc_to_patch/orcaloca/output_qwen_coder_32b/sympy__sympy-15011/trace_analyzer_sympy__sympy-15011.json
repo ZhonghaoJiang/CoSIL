@@ -1,0 +1,44 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "MatrixSymbol",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "lambdify",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "literal",
+            "file_path": "sympy/core/symbol.py",
+            "class_name": "Wild"
+        },
+        {
+            "keyword": "doprint",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter"
+        },
+        {
+            "keyword": "_preprocess",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter"
+        },
+        {
+            "keyword": "_print_funcargwrapping",
+            "file_path": "sympy/utilities/lambdify.py",
+            "class_name": "_EvaluatorPrinter"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport sympy as sy\ncurlyx = sy.symbols(\"{x}\")\nv = sy.MatrixSymbol(\"v\", 2, 1)\ncurlyv = sy.MatrixSymbol(\"{v}\", 2, 1)\ncurlyVectorId = sy.lambdify(curlyv, curlyv)\ncurlyVectorIdDummified = sy.lambdify(curlyv, curlyv, dummify=True)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-15011.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe '_compat_get_offset' method is used to support different signatures for the 'get_offset' method. The error occurs because the 'ref_artist' is 'None'. The '_compat_get_offset' method is defined in the 'offsetbox.py' file.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "lib/matplotlib/offsetbox.py",
+            "class_name": "",
+            "method_name": "_compat_get_offset"
+        }
+    ]
+}

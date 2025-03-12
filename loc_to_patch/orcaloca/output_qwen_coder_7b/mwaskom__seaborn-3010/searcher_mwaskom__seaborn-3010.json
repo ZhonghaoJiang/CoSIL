@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during the computation of the polynomial fit, specifically in the np.polyfit function. The issue is likely due to the presence of None values in the data, which cannot be handled by np.polyfit.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "seaborn/_stats/regression.py",
+            "class_name": "PolyFit",
+            "method_name": "_fit_predict"
+        }
+    ]
+}

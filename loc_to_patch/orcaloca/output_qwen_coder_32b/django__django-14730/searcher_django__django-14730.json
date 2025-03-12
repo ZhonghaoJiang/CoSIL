@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe __init__ method initializes the ManyToManyField and sets the symmetrical attribute but does not check for related_name when symmetrical is True or when it's a self-referential relationship. The _check_relationship_model and _check_ignored_options methods do not handle this case either. The create_many_to_many_intermediary_model function constructs the intermediary model but does not check for related_name in symmetrical relationships.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "_check_relationship_model"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "ManyToManyField",
+            "method_name": "_check_ignored_options"
+        },
+        {
+            "file_path": "django/db/models/fields/related.py",
+            "class_name": "",
+            "method_name": "create_many_to_many_intermediary_model"
+        }
+    ]
+}

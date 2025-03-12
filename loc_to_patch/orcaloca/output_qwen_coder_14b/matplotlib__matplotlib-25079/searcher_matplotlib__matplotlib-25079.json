@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when setting the norm to LogNorm after the colorbar has been created. The issue seems to be related to the vmin and vmax values not being properly handled by the LogNorm class.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "matplotlib/colors.py",
+            "class_name": "LogNorm",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "MigrationOptimizer",
+            "file_path": "django/db/migrations/optimizer.py"
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "AlterField",
+            "file_path": "django/db/migrations/operations/fields.py"
+        },
+        {
+            "keyword": "CharField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "migrations",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from django.db import migrations, models\nfrom django.db.migrations.optimizer import MigrationOptimizer\n\noperations = [\n    migrations.AddField(\n        model_name=\"book\",\n        name=\"title\",\n        field=models.CharField(max_length=256, null=True),\n    ),\n    migrations.AlterField(\n        model_name=\"book\",\n        name=\"title\",\n        field=models.CharField(max_length=128, null=True),\n    ),\n    migrations.AlterField(\n        model_name=\"book\",\n        name=\"title\",\n        field=models.CharField(max_length=128, null=True, help_text=\"help\"),\n    ),\n    migrations.AlterField(\n        model_name=\"book\",\n        name=\"title\",\n        field=models.CharField(max_length=128, null=True, help_text=\"help\", default=None),\n    ),\n]\n\noptimizer = MigrationOptimizer()\noptimized_operations = optimizer.optimize(operations[1:], \"books\")\nprint(optimized_operations)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16595.py"
+}

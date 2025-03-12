@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs when printing a LogisticRegressionCV object with sklearn.set_config(print_changed_only=True). The issue is likely related to the _safe_repr method, which is called by the __repr__ method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/utils/_pprint.py",
+            "class_name": "_EstimatorPrettyPrinter",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "sklearn/utils/_pprint.py",
+            "class_name": "_EstimatorPrettyPrinter",
+            "method_name": ""
+        }
+    ]
+}

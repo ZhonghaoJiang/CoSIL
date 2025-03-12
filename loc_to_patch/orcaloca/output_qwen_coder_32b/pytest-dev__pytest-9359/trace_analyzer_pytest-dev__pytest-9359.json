@@ -1,0 +1,34 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "test_right_statement",
+            "file_path": ""
+        },
+        {
+            "keyword": "t",
+            "file_path": ""
+        },
+        {
+            "keyword": "outer",
+            "file_path": ""
+        },
+        {
+            "keyword": "fixture",
+            "file_path": ""
+        },
+        {
+            "keyword": "inner",
+            "file_path": ""
+        },
+        {
+            "keyword": "foo",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from pytest import fixture\n\ndef t(foo):\n    return foo\n\n@fixture\ndef foo():\n    return 1\n\ndef test_right_statement(foo):\n    assert foo == (3 + 2) * (6 + 9)\n\n    @t\ndef inner():\n        return 2\n\n    assert 2 == inner()\n\n@t\ndef outer():\n    return 2\n",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-9359.py"
+}

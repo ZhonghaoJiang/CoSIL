@@ -1,0 +1,90 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "rendered_content",
+            "file_path": "django/template/response.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/library.py"
+        },
+        {
+            "keyword": "AttributeError",
+            "file_path": ""
+        },
+        {
+            "keyword": "render_annotated",
+            "file_path": "django/template/base.py"
+        },
+        {
+            "keyword": "label_for_field",
+            "file_path": "django/contrib/admin/utils.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/loader_tags.py"
+        },
+        {
+            "keyword": "FieldDoesNotExist",
+            "file_path": ""
+        },
+        {
+            "keyword": "result_list",
+            "file_path": "django/contrib/admin/templatetags/admin_list.py"
+        },
+        {
+            "keyword": "ModelAdmin",
+            "file_path": "django/contrib/admin/options.py"
+        },
+        {
+            "keyword": "QuestionAdmin",
+            "file_path": ""
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/contrib/admin/templatetags/base.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/base.py"
+        },
+        {
+            "keyword": "inner",
+            "file_path": "django/core/handlers/exception.py"
+        },
+        {
+            "keyword": "result_headers",
+            "file_path": "django/contrib/admin/templatetags/admin_list.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/backends/django.py"
+        },
+        {
+            "keyword": "_render",
+            "file_path": "django/template/base.py"
+        },
+        {
+            "keyword": "_get_response",
+            "file_path": "django/core/handlers/base.py"
+        },
+        {
+            "keyword": "_get_non_gfk_field",
+            "file_path": "django/contrib/admin/utils.py"
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/response.py"
+        },
+        {
+            "keyword": "admin",
+            "file_path": "django/contrib/admin/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.contrib import admin\nfrom polls.models import Question, Choice\n\nclass QuestionAdmin(admin.ModelAdmin):\n    list_display = [\"choice\"]\n\nadmin.site.register(Question, QuestionAdmin)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16816.py"
+}

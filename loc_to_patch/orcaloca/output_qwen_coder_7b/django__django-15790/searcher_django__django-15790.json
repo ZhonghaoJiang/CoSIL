@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nTEMPLATES setting is empty, which might lead to issues when adding template tag libraries. 'my_tags' is used for multiple template tag modules.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/conf/global_settings.py",
+            "class_name": "",
+            "method_name": ""
+        },
+        {
+            "file_path": "django/core/checks/templates.py",
+            "class_name": "",
+            "method_name": "check_for_template_tags_with_the_same_name"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nget_response_async method is missing in StaticFilesHandlerMixin\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/staticfiles/handlers.py",
+            "class_name": "StaticFilesHandlerMixin",
+            "method_name": ""
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "LocalFiles",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "import os\nfrom django.conf import settings\nfrom django.db import models\nclass LocalFiles(models.Model):\n    name = models.CharField(max_length=255)\n    file = models.FilePathField(path=os.path.join(settings.LOCAL_FILE_DIR, 'example_dir'))\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe add_marker method in src/_pytest/nodes.py is responsible for dynamically adding markers to test nodes. The issue might be related to how markers are processed or applied in pytest 6.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "src/_pytest/nodes.py",
+            "class_name": "",
+            "method_name": "add_marker"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue might be related to how partial functions are handled in the resolve method of URLPattern.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "URLPattern",
+            "method_name": "__init__"
+        },
+        {
+            "file_path": "django/urls/resolvers.py",
+            "class_name": "ResolverMatch",
+            "method_name": "__repr__"
+        }
+    ]
+}

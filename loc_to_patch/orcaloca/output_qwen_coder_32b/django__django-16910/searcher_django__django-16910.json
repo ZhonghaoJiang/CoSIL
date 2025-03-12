@@ -1,0 +1,25 @@
+{
+    "conclusion": "<Observation>\nThe methods `only` and `select_related` are being used in combination, and the issue seems to be related to how fields are added and filtered in the query. The methods `add_select_related` and `add_immediate_loading` are likely involved in this process.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "only"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "select_related"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": ""
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": ""
+        }
+    ]
+}

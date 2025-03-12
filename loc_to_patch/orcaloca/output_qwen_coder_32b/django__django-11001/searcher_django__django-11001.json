@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue is with the regular expression in the get_order_by method of SQLCompiler class, which incorrectly identifies duplicate order_by clauses due to multiline RawSQL expressions.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/sql/compiler.py",
+            "class_name": "SQLCompiler",
+            "method_name": "get_order_by"
+        }
+    ]
+}

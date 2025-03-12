@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be related to the get_admin_url method in AdminReadonlyField not using the current_app keyword parameter.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/admin/helpers.py",
+            "class_name": "AdminReadonlyField",
+            "method_name": "get_admin_url"
+        }
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "True",
+            "file_path": ""
+        },
+        {
+            "keyword": "Linear1D",
+            "file_path": "astropy/modeling/models.py"
+        },
+        {
+            "keyword": "False",
+            "file_path": ""
+        },
+        {
+            "keyword": "Pix2Sky_TAN",
+            "file_path": ""
+        },
+        {
+            "keyword": "models",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "separability_matrix",
+            "file_path": "astropy/modeling/separable.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_separable",
+            "file_path": "astropy/modeling/separable.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_cstack",
+            "file_path": "astropy/modeling/separable.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_coord_matrix",
+            "file_path": "astropy/modeling/separable.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_calculate_separability_matrix",
+            "file_path": "astropy/modeling/core.py",
+            "class_name": "Model"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom astropy.modeling import models as m\nfrom astropy.modeling.separable import separability_matrix\n\ncm = m.Linear1D(10) & m.Linear1D(5)\nprint(separability_matrix(cm))\n\nprint(separability_matrix(m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5)))\n\nprint(separability_matrix(m.Pix2Sky_TAN() & cm))\n",
+    "env_reproduce_path": "/astropy__astropy/reproducer_astropy__astropy-12907.py"
+}

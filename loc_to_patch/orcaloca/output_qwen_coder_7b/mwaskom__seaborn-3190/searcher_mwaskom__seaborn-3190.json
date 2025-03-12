@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe error occurs during the color mapping process in seaborn, specifically when handling boolean data. The issue seems to be related to the scale setup for boolean values.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "seaborn/_core/scales.py",
+            "class_name": "ContinuousBase",
+            "method_name": "_setup"
+        },
+        {
+            "file_path": "seaborn/_core/scales.py",
+            "class_name": "ContinuousBase",
+            "method_name": "normalize"
+        }
+    ]
+}

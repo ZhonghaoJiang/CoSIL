@@ -1,0 +1,50 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "plt",
+            "file_path": "lib/matplotlib/pyplot.py"
+        },
+        {
+            "keyword": "platform",
+            "file_path": ""
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "lib/matplotlib/backends/backend_macosx.py"
+        },
+        {
+            "keyword": "pickle",
+            "file_path": ""
+        },
+        {
+            "keyword": "dump_load_get_dpi",
+            "file_path": ""
+        },
+        {
+            "keyword": "np",
+            "file_path": ""
+        },
+        {
+            "keyword": "new_figure_manager_given_figure",
+            "file_path": "lib/matplotlib/backend_bases.py"
+        },
+        {
+            "keyword": "matplotlib",
+            "file_path": ""
+        },
+        {
+            "keyword": "run",
+            "file_path": ""
+        },
+        {
+            "keyword": "__setstate__",
+            "file_path": "lib/matplotlib/figure.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import numpy as np\nimport matplotlib\nimport matplotlib.pyplot as plt\nimport pickle\nimport platform\n\n# Ensure the correct backend is used\nmatplotlib.use('TkAgg')  # or another compatible backend like 'Qt5Agg'\n\nprint(matplotlib.get_backend())\nprint('Matplotlib ver:', matplotlib.__version__)\nprint('Platform:', platform.platform())\nprint('System:', platform.system())\nprint('Release:', platform.release())\nprint('Python ver:', platform.python_version())\n\ndef dump_load_get_dpi(fig):\n    with open('sinus.pickle','wb') as file:\n        pickle.dump(fig, file)\n\n    with open('sinus.pickle', 'rb') as blob:\n        fig2 = pickle.load(blob)\n    return fig2, fig2.dpi\n\ndef run():\n    fig = plt.figure()\n    x = np.linspace(0,2*np.pi)\n    y = np.sin(x)\n\n    for i in range(32):\n        print(f'{i}: {fig.dpi}')\n        fig, dpi = dump_load_get_dpi(fig)\n\nif __name__ == '__main__':\n    run()",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23476.py"
+}

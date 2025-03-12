@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nSignal.send_robust() method catches exceptions and returns them. Adding logger.exception() would log these exceptions.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/dispatch/dispatcher.py",
+            "class_name": "Signal",
+            "method_name": "send_robust"
+        }
+    ]
+}

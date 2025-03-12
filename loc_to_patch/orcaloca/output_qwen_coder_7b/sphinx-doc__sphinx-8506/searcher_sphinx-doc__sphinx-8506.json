@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nSphinx 3.2 is rejecting the 'option::' directive syntax that was previously accepted. The error message indicates that Sphinx has a restrictive view of option syntax and expects it to match a specific pattern.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "docs/qemu-option-trace.rst.inc",
+            "class_name": "",
+            "method_name": ""
+        }
+    ]
+}

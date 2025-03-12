@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe __and__ method in the Q class raises a TypeError when combined with an Exists object. The _combine method should be modified to handle non-Q objects.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/query_utils.py",
+            "class_name": "Q",
+            "method_name": "_combine"
+        }
+    ]
+}

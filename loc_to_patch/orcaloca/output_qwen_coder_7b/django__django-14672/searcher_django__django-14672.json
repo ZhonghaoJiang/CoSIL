@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nManyToManyRel's identity method is used for hashing, but it does not call make_hashable on through_fields, which is a list. This could be the cause of the error.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/reverse_related.py",
+            "class_name": "ManyToManyRel",
+            "method_name": "identity"
+        }
+    ]
+}

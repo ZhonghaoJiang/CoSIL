@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe clean method of URLField is not properly handling the error and is raising a ValueError instead of a ValidationError.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/forms/fields.py",
+            "class_name": "URLField",
+            "method_name": ""
+        }
+    ]
+}

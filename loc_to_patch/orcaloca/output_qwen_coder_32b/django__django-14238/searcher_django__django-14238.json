@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe _subclasses method in AutoFieldMeta only includes BigAutoField and SmallAutoField directly, causing MyBigAutoField to fail the __subclasscheck__ method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/fields/__init__.py",
+            "class_name": "AutoFieldMeta",
+            "method_name": "__subclasscheck__"
+        }
+    ]
+}

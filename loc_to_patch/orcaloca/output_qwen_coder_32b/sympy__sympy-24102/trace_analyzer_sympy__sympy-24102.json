@@ -1,0 +1,35 @@
+{
+    "summary": "",
+    "suspicious_code": [],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "parse_mathematica",
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "parse",
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser"
+        },
+        {
+            "keyword": "_from_tokens_to_fullformlist",
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser"
+        },
+        {
+            "keyword": "_parse_after_braces",
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser"
+        },
+        {
+            "keyword": "_from_mathematica_to_tokens",
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy.parsing.mathematica import parse_mathematica\nparse_mathematica('\u03bb')\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-24102.py"
+}

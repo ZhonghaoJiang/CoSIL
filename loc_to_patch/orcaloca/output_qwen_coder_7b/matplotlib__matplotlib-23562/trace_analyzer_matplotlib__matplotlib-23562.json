@@ -1,0 +1,41 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sin",
+            "file_path": ""
+        },
+        {
+            "keyword": "get_facecolors",
+            "file_path": ""
+        },
+        {
+            "keyword": "numpy",
+            "file_path": ""
+        },
+        {
+            "keyword": "ogrid",
+            "file_path": ""
+        },
+        {
+            "keyword": "cos",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "plot_surface",
+            "file_path": "lib/mpl_toolkits/mplot3d/axes3d.py",
+            "class_name": "Axes3D"
+        },
+        {
+            "keyword": "__init__",
+            "file_path": "lib/mpl_toolkits/mplot3d/art3d.py",
+            "class_name": "Poly3DCollection"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport numpy as np\nimport matplotlib.tri as mtri\nimport matplotlib.pyplot as plt\nfrom mpl_toolkits.mplot3d import Axes3D\n\ny,x = np.ogrid[1:10:100j, 1:10:100j]\nz2 = np.cos(x)**3 - np.sin(y)**2\nfig = plt.figure()\nax = fig.add_subplot(111, projection='3d')\nr = ax.plot_surface(x,y,z2, cmap='hot')\nr.get_facecolors()\n",
+    "env_reproduce_path": "/matplotlib__matplotlib/reproducer_matplotlib__matplotlib-23562.py"
+}

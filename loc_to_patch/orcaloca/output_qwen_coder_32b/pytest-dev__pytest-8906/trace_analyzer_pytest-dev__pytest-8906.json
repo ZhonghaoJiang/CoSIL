@@ -1,0 +1,22 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "skip",
+            "file_path": ""
+        },
+        {
+            "keyword": "raises",
+            "file_path": ""
+        },
+        {
+            "keyword": "test_foo",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import sys\nfrom pytest import skip\n\ndef test_foo():\n    if sys.version_info < (3, 8):\n        skip(msg=\"Requires Python >= 3.8\", allow_module_level=True)\n    # import must be inside the test function:\n    from pos_only import *\n    assert foo(10, 20) == 30\n    assert foo(10, b=20) == 30\n    with raises(TypeError):\n        assert foo(a=10, b=20)",
+    "env_reproduce_path": "/pytest-dev__pytest/reproducer_pytest-dev__pytest-8906.py"
+}

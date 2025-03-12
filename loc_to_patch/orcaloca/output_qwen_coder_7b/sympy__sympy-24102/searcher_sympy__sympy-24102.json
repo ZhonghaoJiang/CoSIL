@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue seems to be with the handling of Greek characters in the _from_mathematica_to_tokens method.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/parsing/mathematica.py",
+            "class_name": "MathematicaParser",
+            "method_name": "_from_mathematica_to_tokens"
+        }
+    ]
+}

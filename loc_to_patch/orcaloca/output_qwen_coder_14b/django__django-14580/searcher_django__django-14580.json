@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe search results indicate that the OperationWriter class in django/db/migrations/writer.py is responsible for writing the migration file. The serialize method is used to serialize the arguments, and the _write method is responsible for writing the migration file. The issue might be related to the serialization process or the missing import statement for 'models'. We need to investigate the serialize method further to see if it is missing any import statements.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/migrations/writer.py",
+            "class_name": "OperationWriter",
+            "method_name": "serialize"
+        }
+    ]
+}

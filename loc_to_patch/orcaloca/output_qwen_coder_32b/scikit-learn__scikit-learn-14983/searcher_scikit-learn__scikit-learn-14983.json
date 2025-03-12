@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe RepeatedKFold and RepeatedStratifiedKFold classes inherit from _RepeatedSplits, which in turn inherits from BaseCrossValidator. The BaseCrossValidator class has a __repr__ method that uses _build_repr(self). However, the _RepeatedSplits class does not override the __repr__ method, so it uses the default implementation from BaseCrossValidator. This leads to the default object representation being returned for RepeatedKFold and RepeatedStratifiedKFold.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/model_selection/_split.py",
+            "class_name": "BaseCrossValidator",
+            "method_name": "__repr__"
+        },
+        {
+            "file_path": "sklearn/model_selection/_split.py",
+            "class_name": "_RepeatedSplits",
+            "method_name": ""
+        }
+    ]
+}

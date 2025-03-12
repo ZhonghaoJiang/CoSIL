@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe LaTeX printer does not follow the logical order of monomials, which is different from the str and pretty printers.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/polys/polyclasses.py",
+            "class_name": "Poly",
+            "method_name": ""
+        }
+    ]
+}

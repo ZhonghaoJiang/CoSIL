@@ -1,0 +1,26 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "sphinx_quickstart",
+            "file_path": ""
+        },
+        {
+            "keyword": "fields",
+            "file_path": ""
+        },
+        {
+            "keyword": "Schema",
+            "file_path": ""
+        },
+        {
+            "keyword": "sphinx_build",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "sphinx-quickstart --no-sep --project mypackage --author me -v 0.1.0 --release 0.1.0 --language en docs\necho -e 'Welcome\\n=======\\n\\n.. toctree::\\n\\n   mypackage\\n' > docs/index.rst\necho -e ':mod:`mypackage2`\\n=================\\n\\nContent\\n\\nSubheading\\n----------\\n' > docs/mypackage.rst\necho -e 'rst_prolog = \"\"\"\\n.. |psf| replace:: Python Software Foundation\\n\"\"\"\\n' >> docs/conf.py\nsphinx-build -b html . _build\ngrep 'mypackage2' docs/_build/index.html",
+    "env_reproduce_path": "/sphinx-doc__sphinx/reproducer_sphinx-doc__sphinx-11445.py"
+}

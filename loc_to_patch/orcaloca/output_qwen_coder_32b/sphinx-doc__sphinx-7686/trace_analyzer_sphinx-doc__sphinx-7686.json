@@ -1,0 +1,14 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "os",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "# _templates/autosummary/module.rst\n{{ fullname | escape | underline }}\n\n.. automodule:: {{ fullname }}\n\n   .. autosummary::\n   {% for item in members %}\n      {{ item }}\n   {%- endfor %}\n\n# example.py\nimport os\n\n# index.rst\n.. autosummary::\n   :toctree: generated\n\n   example\n\n# conf.py\nautosummary_generate = True\nautosummary_imported_members = False\n",
+    "env_reproduce_path": "/sphinx-doc__sphinx/reproducer_sphinx-doc__sphinx-7686.py"
+}

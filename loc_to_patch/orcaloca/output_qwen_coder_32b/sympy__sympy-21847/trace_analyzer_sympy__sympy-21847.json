@@ -1,0 +1,36 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "x3",
+            "file_path": ""
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "x2",
+            "file_path": ""
+        },
+        {
+            "keyword": "x1",
+            "file_path": ""
+        },
+        {
+            "keyword": "monomial_key",
+            "file_path": "sympy/polys/orderings.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "itermonomials",
+            "file_path": "sympy/polys/monomials.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "import sympy as sp\nfrom sympy.polys.orderings import monomial_key\n\nx1, x2, x3 = sp.symbols('x1 x2 x3')\nstates = [x1, x2, x3]\nmax_degrees = 3\nmin_degrees = 1\nmonomials = sorted(sp.itermonomials(states, max_degrees, min_degrees=min_degrees), \n                   key=monomial_key('grlex', states))\nprint(monomials)",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-21847.py"
+}

@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nautodoc does not document attributes from superclasses unless explicitly told to do so\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "example.py",
+            "class_name": "Foo",
+            "method_name": ""
+        }
+    ]
+}

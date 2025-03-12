@@ -1,0 +1,76 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "cos",
+            "file_path": "sympy/functions/elementary/trigonometric.py"
+        },
+        {
+            "keyword": "_TR56",
+            "file_path": "sympy/simplify/fu.py"
+        },
+        {
+            "keyword": "_futrig",
+            "file_path": "sympy/simplify/trigsimp.py"
+        },
+        {
+            "keyword": "__lt__",
+            "file_path": "sympy/core/expr.py"
+        },
+        {
+            "keyword": "TR6",
+            "file_path": "sympy/simplify/fu.py"
+        },
+        {
+            "keyword": "minrule",
+            "file_path": "sympy/strategies/core.py"
+        },
+        {
+            "keyword": "chain_rl",
+            "file_path": "sympy/strategies/core.py"
+        },
+        {
+            "keyword": "Symbol",
+            "file_path": "sympy/core/symbol.py"
+        },
+        {
+            "keyword": "trigsimpfunc",
+            "file_path": "sympy/simplify/trigsimp.py"
+        },
+        {
+            "keyword": "greedy",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "_f",
+            "file_path": "sympy/simplify/fu.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "simplify",
+            "file_path": "sympy/simplify/simplify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "bottom_up",
+            "file_path": "sympy/simplify/simplify.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "trigsimp",
+            "file_path": "sympy/simplify/trigsimp.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "futrig",
+            "file_path": "sympy/simplify/trigsimp.py",
+            "class_name": ""
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import *\nx = Symbol('x')\nprint(simplify(cos(x)**I))\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-17139.py"
+}

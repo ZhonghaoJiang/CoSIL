@@ -1,0 +1,38 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Integral",
+            "file_path": ""
+        },
+        {
+            "keyword": "Del",
+            "file_path": ""
+        },
+        {
+            "keyword": "pprint",
+            "file_path": ""
+        },
+        {
+            "keyword": "sin",
+            "file_path": ""
+        },
+        {
+            "keyword": "CoordSys3D",
+            "file_path": ""
+        },
+        {
+            "keyword": "symbols",
+            "file_path": ""
+        },
+        {
+            "keyword": "cos",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy import *\nfrom sympy.vector import CoordSys3D, Del\n\ninit_printing()\n\ndelop = Del()\nCC_ = CoordSys3D(\"C\")\nx, y, z = CC_.x, CC_.y, CC_.z\nxhat, yhat, zhat = CC_.i, CC_.j, CC_.k\n\nt = symbols(\"t\")\nten = symbols(\"10\", positive=True)\neps, mu = 4*pi*ten**(-11), ten**(-5)\n\nBx = 2 * ten**(-4) * cos(ten**5 * t) * sin(ten**(-3) * y)\nvecB = Bx * xhat\nvecE = (1/eps) * Integral(delop.cross(vecB/mu).doit(), t)\n\npprint(vecB)\nprint()\npprint(vecE)\nprint()\npprint(vecE.doit())\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-23191.py"
+}

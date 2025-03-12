@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe EnumSerializer class in django/db/migrations/serializer.py has a serialize method that attempts to access the .name attribute of the enum value, which fails for combined flag values.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/migrations/serializer.py",
+            "class_name": "EnumSerializer",
+            "method_name": "serialize"
+        }
+    ]
+}

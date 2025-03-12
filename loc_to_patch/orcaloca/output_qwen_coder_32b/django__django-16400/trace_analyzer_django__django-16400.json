@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "TenantSubdomainMiddleware",
+            "file_path": ""
+        },
+        {
+            "keyword": "InvalidTenantException",
+            "file_path": ""
+        },
+        {
+            "keyword": "settings",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "call_command",
+            "file_path": "django/core/management/__init__.py"
+        },
+        {
+            "keyword": "TenantDatabaseRouter",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from django.core.management import call_command\nfrom threading import local\nfrom django.conf import settings\n\nlocal_state = local()\nclass InvalidTenantException(Exception):\n    pass\nclass TenantSubdomainMiddleware:\n    def __init__(self, get_response):\n        self.get_response = get_response\n    def __call__(self, request):\n        ## Get Subdomain\n        host = request.get_host().split(\":\")[0]\n        local_state.subdomain = (\n            # We assume single level of subdomain : app.service.com \n            # HOST_IP : used to for local dev. \n            host if host in settings.HOST_IP else host.split(\".\")[0]\n        )\n        response = self.get_response(request)\n        return response\nclass TenantDatabaseRouter:\n    def _default_db(self):\n        subdomain = getattr(local_state, \"subdomain\", None)\n        if subdomain is not None and subdomain in settings.TENANT_MAP:\n            db_name = settings.TENANT_MAP[local_state.subdomain]\n            return db_name\n        else:\n            raise InvalidTenantException()\n    def db_for_read(self, model, **hints):\n        print(\"read\", hints)\n        return self._default_db()\n    def db_for_write(self, model, **hints):\n        print(\"write\", hints)\n        return self._default_db()\n    def allow_relation(self, obj1, obj2, **hints):\n        return None\n    def allow_migrate(self, db, app_label, model_name=None, **hints):\n        return None\n\n# Simulate settings configuration\nsettings.configure(\n    MIDDLEWARE=[\n        \"__main__.TenantSubdomainMiddleware\",\n        \"django.middleware.security.SecurityMiddleware\",\n    ],\n    TENANT_MAP={\"localhost\":\"default\", \"tenant_1\":\"default\"},\n    DATABASE_ROUTERS=[\"__main__.TenantDatabaseRouter\"],\n    USE_I18N=True,\n    HOST_IP=[\"localhost\"],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': 'db.sqlite3',\n        }\n    }\n)\n\n# Simulate a request to set the subdomain\nlocal_state.subdomain = \"localhost\"\n\ncall_command('migrate', database='default')",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16400.py"
+}
