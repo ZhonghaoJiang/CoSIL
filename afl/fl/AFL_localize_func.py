@@ -88,7 +88,7 @@ def localize_instance(
     pred_files = load_file_func(args.loc_file, instance_id=instance_id)[: args.top_n]
     # print(pred_files, found_related_locs)
     # 构建字典
-    topn_func, func_raw_output, func_traj = fl.localize(file=pred_files, max_retry=args.max_retry)
+    topn_func, func_raw_output, func_traj = fl.localize_with_p(file=pred_files, max_retry=args.max_retry)
 
 
     with open(args.output_file, "a") as f:

@@ -776,74 +776,74 @@ def parse_diff_edit_commands(
 
         return original, replace
 
-    if len(file_loc_intervals) == 0:
-        if original in content:
-            content = content.replace(original, replace)
-            replaced = True
-        else:
-            print("not replaced")
-        return content
-    # let's first make sure the intervals are sorted
-    file_loc_intervals.sort()
-    replaced = False
-    # apply the edits from the end of file to the beginning of file
-    # this is to make sure context is correct
-    for interval in file_loc_intervals[::-1]:
-        start, end = interval
-        start = max(start - 1, 0)
-        context_segment = "\n".join(content.splitlines()[start:end])
-        context_segment = "\n" + context_segment + "\n"
-
-        # since we want to replace the original context, let's first check for all edits.
-        can_apply = []
-        for subcommand in commands:
-            if not subcommand.startswith("<<<<<<< SEARCH") and subcommand.endswith(
-                ">>>>>>> REPLACE"
-            ):
-                continue
-
-            subcommand = "\n".join(subcommand.splitlines()[1:-1])
-            if len(subcommand.split("\n=======\n")) != 2:
-                continue
-
-            original, replace = subcommand.split("\n=======\n")
-
-            original, replace = parse_for_threedots(
-                original, replace, file_loc_intervals, content
-            )
-
-            original = "\n" + original + "\n"
-            replace = "\n" + replace + "\n"
-
-            if original in context_segment:
-                can_apply.append(subcommand)
-
-        # apply edits backwards
-        for subcommand in can_apply[::-1]:
-            original, replace = subcommand.split("\n=======\n")
-
-            original, replace = parse_for_threedots(
-                original, replace, file_loc_intervals, content
-            )
-
-            original = "\n" + original + "\n"
-            replace = "\n" + replace + "\n"
-            if (
-                original in context_segment
-            ):  # This may not be true after some previously applied edits
-                context_segment = context_segment.replace(original, replace)
-                replaced = True
-        # reassembly
-        content = (
-            "\n".join(content.splitlines()[:start])
-            + context_segment
-            + "\n".join(content.splitlines()[end:])
-        )
-
-    if not replaced:
-        print("not replaced")
-
-    return content
+    # if len(file_loc_intervals) == 0:
+    #     if original in content:
+    #         content = content.replace(original, replace)
+    #         replaced = True
+    #     else:
+    #         print("not replaced")
+    #     return content
+    # # let's first make sure the intervals are sorted
+    # file_loc_intervals.sort()
+    # replaced = False
+    # # apply the edits from the end of file to the beginning of file
+    # # this is to make sure context is correct
+    # for interval in file_loc_intervals[::-1]:
+    #     start, end = interval
+    #     start = max(start - 1, 0)
+    #     context_segment = "\n".join(content.splitlines()[start:end])
+    #     context_segment = "\n" + context_segment + "\n"
+    #
+    #     # since we want to replace the original context, let's first check for all edits.
+    #     can_apply = []
+    #     for subcommand in commands:
+    #         if not subcommand.startswith("<<<<<<< SEARCH") and subcommand.endswith(
+    #             ">>>>>>> REPLACE"
+    #         ):
+    #             continue
+    #
+    #         subcommand = "\n".join(subcommand.splitlines()[1:-1])
+    #         if len(subcommand.split("\n=======\n")) != 2:
+    #             continue
+    #
+    #         original, replace = subcommand.split("\n=======\n")
+    #
+    #         original, replace = parse_for_threedots(
+    #             original, replace, file_loc_intervals, content
+    #         )
+    #
+    #         original = "\n" + original + "\n"
+    #         replace = "\n" + replace + "\n"
+    #
+    #         if original in context_segment:
+    #             can_apply.append(subcommand)
+    #
+    #     # apply edits backwards
+    #     for subcommand in can_apply[::-1]:
+    #         original, replace = subcommand.split("\n=======\n")
+    #
+    #         original, replace = parse_for_threedots(
+    #             original, replace, file_loc_intervals, content
+    #         )
+    #
+    #         original = "\n" + original + "\n"
+    #         replace = "\n" + replace + "\n"
+    #         if (
+    #             original in context_segment
+    #         ):  # This may not be true after some previously applied edits
+    #             context_segment = context_segment.replace(original, replace)
+    #             replaced = True
+    #     # reassembly
+    #     content = (
+    #         "\n".join(content.splitlines()[:start])
+    #         + context_segment
+    #         + "\n".join(content.splitlines()[end:])
+    #     )
+    #
+    # if not replaced:
+    #     print("not replaced")
+    #
+    # return content
 
 
 def parse_edit_commands(commands, content):

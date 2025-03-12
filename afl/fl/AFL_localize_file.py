@@ -60,7 +60,7 @@ def localize_instance(
             args.backend,
             logger,
         )
-        found_files, additional_artifact_loc_file, file_traj = fl.file_localize(
+        found_files, additional_artifact_loc_file, file_traj = fl.file_localize_with_g(
             mock=args.mock
         )
     else:
