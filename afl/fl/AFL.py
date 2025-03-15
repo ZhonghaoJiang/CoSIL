@@ -2,6 +2,8 @@ import re
 from abc import ABC
 from typing import Any
 
+from datasets import load_from_disk
+
 from FL_prompt import *
 from FL_tools import *
 from afl.util.api_requests import num_tokens_from_messages
@@ -610,14 +612,19 @@ False
                 print(flag)
                 if flag == "True":
                     message.append({"role": "user", "content": function_retval})
+                    message.append({
+                        "role": "user",
+                        "content": call_function_prompt + "\nYou can check the function it calls.\n" + bug_file_content
+                    })
                 else:
                     message.append({"role": "user",
-                                    "content": "I have already checked this function/class is not related to the bug."})
-                message.append({"role": "user", "content": function_retval})
-                message.append({
-                    "role": "user",
-                    "content": call_function_prompt + bug_file_content
-                })
+                                    "content": "I have already checked this function/class is not related to the bug. Don't check the functions it calls."})
+                    message.append({"role": "user", "content": function_retval})
+                    message.append({
+                        "role": "user",
+                        "content": call_function_prompt
+                    })
+
             except Exception as e:
                 print(e)
                 message.append({
@@ -913,27 +920,31 @@ def construct_topn_file_context(
 #     print("加载数据")
 #     swe_bench_data = load_from_disk("../../datasets/SWE-bench_Lite_test")
 #     # bug = swe_bench_data[5]
-#     bug = [x for x in swe_bench_data if x["instance_id"] == "sympy__sympy-13471"][0]
+#     bug = [x for x in swe_bench_data if x["instance_id"] == "astropy__astropy-14365"][0]
 #     problem_statement = bug["problem_statement"]
 #     instance_id = bug["instance_id"]
 #     print(problem_statement)
 #     print(instance_id)
 #     d = load_json(f"../../repo_structures/{instance_id}.json")
 #     structure = d["structure"]
-#     import logging
-#     fl = AFL(
-#         d["instance_id"],
-#         structure,
-#         problem_statement,
-#         "deepseek-coder",
-#         "deepseek",
-#         logging.getLogger("AFL"),
-#     )
-#     print("------------------------------")
-#     print("start localization")
-#     ret = fl.file_localize()[0]
-#     print(ret)
-#     loc = fl.localize(file=ret)[0]
-#     print(loc)
-#     line_loc = fl.localize_line(ret, loc, temperature=0.85, num_samples=1)[0]
-#     print(line_loc)
+#     print(show_project_structure(structure))
+    #predicted_files:['astropy/io/ascii/qdp.py', 'astropy/io/ascii/core.py', 'astropy/io/ascii/ui.py', 'astropy/table/table.py'], predicted_methods:['_line_type', '_get_tables_from_qdp_file', '_read_table_qdp', 'QDP.read', '_interpret_err_lines']
+    # gt_files:{'astropy/io/ascii/qdp.py'}, gt_methods:{'_line_type', '_get_tables_from_qdp_file'}
+
+    # import logging
+    # fl = AFL(
+    #     d["instance_id"],
+    #     structure,
+    #     problem_statement,
+    #     "deepseek-coder",
+    #     "deepseek",
+    #     logging.getLogger("AFL"),
+    # )
+    # print("------------------------------")
+    # print("start localization")
+    # ret = fl.file_localize()[0]
+    # print(ret)
+    # loc = fl.localize(file=ret)[0]
+    # print(loc)
+    # line_loc = fl.localize_line(ret, loc, temperature=0.85, num_samples=1)[0]
+    # print(line_loc)

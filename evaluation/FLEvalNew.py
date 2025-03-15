@@ -200,14 +200,15 @@ def evaluate_accuracy(loc_outputs, gt_data):
 if __name__ == "__main__":
     # 加载数据
     # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_7b_func.jsonl')
-    # loc_outputs = load_jsonl('../loc_to_patch/afl/loc_qwen_coder_7b_func.jsonl')
-    loc_outputs = load_jsonl('../loc_to_patch/orcaloca/orca_qwen_coder_32b_func.jsonl')
+    loc_outputs = load_jsonl('../loc_to_patch/afl/loc_qwen_coder_32b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch/orcaloca/orca_qwen_coder_32b_func.jsonl')
     # loc_outputs = load_jsonl('loc_outputs.jsonl')
     # loc_outputs = load_jsonl('loc_qwen_2.5_32b_func.jsonl')[:6]
     # loc_outputs = load_jsonl('../results/afl/func_level_qwen2.5-14b/loc_qwen2.5-14b_func.jsonl')
     # loc_outputs = load_jsonl('../results/agentless/qwen2.5-14b/loc_outputs.jsonl')
     # loc_outputs = load_jsonl('../results/agentless/qwen2.5_7b/loc_outputs.jsonl')
     # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_32b_func.jsonl')[:33]
+    loc_outputs = load_jsonl('loc_qwen2.5-14b_func.jsonl')
 
 
     gt_data = load_json('gt.json')
