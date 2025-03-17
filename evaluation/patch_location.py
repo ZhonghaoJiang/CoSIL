@@ -5,12 +5,21 @@ from pydantic import BaseModel
 from typing import List, Dict, Any
 
 
-# 定义解析用的模型
 class DiffNode(BaseModel, frozen=True):
     node_name: str
     node_type: str
     lineno: int
     end_lineno: int
+
+    def __repr__(self):
+        return f"{self.node_type}:{self.node_name} {self.lineno}:{self.end_lineno}"
+
+
+class SrcRange(BaseModel, frozen=True):
+    lineno: int
+    end_lineno: int
+    is_pure_addition: bool
+    is_global_addition: bool
 
 
 class DiffLoc(BaseModel, frozen=True):
@@ -19,9 +28,26 @@ class DiffLoc(BaseModel, frozen=True):
     lineno: int
     end_lineno: int
 
+    def __repr__(self):
+        return f"{self.file} {self.lineno}:{self.end_lineno}\n" + "\n".join(
+            [
+                f"    Node Level {i}: {repr(diff_node)}"
+                for i, diff_node in enumerate(self.diff_nodes)
+            ]
+        )
+
 
 class ParsedPatch(BaseModel):
     diff_locs: List[DiffLoc]
+
+    def __repr__(self):
+        return "\n".join(
+            [
+                f"Diff Loc {i} : {repr(diff_loc)}"
+                for i, diff_loc in enumerate(self.diff_locs)
+            ]
+        )
+
 
 
 def patch_to_location_info(patch_content: str, instance_id: str = "") -> Dict[str, Any]:
@@ -47,7 +73,7 @@ def patch_to_location_info(patch_content: str, instance_id: str = "") -> Dict[st
             continue
 
         # 构造函数名称，格式：文件路径:函数名
-        func_name = file_path + ":" + diff_nodes[0].node_name
+        func_name = file_path + "::" + diff_nodes[0].node_name
 
         # 如果包含 ClassDef 和 FunctionDef，则拼接类名和方法名
         if (
@@ -61,6 +87,8 @@ def patch_to_location_info(patch_content: str, instance_id: str = "") -> Dict[st
             print(f"实例 {instance_id} 存在异常 diff_loc: {diff_nodes}")
             continue
         func_set.add(func_name)
+    if len(func_set) == 0:
+        func_set = file_set
     return {
         "found_files": list(file_set),
         "found_related_locs": list(func_set)
@@ -90,19 +118,26 @@ def extract_location_info(ds_golden: pd.DataFrame) -> List[dict]:
 
 def main():
     # 假设 golden 数据集已保存为 CSV 文件
-    golden_csv_path = "./assets/lite_golden_stats.csv"  # 根据实际情况修改路径
+    golden_csv_path = "./assets/verified_golden_stats.csv"  # 根据实际情况修改路径
     if not os.path.isfile(golden_csv_path):
         print(f"找不到文件 {golden_csv_path}")
         return
 
     ds_golden = pd.read_csv(golden_csv_path)
     locations = extract_location_info(ds_golden)
+    res_dict = {}
+    for loc in locations:
+        res_dict[loc["instance_id"]] = loc["found_related_locs"]
+    print(json.dumps(res_dict, indent=4))
+    # 写入文件
+    with open("gt_verified.json", "w", encoding="utf-8") as f:
+        f.write(json.dumps(res_dict, ensure_ascii=False, indent=4))
 
-    output_file = "golden_patch_locations.jsonl"
-    with open(output_file, "w", encoding="utf-8") as f:
-        for loc in locations:
-            f.write(json.dumps(loc, ensure_ascii=False) + "\n")
-    print(f"位置信息已保存到 {output_file}")
+    # output_file = "gt_verified.jsonl"
+    # with open(output_file, "w", encoding="utf-8") as f:
+    #     for loc in locations:
+    #         f.write(json.dumps(loc, ensure_ascii=False) + "\n")
+    # print(f"位置信息已保存到 {output_file}")
 
 
 if __name__ == "__main__":

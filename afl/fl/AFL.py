@@ -2,8 +2,6 @@ import re
 from abc import ABC
 from typing import Any
 
-from datasets import load_from_disk
-
 from FL_prompt import *
 from FL_tools import *
 from afl.util.api_requests import num_tokens_from_messages

@@ -109,7 +109,11 @@ def localize_instance(
 
 
 def localize(args):
-    swe_bench_data = load_from_disk("./datasets/SWE-bench_Lite_test")
+    if args.dataset == "princeton-nlp/SWE-bench_Verified":
+        swe_bench_data = load_from_disk("./datasets/SWE-bench_Verified_test")
+    else:
+        swe_bench_data = load_dataset("./datasets/SWE-bench_Lite_test")
+
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
     )
@@ -173,6 +177,13 @@ def main():
     )
     parser.add_argument(
         "--backend", type=str, default="openai", choices=["openai", "deepseek", "anthropic", "claude"]
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="princeton-nlp/SWE-bench_Lite",
+        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
+        help="Current supported dataset for evaluation",
     )
 
     args = parser.parse_args()

@@ -200,33 +200,34 @@ Function calls you can use are as follows:
 
 location_summary = """
 Based on the available information, reconfirm and provide complete name of the top-5 most likely culprit locations for the bug. 
+Before make the final decision, please check wether the function name is correct or not, for static functions, don't add class name.
+{bug_file_list}
+
 Please provide the complete set of locations as either a class name, a function name, or a variable name.
 The returned files should be separated by new lines ordered by most to least important and wrapped with ```
-Since your answer will be processed automatically, please give your answer in the format as follows.
+Since your answer will be processed automatically, please give your answer in the exapmle format as follows.
 ```
-Top1_file_fullpath.py
-class: Class1
+top1_file_fullpath.py
+function: Class1.Function1
 
-Top2_file_fullpath.py
+top2_file_fullpath.py
 function: Function2
 
-Top3_file_fullpath.py
-function: Class3.Function3
+top3_file_fullpath.py
+class: Class3
 
-Top4_file_fullpath.py
+top4_file_fullpath.py
 function: Class4.Function4
 
-Top5_file_fullpath.py
+top5_file_fullpath.py
 function: Function5
 ```
-Replace the 'Top1_file_fullpath.py' with the actual file path and the 'Class1' with the actual class name.
+Replace the 'Top_file_fullpath.py' with the actual file path, the 'Class' with the actual class name and the 'Function' with the actual function name.
 For example, 
 ```
 sklearn/linear_model/__init__.py
-class: LinearRegression
+function: LinearRegression.fit
 ```
-After make the final decision, please check wether the function name is correct or not, for static functions, don't add class name.
-{bug_file_list}
 """
 
 location_summary_ablation = """

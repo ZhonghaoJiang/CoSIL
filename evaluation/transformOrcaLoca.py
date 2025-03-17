@@ -19,7 +19,7 @@ def save_jsonl(data, file_path):
 
 if __name__ == "__main__":
     # 加载数据
-    loc_outputs_json = load_json('./assets/orcar_parsed_output_output_qwen_coder_14b.json')
+    loc_outputs_json = load_json('./assets/orcar_verified_parsed_output_output_32b.json')
     instance_ids = loc_outputs_json.keys()
     loc_outputs = [
         {
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         loc['found_related_locs'] = found_related_locs
 
     print(loc_outputs)
-    save_jsonl(loc_outputs, '../results/orcaloca/orca_qwen_coder_14b_func.jsonl')
+    save_jsonl(loc_outputs, '../loc_to_patch_verified/orcaloca/orca_qwen_coder_32b_func.jsonl')
 
 
 

@@ -311,8 +311,7 @@ def process_loc(loc, args, swe_bench_data, prev_o, write_lock=None):
             write_lock.release()
         return
 
-    pred_files = loc["found_files"]
-    func_locs = loc["found_related_locs"]
+    pred_files = loc["found_files"][: args.top_n]
     bench_data = [x for x in swe_bench_data if x["instance_id"] == instance_id][0]
     problem_statement = bench_data["problem_statement"]
     structure = get_repo_structure(
@@ -327,28 +326,6 @@ def process_loc(loc, args, swe_bench_data, prev_o, write_lock=None):
         [],
         [],
     )
-
-    raw_output = ""
-    new_content = ""
-    topn_content = ""
-    # Construct file contents
-
-    if args.function_level:
-        coarse_locs = func_locs
-
-        file_contents = get_repo_files(structure, pred_files)
-
-        topn_content, file_loc_intervals = construct_topn_file_context(
-            coarse_locs,
-            pred_files,
-            file_contents,
-            structure,
-            context_window=args.context_window,
-            loc_interval=True,
-            add_space=args.add_space,
-            no_line_number=False,
-            sticky_scroll=args.sticky_scroll,
-        )
 
     if args.line_level:
         file_contents = dict()
@@ -366,7 +343,10 @@ def process_loc(loc, args, swe_bench_data, prev_o, write_lock=None):
     file_to_edit_locs = dict()
 
     if "found_edit_locs" in loc:
-        file_to_edit_locs = loc["found_edit_locs"]
+        file_to_edit_locs_all = loc["found_edit_locs"]
+        for k, v in file_to_edit_locs_all.items():
+            if k in pred_files:
+                file_to_edit_locs[k] = v
 
     topn_content, file_loc_intervals = construct_topn_file_context(
         file_to_edit_locs,
@@ -421,7 +401,7 @@ def process_loc(loc, args, swe_bench_data, prev_o, write_lock=None):
         model=args.model,
         logger=logger,
         backend=args.backend,
-        max_tokens=4096,
+        max_tokens=8192,
         temperature=0,
         batch_size=1,
     )

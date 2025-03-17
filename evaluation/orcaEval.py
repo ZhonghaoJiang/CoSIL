@@ -201,7 +201,7 @@ def parse_output(ds_golden: pd.DataFrame, args) -> None:
     print(
         f"Json not gen: {notgen_cnt}/{total_cnt}, {notgen_cnt / total_cnt * 100:.2f}%"
     )
-    output_path = f"{artifact_dir}/assets/orcar_parsed_output_{args.output_dir.split('/')[-1]}.json"
+    output_path = f"{artifact_dir}/assets/orcar_verified_parsed_output_{args.output_dir.split('/')[-1]}.json"
     with open(output_path, "w") as handle:
         json.dump(output_dict, handle, indent=4)
     print(f"Parsed output dumped to {output_path}")
@@ -218,7 +218,7 @@ def main():
     parser.add_argument(
         "-l",
         "--output_dir",
-        default="../results/orcaloca/output_qwen_coder_7b",
+        default="../loc_to_patch_verified/orcaloca/output_32b",
         help=f"The directory of the output dir(agent's output)",
     )
     parser.add_argument(
@@ -230,7 +230,7 @@ def main():
     parser.add_argument(
         "-d",
         "--dataset",
-        default="lite",
+        default="verified",
         help=f"The dataset to use",
     )
     args = parser.parse_args()

@@ -1,0 +1,1966 @@
+{
+    "astropy__astropy-12907": [
+        "astropy/modeling/separable.py::_cstack"
+    ],
+    "astropy__astropy-13033": [
+        "astropy/timeseries/core.py::BaseTimeSeries._check_required_columns"
+    ],
+    "astropy__astropy-13236": [
+        "astropy/table/table.py::Table._convert_data_to_col"
+    ],
+    "astropy__astropy-13398": [
+        "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py::tete_to_itrs_mat",
+        "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py::itrs_to_cirs",
+        "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py::tete_to_itrs",
+        "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py::cirs_to_itrs",
+        "astropy/coordinates/builtin_frames/itrs.py::ITRS",
+        "astropy/coordinates/builtin_frames/intermediate_rotation_transforms.py::itrs_to_tete"
+    ],
+    "astropy__astropy-13453": [
+        "astropy/io/ascii/html.py::HTML.write"
+    ],
+    "astropy__astropy-13579": [
+        "astropy/wcs/wcsapi/wrappers/sliced_wcs.py::SlicedLowLevelWCS.world_to_pixel_values"
+    ],
+    "astropy__astropy-13977": [
+        "astropy/units/quantity.py::Quantity.__array_ufunc__"
+    ],
+    "astropy__astropy-14096": [
+        "astropy/coordinates/sky_coordinate.py::SkyCoord.__getattr__"
+    ],
+    "astropy__astropy-14182": [
+        "astropy/io/ascii/rst.py::SimpleRSTData",
+        "astropy/io/ascii/rst.py::RST.__init__",
+        "astropy/io/ascii/rst.py::RST",
+        "astropy/io/ascii/rst.py::RST.write"
+    ],
+    "astropy__astropy-14309": [
+        "astropy/io/fits/connect.py::is_fits"
+    ],
+    "astropy__astropy-14365": [
+        "astropy/io/ascii/qdp.py::_line_type",
+        "astropy/io/ascii/qdp.py::_get_tables_from_qdp_file"
+    ],
+    "astropy__astropy-14369": [
+        "astropy/units/format/cds.py::CDS._make_parser"
+    ],
+    "astropy__astropy-14508": [
+        "astropy/io/fits/card.py::_format_float"
+    ],
+    "astropy__astropy-14539": [
+        "astropy/io/fits/diff.py::TableDataDiff._diff"
+    ],
+    "astropy__astropy-14598": [
+        "astropy/io/fits/card.py::Card._split",
+        "astropy/io/fits/card.py::Card"
+    ],
+    "astropy__astropy-14995": [
+        "astropy/nddata/mixins/ndarithmetic.py::NDArithmeticMixin._arithmetic_mask"
+    ],
+    "astropy__astropy-7166": [
+        "astropy/utils/misc.py::InheritDocstrings.__init__"
+    ],
+    "astropy__astropy-7336": [
+        "astropy/units/decorators.py::QuantityInput.__call__"
+    ],
+    "astropy__astropy-7606": [
+        "astropy/units/core.py::UnitBase.__eq__",
+        "astropy/units/core.py::UnrecognizedUnit.__eq__"
+    ],
+    "astropy__astropy-7671": [
+        "astropy/utils/introspection.py::minversion"
+    ],
+    "astropy__astropy-8707": [
+        "astropy/io/fits/header.py::Header.fromstring",
+        "astropy/io/fits/card.py::Card.fromstring"
+    ],
+    "astropy__astropy-8872": [
+        "astropy/units/quantity.py::Quantity",
+        "astropy/units/quantity.py::Quantity.__new__"
+    ],
+    "django__django-10097": [
+        "django/core/validators.py::URLValidator"
+    ],
+    "django__django-10554": [
+        "django/db/models/sql/query.py::Query",
+        "django/db/models/sql/compiler.py::SQLCompiler.get_order_by"
+    ],
+    "django__django-10880": [
+        "django/db/models/aggregates.py::Aggregate.as_sql"
+    ],
+    "django__django-10914": [
+        "django/conf/global_settings.py"
+    ],
+    "django__django-10973": [
+        "django/db/backends/postgresql/client.py::DatabaseClient.runshell_db"
+    ],
+    "django__django-10999": [
+        "django/utils/dateparse.py"
+    ],
+    "django__django-11066": [
+        "django/contrib/contenttypes/management/__init__.py::RenameContentType._rename"
+    ],
+    "django__django-11087": [
+        "django/db/models/deletion.py::Collector.can_fast_delete",
+        "django/db/models/deletion.py::Collector",
+        "django/db/models/deletion.py::Collector.collect"
+    ],
+    "django__django-11095": [
+        "django/contrib/admin/options.py::ModelAdmin.get_inline_instances",
+        "django/contrib/admin/options.py::BaseModelAdmin"
+    ],
+    "django__django-11099": [
+        "django/contrib/auth/validators.py::UnicodeUsernameValidator",
+        "django/contrib/auth/validators.py::ASCIIUsernameValidator"
+    ],
+    "django__django-11119": [
+        "django/template/engine.py::Engine.render_to_string"
+    ],
+    "django__django-11133": [
+        "django/http/response.py::HttpResponseBase.make_bytes"
+    ],
+    "django__django-11138": [
+        "django/db/backends/sqlite3/base.py::_sqlite_datetime_trunc",
+        "django/db/backends/sqlite3/operations.py::DatabaseOperations.datetime_extract_sql",
+        "django/db/backends/sqlite3/operations.py::DatabaseOperations.datetime_cast_time_sql",
+        "django/db/backends/sqlite3/operations.py::DatabaseOperations._convert_tzname_to_sql",
+        "django/db/backends/sqlite3/base.py::DatabaseWrapper.get_new_connection",
+        "django/db/backends/mysql/operations.py::DatabaseOperations._convert_field_to_tz",
+        "django/db/backends/sqlite3/operations.py::DatabaseOperations.datetime_trunc_sql",
+        "django/db/backends/oracle/operations.py::DatabaseOperations._convert_field_to_tz",
+        "django/db/backends/sqlite3/base.py::_sqlite_datetime_parse",
+        "django/db/backends/sqlite3/operations.py::DatabaseOperations.datetime_cast_date_sql",
+        "django/db/backends/sqlite3/base.py::_sqlite_datetime_extract",
+        "django/db/backends/sqlite3/base.py::_sqlite_datetime_cast_date",
+        "django/db/backends/sqlite3/base.py::_sqlite_datetime_cast_time"
+    ],
+    "django__django-11141": [
+        "django/db/migrations/loader.py::MigrationLoader.load_disk"
+    ],
+    "django__django-11149": [
+        "django/contrib/admin/options.py::InlineModelAdmin.has_add_permission",
+        "django/contrib/admin/options.py::InlineModelAdmin.has_delete_permission",
+        "django/contrib/admin/options.py::InlineModelAdmin",
+        "django/contrib/admin/options.py::InlineModelAdmin.has_view_permission",
+        "django/contrib/admin/options.py::InlineModelAdmin.has_change_permission"
+    ],
+    "django__django-11163": [
+        "django/forms/models.py::model_to_dict"
+    ],
+    "django__django-11179": [
+        "django/db/models/deletion.py::Collector.delete"
+    ],
+    "django__django-11206": [
+        "django/utils/numberformat.py::format"
+    ],
+    "django__django-11211": [
+        "django/db/models/fields/__init__.py::UUIDField"
+    ],
+    "django__django-11239": [
+        "django/db/backends/postgresql/client.py::DatabaseClient.runshell_db"
+    ],
+    "django__django-11265": [
+        "django/db/models/sql/query.py::Query.split_exclude",
+        "django/db/models/sql/query.py::Query.trim_start"
+    ],
+    "django__django-11276": [
+        "django/utils/html.py::escape",
+        "django/utils/html.py::urlize"
+    ],
+    "django__django-11292": [
+        "django/core/management/base.py::BaseCommand",
+        "django/core/management/base.py::BaseCommand.execute",
+        "django/core/management/base.py::BaseCommand.create_parser",
+        "django/core/management/base.py::DjangoHelpFormatter"
+    ],
+    "django__django-11299": [
+        "django/db/models/sql/query.py::Query._add_q"
+    ],
+    "django__django-11333": [
+        "django/urls/resolvers.py::get_resolver",
+        "django/urls/base.py::clear_url_caches"
+    ],
+    "django__django-11400": [
+        "django/contrib/admin/filters.py::RelatedFieldListFilter.field_choices",
+        "django/db/models/fields/__init__.py::Field.get_choices",
+        "django/db/models/fields/reverse_related.py::ForeignObjectRel.get_choices"
+    ],
+    "django__django-11433": [
+        "django/forms/models.py::construct_instance"
+    ],
+    "django__django-11451": [
+        "django/contrib/auth/backends.py::ModelBackend.authenticate"
+    ],
+    "django__django-11477": [
+        "django/urls/resolvers.py::RegexPattern.match"
+    ],
+    "django__django-11490": [
+        "django/db/models/sql/compiler.py::SQLCompiler.get_combinator_sql"
+    ],
+    "django__django-11532": [
+        "django/utils/html.py::smart_urlquote",
+        "django/utils/html.py::urlize",
+        "django/core/mail/message.py::sanitize_address",
+        "django/core/validators.py::URLValidator.__call__",
+        "django/core/validators.py::EmailValidator.__call__",
+        "django/core/mail/utils.py::CachedDnsName.get_fqdn"
+    ],
+    "django__django-11551": [
+        "django/contrib/admin/checks.py::ModelAdminChecks",
+        "django/contrib/admin/checks.py::ModelAdminChecks._check_list_display_item"
+    ],
+    "django__django-11555": [
+        "django/db/models/sql/compiler.py::SQLCompiler.find_ordering_name"
+    ],
+    "django__django-11603": [
+        "django/db/models/aggregates.py::Avg",
+        "django/db/models/aggregates.py::Sum"
+    ],
+    "django__django-11728": [
+        "django/contrib/admindocs/utils.py::replace_unnamed_groups",
+        "django/contrib/admindocs/utils.py::replace_named_groups"
+    ],
+    "django__django-11734": [
+        "django/db/models/fields/related_lookups.py::RelatedLookupMixin.get_prep_lookup",
+        "django/db/models/sql/query.py::Query.split_exclude",
+        "django/db/models/fields/__init__.py::AutoFieldMixin"
+    ],
+    "django__django-11740": [
+        "django/db/migrations/autodetector.py::MigrationAutodetector.generate_altered_fields"
+    ],
+    "django__django-11749": [
+        "django/core/management/__init__.py::call_command"
+    ],
+    "django__django-11790": [
+        "django/contrib/auth/forms.py::AuthenticationForm.__init__"
+    ],
+    "django__django-11815": [
+        "django/db/migrations/serializer.py::EnumSerializer.serialize"
+    ],
+    "django__django-11820": [
+        "django/db/models/base.py::Model._check_ordering"
+    ],
+    "django__django-11848": [
+        "django/utils/http.py::parse_http_date"
+    ],
+    "django__django-11880": [
+        "django/forms/fields.py::Field.__deepcopy__"
+    ],
+    "django__django-11885": [
+        "django/db/models/deletion.py::Collector.add_field_update",
+        "django/db/models/deletion.py::Collector.can_fast_delete",
+        "django/db/models/deletion.py::Collector.__init__",
+        "django/db/models/deletion.py::Collector.related_objects",
+        "django/contrib/admin/utils.py::NestedObjects.related_objects",
+        "django/db/models/deletion.py::Collector",
+        "django/db/models/deletion.py::Collector.add",
+        "django/db/models/deletion.py::Collector.get_del_batches"
+    ],
+    "django__django-11951": [
+        "django/db/models/query.py::QuerySet._batched_insert"
+    ],
+    "django__django-11964": [
+        "django/db/models/enums.py::Choices"
+    ],
+    "django__django-11999": [
+        "django/db/models/fields/__init__.py::Field.contribute_to_class"
+    ],
+    "django__django-12039": [
+        "django/db/backends/ddl_references.py::IndexColumns.__str__",
+        "django/db/backends/ddl_references.py::Columns.__str__"
+    ],
+    "django__django-12050": [
+        "django/db/models/sql/query.py::Query.resolve_lookup_value"
+    ],
+    "django__django-12125": [
+        "django/db/migrations/serializer.py::TypeSerializer.serialize"
+    ],
+    "django__django-12143": [
+        "django/contrib/admin/options.py::ModelAdmin._get_edited_object_pks"
+    ],
+    "django__django-12155": [
+        "django/contrib/admindocs/utils.py::parse_docstring",
+        "django/contrib/admindocs/views.py::ModelDetailView.get_context_data"
+    ],
+    "django__django-12193": [
+        "django/forms/widgets.py::CheckboxInput.get_context"
+    ],
+    "django__django-12209": [
+        "django/db/models/base.py::Model._save_table"
+    ],
+    "django__django-12262": [
+        "django/template/library.py::parse_bits"
+    ],
+    "django__django-12273": [
+        "django/db/models/base.py::Model._set_pk_val"
+    ],
+    "django__django-12276": [
+        "django/forms/widgets.py::FileInput",
+        "django/forms/widgets.py::ClearableFileInput"
+    ],
+    "django__django-12304": [
+        "django/db/models/enums.py::ChoicesMeta.__new__"
+    ],
+    "django__django-12308": [
+        "django/contrib/admin/utils.py::display_for_field"
+    ],
+    "django__django-12325": [
+        "django/db/models/base.py::ModelBase.__new__",
+        "django/db/models/options.py::Options._prepare"
+    ],
+    "django__django-12406": [
+        "django/forms/models.py::ModelChoiceField.__init__",
+        "django/db/models/fields/related.py::ForeignKey.formfield"
+    ],
+    "django__django-12419": [
+        "django/conf/global_settings.py"
+    ],
+    "django__django-12663": [
+        "django/db/models/sql/query.py::Query.output_field"
+    ],
+    "django__django-12708": [
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor.alter_index_together"
+    ],
+    "django__django-12713": [
+        "django/contrib/admin/options.py::BaseModelAdmin.formfield_for_manytomany"
+    ],
+    "django__django-12741": [
+        "django/core/management/commands/flush.py::Command.handle",
+        "django/db/backends/base/operations.py::BaseDatabaseOperations.execute_sql_flush"
+    ],
+    "django__django-12754": [
+        "django/db/migrations/autodetector.py::MigrationAutodetector.generate_created_models"
+    ],
+    "django__django-12774": [
+        "django/db/models/query.py::QuerySet.in_bulk"
+    ],
+    "django__django-12858": [
+        "django/db/models/base.py::Model._check_ordering"
+    ],
+    "django__django-12965": [
+        "django/db/models/sql/compiler.py::SQLDeleteCompiler.single_alias"
+    ],
+    "django__django-13012": [
+        "django/db/models/expressions.py::ExpressionWrapper"
+    ],
+    "django__django-13023": [
+        "django/db/models/fields/__init__.py::DecimalField.to_python"
+    ],
+    "django__django-13028": [
+        "django/db/models/sql/query.py::Query.check_filterable"
+    ],
+    "django__django-13033": [
+        "django/db/models/sql/compiler.py::SQLCompiler.find_ordering_name"
+    ],
+    "django__django-13089": [
+        "django/core/cache/backends/db.py::DatabaseCache._cull"
+    ],
+    "django__django-13109": [
+        "django/db/models/fields/related.py::ForeignKey.validate"
+    ],
+    "django__django-13112": [
+        "django/db/models/fields/related.py::ForeignObject.deconstruct"
+    ],
+    "django__django-13121": [
+        "django/db/models/expressions.py::Combinable._combine",
+        "django/db/backends/mysql/operations.py::DatabaseOperations",
+        "django/db/models/expressions.py::DurationExpression.compile",
+        "django/db/backends/sqlite3/operations.py::DatabaseOperations",
+        "django/db/backends/base/operations.py::BaseDatabaseOperations",
+        "django/db/models/expressions.py::CombinedExpression.as_sql"
+    ],
+    "django__django-13128": [
+        "django/db/models/expressions.py::CombinedExpression.as_sql",
+        "django/db/models/expressions.py::CombinedExpression.resolve_expression",
+        "django/db/models/expressions.py::DurationExpression.as_sql"
+    ],
+    "django__django-13158": [
+        "django/db/models/sql/query.py::Query",
+        "django/db/models/sql/query.py::Query.clone"
+    ],
+    "django__django-13195": [
+        "django/contrib/sessions/middleware.py::SessionMiddleware.process_response",
+        "django/http/response.py::HttpResponseBase.delete_cookie",
+        "django/contrib/messages/storage/cookie.py::CookieStorage._update_cookie"
+    ],
+    "django__django-13212": [
+        "django/core/validators.py::validate_ipv4_address",
+        "django/core/validators.py::validate_ipv6_address",
+        "django/core/validators.py::DecimalValidator.__call__",
+        "django/core/validators.py::ProhibitNullCharactersValidator.__call__",
+        "django/core/validators.py::validate_ipv46_address",
+        "django/core/validators.py::RegexValidator.__call__",
+        "django/core/validators.py::URLValidator.__call__",
+        "django/core/validators.py::EmailValidator.__call__",
+        "django/forms/fields.py::DecimalField",
+        "django/core/validators.py::FileExtensionValidator.__call__"
+    ],
+    "django__django-13279": [
+        "django/contrib/sessions/backends/base.py::SessionBase.encode",
+        "django/contrib/sessions/backends/base.py::SessionBase"
+    ],
+    "django__django-13297": [
+        "django/views/generic/base.py::_wrap_url_kwargs_with_deprecation_warning"
+    ],
+    "django__django-13315": [
+        "django/forms/models.py::apply_limit_choices_to_to_formfield"
+    ],
+    "django__django-13343": [
+        "django/db/models/fields/files.py::FileField.__init__",
+        "django/db/models/fields/files.py::FileField.deconstruct"
+    ],
+    "django__django-13344": [
+        "django/middleware/cache.py::FetchFromCacheMiddleware.__init__",
+        "django/middleware/cache.py::UpdateCacheMiddleware.__init__",
+        "django/middleware/cache.py::CacheMiddleware.__init__",
+        "django/contrib/sessions/middleware.py::SessionMiddleware.__init__",
+        "django/middleware/security.py::SecurityMiddleware.__init__"
+    ],
+    "django__django-13346": [
+        "django/db/models/fields/json.py::KeyTransformIsNull",
+        "django/db/models/fields/json.py::KeyTransformGte"
+    ],
+    "django__django-13363": [
+        "django/db/models/functions/datetime.py::TruncDate.as_sql",
+        "django/db/models/functions/datetime.py::TruncTime.as_sql"
+    ],
+    "django__django-13401": [
+        "django/db/models/fields/__init__.py::Field.__eq__",
+        "django/db/models/fields/__init__.py::Field.__hash__",
+        "django/db/models/fields/__init__.py::Field.__lt__"
+    ],
+    "django__django-13406": [
+        "django/db/models/query.py::QuerySet.query"
+    ],
+    "django__django-13410": [
+        "django/core/files/locks.py"
+    ],
+    "django__django-13417": [
+        "django/db/models/query.py::QuerySet.ordered"
+    ],
+    "django__django-13449": [
+        "django/db/models/expressions.py::Window"
+    ],
+    "django__django-13512": [
+        "django/forms/fields.py::JSONField.prepare_value",
+        "django/contrib/admin/utils.py::display_for_field"
+    ],
+    "django__django-13513": [
+        "django/views/debug.py::ExceptionReporter.get_traceback_frames",
+        "django/views/debug.py::ExceptionReporter"
+    ],
+    "django__django-13516": [
+        "django/core/management/base.py::OutputWrapper"
+    ],
+    "django__django-13551": [
+        "django/contrib/auth/tokens.py::PasswordResetTokenGenerator._make_hash_value"
+    ],
+    "django__django-13568": [
+        "django/contrib/auth/checks.py::check_user_model"
+    ],
+    "django__django-13569": [
+        "django/db/models/functions/math.py::Random"
+    ],
+    "django__django-13590": [
+        "django/db/models/sql/query.py::Query.resolve_lookup_value"
+    ],
+    "django__django-13658": [
+        "django/core/management/__init__.py::ManagementUtility.execute"
+    ],
+    "django__django-13670": [
+        "django/utils/dateformat.py::DateFormat.y"
+    ],
+    "django__django-13741": [
+        "django/contrib/auth/forms.py::ReadOnlyPasswordHashField.__init__"
+    ],
+    "django__django-13786": [
+        "django/db/migrations/operations/models.py::CreateModel.reduce"
+    ],
+    "django__django-13794": [
+        "django/utils/functional.py::lazy"
+    ],
+    "django__django-13807": [
+        "django/db/backends/sqlite3/base.py::DatabaseWrapper.check_constraints"
+    ],
+    "django__django-13809": [
+        "django/core/management/commands/runserver.py::Command",
+        "django/core/management/commands/runserver.py::Command.inner_run"
+    ],
+    "django__django-13810": [
+        "django/core/handlers/base.py::BaseHandler.load_middleware"
+    ],
+    "django__django-13820": [
+        "django/db/migrations/loader.py::MigrationLoader.load_disk"
+    ],
+    "django__django-13821": [
+        "django/db/backends/sqlite3/base.py::check_sqlite_version"
+    ],
+    "django__django-13837": [
+        "django/utils/autoreload.py::get_child_arguments"
+    ],
+    "django__django-13925": [
+        "django/db/models/base.py::Model._check_default_pk"
+    ],
+    "django__django-13933": [
+        "django/forms/models.py::ModelChoiceField.to_python"
+    ],
+    "django__django-13964": [
+        "django/db/models/base.py::Model._prepare_related_fields_for_save"
+    ],
+    "django__django-14007": [
+        "django/db/models/sql/compiler.py::SQLInsertCompiler.execute_sql"
+    ],
+    "django__django-14011": [
+        "django/db/backends/sqlite3/features.py::DatabaseFeatures.django_test_skips",
+        "django/core/servers/basehttp.py::ThreadedWSGIServer"
+    ],
+    "django__django-14017": [
+        "django/db/models/query_utils.py::Q._combine"
+    ],
+    "django__django-14034": [
+        "django/forms/boundfield.py::BoundField.build_widget_attrs"
+    ],
+    "django__django-14053": [
+        "django/contrib/staticfiles/storage.py::HashedFilesMixin.post_process",
+        "django/contrib/staticfiles/storage.py::HashedFilesMixin"
+    ],
+    "django__django-14089": [
+        "django/utils/datastructures.py::OrderedSet"
+    ],
+    "django__django-14122": [
+        "django/db/models/sql/compiler.py::SQLCompiler.get_group_by"
+    ],
+    "django__django-14140": [
+        "django/db/models/query_utils.py::Q.deconstruct"
+    ],
+    "django__django-14155": [
+        "django/urls/resolvers.py::ResolverMatch.__repr__"
+    ],
+    "django__django-14170": [
+        "django/db/models/lookups.py::YearLookup.year_lookup_bounds",
+        "django/db/backends/base/operations.py::BaseDatabaseOperations.year_lookup_bounds_for_date_field",
+        "django/db/backends/base/operations.py::BaseDatabaseOperations.year_lookup_bounds_for_datetime_field"
+    ],
+    "django__django-14238": [
+        "django/db/models/fields/__init__.py::AutoFieldMeta.__subclasscheck__"
+    ],
+    "django__django-14311": [
+        "django/utils/autoreload.py::get_child_arguments"
+    ],
+    "django__django-14315": [
+        "django/db/backends/base/client.py::BaseDatabaseClient.runshell",
+        "django/db/backends/postgresql/client.py::DatabaseClient.settings_to_cmd_args_env"
+    ],
+    "django__django-14349": [
+        "django/core/validators.py::URLValidator.__call__",
+        "django/core/validators.py::URLValidator"
+    ],
+    "django__django-14351": [
+        "django/db/models/lookups.py::In"
+    ],
+    "django__django-14373": [
+        "django/utils/dateformat.py::DateFormat.Y"
+    ],
+    "django__django-14376": [
+        "django/db/backends/mysql/client.py::DatabaseClient.settings_to_cmd_args_env",
+        "django/db/backends/mysql/base.py::DatabaseWrapper.get_connection_params"
+    ],
+    "django__django-14404": [
+        "django/contrib/admin/sites.py::AdminSite.catch_all_view"
+    ],
+    "django__django-14434": [
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor._create_unique_sql"
+    ],
+    "django__django-14493": [
+        "django/contrib/staticfiles/storage.py::HashedFilesMixin.post_process"
+    ],
+    "django__django-14500": [
+        "django/db/migrations/executor.py::MigrationExecutor.unapply_migration"
+    ],
+    "django__django-14534": [
+        "django/forms/boundfield.py::BoundWidget.id_for_label"
+    ],
+    "django__django-14539": [
+        "django/utils/html.py::urlize"
+    ],
+    "django__django-14559": [
+        "django/db/models/query.py::QuerySet.bulk_update"
+    ],
+    "django__django-14580": [
+        "django/db/migrations/serializer.py::TypeSerializer.serialize"
+    ],
+    "django__django-14608": [
+        "django/forms/formsets.py::BaseFormSet.full_clean"
+    ],
+    "django__django-14631": [
+        "django/forms/boundfield.py::BoundField",
+        "django/forms/forms.py::BaseForm.__iter__",
+        "django/forms/forms.py::BaseForm.changed_data",
+        "django/forms/forms.py::BaseForm",
+        "django/forms/boundfield.py::BoundField.data",
+        "django/forms/forms.py::BaseForm._clean_fields",
+        "django/forms/forms.py::BaseForm._html_output"
+    ],
+    "django__django-14672": [
+        "django/db/models/fields/reverse_related.py::ManyToManyRel.identity"
+    ],
+    "django__django-14725": [
+        "django/forms/models.py::modelformset_factory",
+        "django/forms/models.py::inlineformset_factory",
+        "django/forms/models.py::BaseModelFormSet.save"
+    ],
+    "django__django-14752": [
+        "django/contrib/admin/views/autocomplete.py::AutocompleteJsonView.get",
+        "django/contrib/admin/views/autocomplete.py::AutocompleteJsonView"
+    ],
+    "django__django-14765": [
+        "django/db/migrations/state.py::ProjectState.__init__"
+    ],
+    "django__django-14771": [
+        "django/utils/autoreload.py::get_child_arguments"
+    ],
+    "django__django-14787": [
+        "django/utils/decorators.py::_multi_decorate"
+    ],
+    "django__django-14792": [
+        "django/utils/timezone.py::_get_timezone_name"
+    ],
+    "django__django-14855": [
+        "django/contrib/admin/helpers.py::AdminReadonlyField.get_admin_url"
+    ],
+    "django__django-14915": [
+        "django/forms/models.py::ModelChoiceIteratorValue"
+    ],
+    "django__django-14999": [
+        "django/db/migrations/operations/models.py::RenameModel.database_forwards"
+    ],
+    "django__django-15022": [
+        "django/contrib/admin/options.py::ModelAdmin.get_search_results"
+    ],
+    "django__django-15037": [
+        "django/core/management/commands/inspectdb.py::Command.handle_inspection"
+    ],
+    "django__django-15098": [
+        "django/utils/translation/trans_real.py"
+    ],
+    "django__django-15103": [
+        "django/utils/html.py::json_script",
+        "django/template/defaultfilters.py::json_script"
+    ],
+    "django__django-15104": [
+        "django/db/migrations/autodetector.py::MigrationAutodetector.only_relation_agnostic_fields"
+    ],
+    "django__django-15127": [
+        "django/contrib/messages/apps.py"
+    ],
+    "django__django-15128": [
+        "django/db/models/sql/query.py::Query.combine",
+        "django/db/models/sql/query.py::Query.change_aliases",
+        "django/db/models/sql/query.py::Query.bump_prefix"
+    ],
+    "django__django-15161": [
+        "django/db/models/expressions.py::When",
+        "django/db/models/expressions.py::OrderByList",
+        "django/db/models/expressions.py::Exists",
+        "django/db/models/expressions.py::Func",
+        "django/db/models/expressions.py::ExpressionWrapper",
+        "django/db/models/expressions.py::OuterRef"
+    ],
+    "django__django-15252": [
+        "django/db/migrations/executor.py::MigrationExecutor.migrate"
+    ],
+    "django__django-15268": [
+        "django/db/migrations/operations/models.py::ModelOperation",
+        "django/db/migrations/operations/models.py::ModelOperation.reduce",
+        "django/db/migrations/operations/models.py::AlterTogetherOptionOperation"
+    ],
+    "django__django-15277": [
+        "django/db/models/fields/__init__.py::CharField.__init__"
+    ],
+    "django__django-15278": [
+        "django/db/backends/sqlite3/schema.py::DatabaseSchemaEditor.add_field"
+    ],
+    "django__django-15280": [
+        "django/db/models/fields/related_descriptors.py::create_reverse_many_to_one_manager"
+    ],
+    "django__django-15315": [
+        "django/db/models/fields/__init__.py::Field.__hash__"
+    ],
+    "django__django-15368": [
+        "django/db/models/query.py::QuerySet.bulk_update"
+    ],
+    "django__django-15375": [
+        "django/db/models/aggregates.py::Aggregate.resolve_expression"
+    ],
+    "django__django-15380": [
+        "django/db/migrations/autodetector.py::MigrationAutodetector.generate_renamed_fields"
+    ],
+    "django__django-15382": [
+        "django/db/models/expressions.py::Exists.as_sql"
+    ],
+    "django__django-15467": [
+        "django/contrib/admin/options.py::BaseModelAdmin.formfield_for_foreignkey"
+    ],
+    "django__django-15499": [
+        "django/db/migrations/operations/models.py::CreateModel.reduce"
+    ],
+    "django__django-15503": [
+        "django/db/models/fields/json.py::HasKeyLookup",
+        "django/db/models/fields/json.py::KeyTransformIsNull.as_sqlite",
+        "django/db/models/fields/json.py::KeyTransformExact.as_oracle",
+        "django/db/models/fields/json.py::HasAnyKeys",
+        "django/db/models/fields/json.py::KeyTransformIsNull.as_oracle",
+        "django/db/models/fields/json.py::HasKeyLookup.as_sql"
+    ],
+    "django__django-15525": [
+        "django/core/serializers/base.py::build_instance"
+    ],
+    "django__django-15554": [
+        "django/db/models/sql/query.py::Query.build_filtered_relation_q",
+        "django/db/models/sql/query.py::Query.build_filter",
+        "django/db/models/sql/query.py::Query.setup_joins",
+        "django/db/models/sql/query.py::Query.join"
+    ],
+    "django__django-15561": [
+        "django/db/models/fields/__init__.py::Field",
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor._field_should_be_altered"
+    ],
+    "django__django-15563": [
+        "django/db/models/sql/subqueries.py::UpdateQuery.get_related_updates",
+        "django/db/models/sql/compiler.py::SQLUpdateCompiler.pre_sql_setup"
+    ],
+    "django__django-15569": [
+        "django/db/models/query_utils.py::RegisterLookupMixin"
+    ],
+    "django__django-15572": [
+        "django/template/autoreload.py::get_template_directories"
+    ],
+    "django__django-15629": [
+        "django/db/backends/sqlite3/schema.py::DatabaseSchemaEditor._alter_field",
+        "django/db/backends/oracle/features.py::DatabaseFeatures",
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor._alter_field",
+        "django/db/models/fields/related.py::ForeignKey.db_parameters"
+    ],
+    "django__django-15695": [
+        "django/db/migrations/operations/models.py::RenameIndex.database_forwards"
+    ],
+    "django__django-15731": [
+        "django/db/models/manager.py::BaseManager._get_queryset_methods"
+    ],
+    "django__django-15732": [
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor",
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor._delete_composed_index",
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor._create_unique_sql",
+        "django/db/backends/base/schema.py::BaseDatabaseSchemaEditor.alter_unique_together"
+    ],
+    "django__django-15741": [
+        "django/utils/formats.py::get_format"
+    ],
+    "django__django-15814": [
+        "django/db/models/sql/query.py::Query.deferred_to_data"
+    ],
+    "django__django-15851": [
+        "django/db/backends/postgresql/client.py::DatabaseClient.settings_to_cmd_args_env"
+    ],
+    "django__django-15863": [
+        "django/template/defaultfilters.py::floatformat"
+    ],
+    "django__django-15916": [
+        "django/forms/models.py::ModelFormMetaclass.__new__",
+        "django/forms/models.py::modelform_factory",
+        "django/forms/models.py::ModelFormOptions"
+    ],
+    "django__django-15930": [
+        "django/db/models/expressions.py::When.as_sql"
+    ],
+    "django__django-15957": [
+        "django/db/models/fields/related_descriptors.py::ForeignKeyDeferredAttribute",
+        "django/db/models/fields/related_descriptors.py::create_forward_many_to_many_manager",
+        "django/db/models/fields/related_descriptors.py::create_reverse_many_to_one_manager"
+    ],
+    "django__django-15973": [
+        "django/db/migrations/autodetector.py::MigrationAutodetector._get_dependencies_for_foreign_key"
+    ],
+    "django__django-15987": [
+        "django/core/management/commands/loaddata.py::Command.fixture_dirs"
+    ],
+    "django__django-16032": [
+        "django/db/models/sql/query.py::Query.set_values",
+        "django/db/models/fields/related_lookups.py::RelatedIn.get_prep_lookup",
+        "django/db/models/sql/query.py::Query"
+    ],
+    "django__django-16082": [
+        "django/db/models/expressions.py"
+    ],
+    "django__django-16100": [
+        "django/contrib/admin/options.py::ModelAdmin.changelist_view"
+    ],
+    "django__django-16116": [
+        "django/core/management/commands/makemigrations.py::Command.handle",
+        "django/core/management/commands/makemigrations.py::Command.add_arguments"
+    ],
+    "django__django-16136": [
+        "django/views/generic/base.py::View.http_method_not_allowed"
+    ],
+    "django__django-16139": [
+        "django/contrib/auth/forms.py::UserChangeForm.__init__"
+    ],
+    "django__django-16145": [
+        "django/core/management/commands/runserver.py::Command.inner_run"
+    ],
+    "django__django-16255": [
+        "django/contrib/sitemaps/__init__.py::Sitemap.get_latest_lastmod"
+    ],
+    "django__django-16256": [
+        "django/contrib/contenttypes/fields.py::create_generic_related_manager",
+        "django/db/models/fields/related_descriptors.py::create_forward_many_to_many_manager",
+        "django/db/models/fields/related_descriptors.py::create_reverse_many_to_one_manager"
+    ],
+    "django__django-16263": [
+        "django/db/models/expressions.py::BaseExpression",
+        "django/db/models/sql/where.py::WhereNode",
+        "django/db/models/query_utils.py::refs_expression",
+        "django/db/models/sql/query.py::Query.get_aggregation",
+        "django/db/models/query_utils.py::Q.resolve_expression",
+        "django/db/models/sql/query.py::Query.build_filter",
+        "django/db/models/sql/query.py::Query._add_q",
+        "django/db/models/sql/query.py::Query.solve_lookup_type",
+        "django/db/models/expressions.py::Ref"
+    ],
+    "django__django-16315": [
+        "django/db/models/query.py::QuerySet.bulk_create",
+        "django/db/models/sql/compiler.py::SQLInsertCompiler.as_sql",
+        "django/db/models/query.py::QuerySet._check_bulk_create_options"
+    ],
+    "django__django-16333": [
+        "django/contrib/auth/forms.py::UserCreationForm.save"
+    ],
+    "django__django-16429": [
+        "django/utils/timesince.py::timesince"
+    ],
+    "django__django-16454": [
+        "django/core/management/base.py::CommandParser"
+    ],
+    "django__django-16485": [
+        "django/template/defaultfilters.py::floatformat"
+    ],
+    "django__django-16493": [
+        "django/db/models/fields/files.py::FileField.deconstruct"
+    ],
+    "django__django-16502": [
+        "django/core/servers/basehttp.py::ServerHandler",
+        "django/core/servers/basehttp.py::ServerHandler.cleanup_headers"
+    ],
+    "django__django-16527": [
+        "django/contrib/admin/templatetags/admin_modify.py::submit_row"
+    ],
+    "django__django-16560": [
+        "django/db/models/constraints.py::BaseConstraint.deconstruct",
+        "django/db/models/constraints.py::CheckConstraint.validate",
+        "django/contrib/postgres/constraints.py::ExclusionConstraint.__init__",
+        "django/db/models/constraints.py::BaseConstraint",
+        "django/db/models/constraints.py::CheckConstraint.__eq__",
+        "django/db/models/constraints.py::CheckConstraint.__repr__",
+        "django/db/models/constraints.py::UniqueConstraint.__init__",
+        "django/db/models/constraints.py::UniqueConstraint.validate",
+        "django/db/models/constraints.py::UniqueConstraint.__repr__",
+        "django/db/models/constraints.py::UniqueConstraint.__eq__",
+        "django/contrib/postgres/constraints.py::ExclusionConstraint.__eq__",
+        "django/db/models/constraints.py::CheckConstraint.__init__",
+        "django/contrib/postgres/constraints.py::ExclusionConstraint.__repr__",
+        "django/contrib/postgres/constraints.py::ExclusionConstraint.validate",
+        "django/db/models/constraints.py::BaseConstraint.__init__"
+    ],
+    "django__django-16569": [
+        "django/forms/formsets.py::BaseFormSet.add_fields"
+    ],
+    "django__django-16595": [
+        "django/db/migrations/operations/fields.py::AlterField.reduce"
+    ],
+    "django__django-16612": [
+        "django/contrib/admin/sites.py::AdminSite.catch_all_view"
+    ],
+    "django__django-16631": [
+        "django/contrib/auth/__init__.py::get_user",
+        "django/contrib/auth/base_user.py::AbstractBaseUser.get_session_auth_hash"
+    ],
+    "django__django-16642": [
+        "django/http/response.py::FileResponse.set_headers"
+    ],
+    "django__django-16661": [
+        "django/contrib/admin/options.py::BaseModelAdmin.lookup_allowed"
+    ],
+    "django__django-16662": [
+        "django/db/migrations/writer.py::MigrationWriter.as_string"
+    ],
+    "django__django-16667": [
+        "django/forms/widgets.py::SelectDateWidget.value_from_datadict"
+    ],
+    "django__django-16801": [
+        "django/db/models/fields/files.py::ImageField.update_dimension_fields",
+        "django/db/models/fields/files.py::ImageField.contribute_to_class"
+    ],
+    "django__django-16819": [
+        "django/db/migrations/operations/models.py::AddIndex"
+    ],
+    "django__django-16877": [
+        "django/template/defaultfilters.py"
+    ],
+    "django__django-16899": [
+        "django/contrib/admin/checks.py::BaseModelAdminChecks._check_readonly_fields_item"
+    ],
+    "django__django-16901": [
+        "django/db/models/sql/where.py::WhereNode.as_sql"
+    ],
+    "django__django-16938": [
+        "django/core/serializers/xml_serializer.py::Serializer.handle_m2m_field",
+        "django/core/serializers/python.py::Serializer.handle_m2m_field"
+    ],
+    "django__django-16950": [
+        "django/forms/models.py::BaseInlineFormSet.add_fields"
+    ],
+    "django__django-17029": [
+        "django/apps/registry.py::Apps.clear_cache"
+    ],
+    "django__django-17084": [
+        "django/db/models/sql/query.py::Query.get_aggregation"
+    ],
+    "django__django-17087": [
+        "django/db/migrations/serializer.py::FunctionTypeSerializer.serialize"
+    ],
+    "django__django-7530": [
+        "django/core/management/commands/makemigrations.py::Command.handle"
+    ],
+    "django__django-9296": [
+        "django/core/paginator.py::Paginator"
+    ],
+    "matplotlib__matplotlib-13989": [
+        "lib/matplotlib/axes/_axes.py::Axes.hist"
+    ],
+    "matplotlib__matplotlib-14623": [
+        "lib/mpl_toolkits/mplot3d/axes3d.py::Axes3D.set_xlim3d",
+        "lib/matplotlib/axes/_base.py::_AxesBase.set_ylim",
+        "lib/mpl_toolkits/mplot3d/axes3d.py::Axes3D.set_zlim3d",
+        "lib/mpl_toolkits/mplot3d/axes3d.py::Axes3D.set_ylim3d",
+        "lib/matplotlib/axes/_base.py::_AxesBase.set_xlim",
+        "lib/matplotlib/ticker.py::Locator.nonsingular"
+    ],
+    "matplotlib__matplotlib-20488": [
+        "lib/matplotlib/image.py::_ImageBase._make_image"
+    ],
+    "matplotlib__matplotlib-20676": [
+        "lib/matplotlib/widgets.py::SpanSelector._setup_edge_handle"
+    ],
+    "matplotlib__matplotlib-20826": [
+        "lib/matplotlib/axis.py::Axis.clear"
+    ],
+    "matplotlib__matplotlib-20859": [
+        "lib/matplotlib/legend.py::Legend.__init__"
+    ],
+    "matplotlib__matplotlib-21568": [
+        "lib/matplotlib/dates.py::_wrap_in_tex"
+    ],
+    "matplotlib__matplotlib-22719": [
+        "lib/matplotlib/category.py::StrCategoryConverter.convert",
+        "lib/matplotlib/category.py::UnitData.update"
+    ],
+    "matplotlib__matplotlib-22865": [
+        "lib/matplotlib/colorbar.py::Colorbar._add_solids"
+    ],
+    "matplotlib__matplotlib-22871": [
+        "lib/matplotlib/dates.py::ConciseDateFormatter.format_ticks"
+    ],
+    "matplotlib__matplotlib-23299": [
+        "lib/matplotlib/__init__.py::rc_context"
+    ],
+    "matplotlib__matplotlib-23314": [
+        "lib/mpl_toolkits/mplot3d/axes3d.py::Axes3D.draw"
+    ],
+    "matplotlib__matplotlib-23412": [
+        "lib/matplotlib/patches.py::Patch.draw"
+    ],
+    "matplotlib__matplotlib-23476": [
+        "lib/matplotlib/figure.py::Figure.__getstate__"
+    ],
+    "matplotlib__matplotlib-24026": [
+        "lib/matplotlib/stackplot.py::stackplot"
+    ],
+    "matplotlib__matplotlib-24149": [
+        "lib/matplotlib/axes/_axes.py::Axes._convert_dx"
+    ],
+    "matplotlib__matplotlib-24177": [
+        "lib/matplotlib/axes/_base.py::_AxesBase._update_patch_limits"
+    ],
+    "matplotlib__matplotlib-24570": [
+        "lib/matplotlib/offsetbox.py::_get_aligned_offsets"
+    ],
+    "matplotlib__matplotlib-24627": [
+        "lib/matplotlib/axes/_base.py::_AxesBase.__clear"
+    ],
+    "matplotlib__matplotlib-24637": [
+        "lib/matplotlib/offsetbox.py::AnnotationBbox",
+        "lib/matplotlib/offsetbox.py::AnnotationBbox.draw"
+    ],
+    "matplotlib__matplotlib-24870": [
+        "lib/matplotlib/tri/_tricontour.py::TriContourSet._contour_args",
+        "lib/matplotlib/contour.py::QuadContourSet._contour_args",
+        "lib/matplotlib/contour.py::ContourSet._process_contour_level_args",
+        "lib/matplotlib/contour.py::QuadContourSet._check_xyz"
+    ],
+    "matplotlib__matplotlib-24970": [
+        "lib/matplotlib/colors.py::Colormap.__call__"
+    ],
+    "matplotlib__matplotlib-25122": [
+        "lib/matplotlib/mlab.py::_spectral_helper"
+    ],
+    "matplotlib__matplotlib-25287": [
+        "lib/matplotlib/axis.py::XAxis.contains",
+        "lib/matplotlib/axis.py::YAxis._init",
+        "lib/matplotlib/axis.py::XAxis._init",
+        "lib/matplotlib/axis.py::YAxis.contains"
+    ],
+    "matplotlib__matplotlib-25311": [
+        "lib/matplotlib/offsetbox.py::DraggableBase",
+        "lib/matplotlib/offsetbox.py::DraggableBase.__init__"
+    ],
+    "matplotlib__matplotlib-25332": [
+        "lib/matplotlib/cbook.py::Grouper"
+    ],
+    "matplotlib__matplotlib-25479": [
+        "lib/matplotlib/colors.py::Colormap.__eq__",
+        "lib/matplotlib/cm.py::ColormapRegistry"
+    ],
+    "matplotlib__matplotlib-25775": [
+        "lib/matplotlib/text.py::Text._reset_visual_defaults",
+        "lib/matplotlib/backends/backend_agg.py::RendererAgg.draw_text",
+        "lib/matplotlib/text.py::Text.__init__",
+        "lib/matplotlib/backends/backend_cairo.py::RendererCairo.draw_text",
+        "lib/matplotlib/text.py::Text",
+        "lib/matplotlib/backends/backend_cairo.py::GraphicsContextCairo",
+        "lib/matplotlib/text.py::Text.update_from",
+        "lib/matplotlib/text.py::Text.draw"
+    ],
+    "matplotlib__matplotlib-25960": [
+        "lib/matplotlib/figure.py::FigureBase.subfigures"
+    ],
+    "matplotlib__matplotlib-26113": [
+        "lib/matplotlib/axes/_axes.py::Axes.hexbin"
+    ],
+    "matplotlib__matplotlib-26208": [
+        "lib/matplotlib/axes/_base.py::_AxesBase.twiny",
+        "lib/matplotlib/axes/_base.py::_AxesBase.twinx"
+    ],
+    "matplotlib__matplotlib-26291": [
+        "lib/mpl_toolkits/axes_grid1/inset_locator.py::AnchoredLocatorBase.__call__"
+    ],
+    "matplotlib__matplotlib-26342": [
+        "lib/matplotlib/collections.py::Collection.set_paths",
+        "lib/matplotlib/collections.py::PathCollection"
+    ],
+    "matplotlib__matplotlib-26466": [
+        "lib/matplotlib/text.py::OffsetFrom.__call__",
+        "lib/matplotlib/text.py::OffsetFrom",
+        "lib/matplotlib/text.py::OffsetFrom.__init__",
+        "lib/matplotlib/text.py::_AnnotationBase.__init__"
+    ],
+    "mwaskom__seaborn-3069": [
+        "seaborn/_core/plot.py::Plotter._setup_scales",
+        "seaborn/_core/plot.py::Plotter._finalize_figure"
+    ],
+    "mwaskom__seaborn-3187": [
+        "seaborn/_core/scales.py::ContinuousBase._setup",
+        "seaborn/utils.py::locator_to_legend_entries"
+    ],
+    "pallets__flask-5014": [
+        "src/flask/blueprints.py::Blueprint.__init__"
+    ],
+    "psf__requests-1142": [
+        "requests/models.py::PreparedRequest.prepare_content_length",
+        "requests/models.py::PreparedRequest"
+    ],
+    "psf__requests-1724": [
+        "requests/sessions.py::Session.request"
+    ],
+    "psf__requests-1766": [
+        "requests/auth.py::HTTPDigestAuth.build_digest_header"
+    ],
+    "psf__requests-1921": [
+        "requests/sessions.py::merge_setting"
+    ],
+    "psf__requests-2317": [
+        "requests/sessions.py::Session.request"
+    ],
+    "psf__requests-2931": [
+        "requests/models.py::RequestEncodingMixin._encode_params",
+        "requests/models.py::PreparedRequest.prepare_url"
+    ],
+    "psf__requests-5414": [
+        "requests/models.py::PreparedRequest.prepare_url"
+    ],
+    "psf__requests-6028": [
+        "requests/utils.py::prepend_scheme_if_needed"
+    ],
+    "pydata__xarray-2905": [
+        "xarray/core/variable.py::as_compatible_data"
+    ],
+    "pydata__xarray-3095": [
+        "xarray/core/indexing.py::PandasIndexAdapter.__array__",
+        "xarray/core/indexing.py::PandasIndexAdapter",
+        "xarray/core/indexing.py::PandasIndexAdapter.__init__",
+        "xarray/core/indexing.py::PandasIndexAdapter.__getitem__",
+        "xarray/core/indexing.py::PandasIndexAdapter.transpose",
+        "xarray/core/indexing.py::PandasIndexAdapter.__repr__",
+        "xarray/core/indexing.py::PandasIndexAdapter.shape",
+        "xarray/core/variable.py::IndexVariable.copy",
+        "xarray/core/indexing.py::PandasIndexAdapter.dtype"
+    ],
+    "pydata__xarray-3151": [
+        "xarray/core/combine.py::combine_by_coords"
+    ],
+    "pydata__xarray-3305": [
+        "xarray/core/dataset.py::Dataset.quantile",
+        "xarray/core/variable.py::Variable.quantile"
+    ],
+    "pydata__xarray-3677": [
+        "xarray/core/dataset.py::Dataset.merge"
+    ],
+    "pydata__xarray-3993": [
+        "xarray/core/dataarray.py::DataArray.integrate",
+        "xarray/core/dataset.py::Dataset.integrate"
+    ],
+    "pydata__xarray-4075": [
+        "xarray/core/weighted.py::Weighted._sum_of_weights"
+    ],
+    "pydata__xarray-4094": [
+        "xarray/core/dataarray.py::DataArray.to_unstacked_dataset"
+    ],
+    "pydata__xarray-4356": [
+        "xarray/core/nanops.py::_maybe_null_out"
+    ],
+    "pydata__xarray-4629": [
+        "xarray/core/merge.py::merge_attrs"
+    ],
+    "pydata__xarray-4687": [
+        "xarray/core/computation.py::where"
+    ],
+    "pydata__xarray-4695": [
+        "xarray/core/dataarray.py::_LocIndexer.__getitem__"
+    ],
+    "pydata__xarray-4966": [
+        "xarray/coding/variables.py::UnsignedIntegerCoder.decode"
+    ],
+    "pydata__xarray-6461": [
+        "xarray/core/computation.py::where"
+    ],
+    "pydata__xarray-6599": [
+        "xarray/core/computation.py::_ensure_numeric"
+    ],
+    "pydata__xarray-6721": [
+        "xarray/core/common.py::get_chunksizes"
+    ],
+    "pydata__xarray-6744": [
+        "xarray/core/rolling.py::DataArrayRolling.__iter__"
+    ],
+    "pydata__xarray-6938": [
+        "xarray/core/variable.py::Variable.to_index",
+        "xarray/core/variable.py::IndexVariable.name",
+        "xarray/core/variable.py::Variable.to_base_variable",
+        "xarray/core/variable.py::IndexVariable.level_names",
+        "xarray/core/variable.py::Variable.to_index_variable",
+        "xarray/core/variable.py::IndexVariable.to_index",
+        "xarray/core/variable.py::IndexVariable.to_index_variable",
+        "xarray/core/dataset.py::Dataset.swap_dims"
+    ],
+    "pydata__xarray-6992": [
+        "xarray/core/dataset.py::Dataset.reset_index",
+        "xarray/core/dataset.py::Dataset.set_index",
+        "xarray/core/indexes.py::PandasMultiIndex.keep_levels"
+    ],
+    "pydata__xarray-7229": [
+        "xarray/core/computation.py::where"
+    ],
+    "pydata__xarray-7233": [
+        "xarray/core/rolling.py::Coarsen.construct"
+    ],
+    "pydata__xarray-7393": [
+        "xarray/core/indexing.py::PandasMultiIndexingAdapter.__array__"
+    ],
+    "pylint-dev__pylint-4551": [
+        "pylint/pyreverse/inspector.py::Linker.handle_assignattr_type",
+        "pylint/pyreverse/writer.py::DotWriter.get_values",
+        "pylint/pyreverse/inspector.py::Linker.visit_assignname",
+        "pylint/pyreverse/diagrams.py::ClassDiagram.class_names"
+    ],
+    "pylint-dev__pylint-4604": [
+        "pylint/checkers/variables.py::VariablesChecker._store_type_annotation_node"
+    ],
+    "pylint-dev__pylint-4661": [
+        "pylint/config/__init__.py"
+    ],
+    "pylint-dev__pylint-4970": [
+        "pylint/checkers/similar.py::Similar.run"
+    ],
+    "pylint-dev__pylint-6386": [
+        "pylint/config/arguments_manager.py::_ArgumentsManager._add_parser_option",
+        "pylint/config/utils.py::_preprocess_options",
+        "pylint/config/argument.py::_CallableArgument.__init__",
+        "pylint/lint/base_options.py::_make_run_options",
+        "pylint/config/utils.py::_convert_option_to_argument"
+    ],
+    "pylint-dev__pylint-6528": [
+        "pylint/lint/pylinter.py::PyLinter",
+        "pylint/lint/expand_modules.py::expand_modules",
+        "pylint/lint/pylinter.py::PyLinter._discover_files"
+    ],
+    "pylint-dev__pylint-6903": [
+        "pylint/lint/run.py::_query_cpu"
+    ],
+    "pylint-dev__pylint-7080": [
+        "pylint/lint/expand_modules.py::_is_ignored_file"
+    ],
+    "pylint-dev__pylint-7277": [
+        "pylint/__init__.py::modify_sys_path"
+    ],
+    "pylint-dev__pylint-8898": [
+        "pylint/config/argument.py::_regexp_csv_transfomer"
+    ],
+    "pytest-dev__pytest-10051": [
+        "src/_pytest/logging.py::LogCaptureHandler",
+        "src/_pytest/logging.py::LogCaptureFixture.clear"
+    ],
+    "pytest-dev__pytest-10081": [
+        "src/_pytest/unittest.py::TestCaseFunction.runtest"
+    ],
+    "pytest-dev__pytest-10356": [
+        "src/_pytest/mark/structures.py::store_mark",
+        "src/_pytest/mark/structures.py::get_unpacked_marks"
+    ],
+    "pytest-dev__pytest-5262": [
+        "src/_pytest/capture.py::EncodedFile"
+    ],
+    "pytest-dev__pytest-5631": [
+        "src/_pytest/compat.py::num_mock_patch_args"
+    ],
+    "pytest-dev__pytest-5787": [
+        "src/_pytest/reports.py::BaseReport._to_json",
+        "src/_pytest/reports.py::BaseReport._from_json"
+    ],
+    "pytest-dev__pytest-5809": [
+        "src/_pytest/pastebin.py::create_new_paste"
+    ],
+    "pytest-dev__pytest-5840": [
+        "src/_pytest/config/__init__.py::PytestPluginManager._set_initial_conftests",
+        "src/_pytest/config/__init__.py::PytestPluginManager._importconftest",
+        "src/_pytest/config/__init__.py::PytestPluginManager._getconftestmodules"
+    ],
+    "pytest-dev__pytest-6197": [
+        "src/_pytest/python.py::Package.collect",
+        "src/_pytest/python.py::PyobjMixin._mount_obj_if_needed",
+        "src/_pytest/python.py::PyobjMixin",
+        "src/_pytest/python.py::Module"
+    ],
+    "pytest-dev__pytest-6202": [
+        "src/_pytest/python.py::PyobjMixin.getmodpath"
+    ],
+    "pytest-dev__pytest-7205": [
+        "src/_pytest/setuponly.py::_show_fixture_action"
+    ],
+    "pytest-dev__pytest-7236": [
+        "src/_pytest/unittest.py::_make_xunit_fixture",
+        "src/_pytest/unittest.py::TestCaseFunction.runtest",
+        "src/_pytest/unittest.py::UnitTestCase.collect"
+    ],
+    "pytest-dev__pytest-7324": [
+        "src/_pytest/mark/expression.py::not_expr",
+        "src/_pytest/mark/expression.py::MatcherAdapter.__getitem__",
+        "src/_pytest/mark/expression.py::Scanner"
+    ],
+    "pytest-dev__pytest-7432": [
+        "src/_pytest/skipping.py::pytest_runtest_makereport"
+    ],
+    "pytest-dev__pytest-7490": [
+        "src/_pytest/skipping.py::pytest_runtest_call",
+        "src/_pytest/skipping.py::pytest_runtest_setup"
+    ],
+    "pytest-dev__pytest-7521": [
+        "src/_pytest/capture.py::FDCaptureBinary.__init__"
+    ],
+    "pytest-dev__pytest-7571": [
+        "src/_pytest/logging.py::LogCaptureFixture.set_level",
+        "src/_pytest/logging.py::LogCaptureFixture.__init__",
+        "src/_pytest/logging.py::LogCaptureFixture._finalize"
+    ],
+    "pytest-dev__pytest-7982": [
+        "src/_pytest/pathlib.py::visit"
+    ],
+    "pytest-dev__pytest-8399": [
+        "src/_pytest/unittest.py::_make_xunit_fixture",
+        "src/_pytest/python.py::Module._inject_setup_function_fixture",
+        "src/_pytest/python.py::Class._inject_setup_method_fixture",
+        "src/_pytest/python.py::Module._inject_setup_module_fixture",
+        "src/_pytest/python.py::Class._inject_setup_class_fixture"
+    ],
+    "scikit-learn__scikit-learn-10297": [
+        "sklearn/linear_model/ridge.py::RidgeClassifierCV.__init__",
+        "sklearn/linear_model/ridge.py::RidgeClassifierCV",
+        "sklearn/linear_model/ridge.py::RidgeCV"
+    ],
+    "scikit-learn__scikit-learn-10844": [
+        "sklearn/metrics/cluster/supervised.py::fowlkes_mallows_score"
+    ],
+    "scikit-learn__scikit-learn-10908": [
+        "sklearn/feature_extraction/text.py::CountVectorizer.inverse_transform"
+    ],
+    "scikit-learn__scikit-learn-11310": [
+        "sklearn/model_selection/_search.py::BaseSearchCV.fit",
+        "sklearn/model_selection/_search.py::GridSearchCV",
+        "sklearn/model_selection/_search.py::RandomizedSearchCV"
+    ],
+    "scikit-learn__scikit-learn-11578": [
+        "sklearn/linear_model/logistic.py::_log_reg_scoring_path"
+    ],
+    "scikit-learn__scikit-learn-12585": [
+        "sklearn/base.py::clone"
+    ],
+    "scikit-learn__scikit-learn-12682": [
+        "sklearn/decomposition/dict_learning.py::dict_learning",
+        "sklearn/decomposition/dict_learning.py::_sparse_encode",
+        "sklearn/decomposition/dict_learning.py::MiniBatchDictionaryLearning.partial_fit",
+        "sklearn/decomposition/dict_learning.py::MiniBatchDictionaryLearning",
+        "sklearn/decomposition/dict_learning.py::SparseCoder.__init__",
+        "sklearn/decomposition/dict_learning.py::MiniBatchDictionaryLearning.fit",
+        "examples/decomposition/plot_sparse_coding.py::ricker_function",
+        "sklearn/decomposition/dict_learning.py::dict_learning_online",
+        "sklearn/decomposition/dict_learning.py::MiniBatchDictionaryLearning.__init__",
+        "sklearn/decomposition/dict_learning.py::sparse_encode",
+        "sklearn/decomposition/dict_learning.py::SparseCoder",
+        "sklearn/decomposition/dict_learning.py::SparseCodingMixin.transform",
+        "sklearn/decomposition/dict_learning.py::DictionaryLearning.__init__",
+        "sklearn/decomposition/dict_learning.py::DictionaryLearning",
+        "sklearn/decomposition/dict_learning.py::DictionaryLearning.fit",
+        "sklearn/decomposition/dict_learning.py::SparseCodingMixin._set_sparse_coding_params"
+    ],
+    "scikit-learn__scikit-learn-12973": [
+        "sklearn/linear_model/least_angle.py::LassoLarsIC.fit"
+    ],
+    "scikit-learn__scikit-learn-13124": [
+        "sklearn/model_selection/_split.py::StratifiedKFold._make_test_folds",
+        "sklearn/model_selection/_split.py::StratifiedKFold"
+    ],
+    "scikit-learn__scikit-learn-13135": [
+        "sklearn/preprocessing/_discretization.py::KBinsDiscretizer.fit"
+    ],
+    "scikit-learn__scikit-learn-13142": [
+        "sklearn/mixture/base.py::BaseMixture.fit_predict"
+    ],
+    "scikit-learn__scikit-learn-13328": [
+        "sklearn/linear_model/huber.py::HuberRegressor.fit"
+    ],
+    "scikit-learn__scikit-learn-13439": [
+        "sklearn/pipeline.py::Pipeline"
+    ],
+    "scikit-learn__scikit-learn-13496": [
+        "sklearn/ensemble/iforest.py::IsolationForest.__init__",
+        "sklearn/ensemble/iforest.py::IsolationForest"
+    ],
+    "scikit-learn__scikit-learn-13779": [
+        "sklearn/ensemble/voting.py::_BaseVoting.fit"
+    ],
+    "scikit-learn__scikit-learn-14053": [
+        "sklearn/tree/export.py::export_text"
+    ],
+    "scikit-learn__scikit-learn-14087": [
+        "sklearn/linear_model/logistic.py::LogisticRegressionCV.fit"
+    ],
+    "scikit-learn__scikit-learn-14141": [
+        "sklearn/utils/_show_versions.py::_get_deps_info"
+    ],
+    "scikit-learn__scikit-learn-14496": [
+        "sklearn/cluster/optics_.py::compute_optics_graph",
+        "sklearn/cluster/optics_.py::cluster_optics_xi",
+        "sklearn/cluster/optics_.py::OPTICS",
+        "sklearn/cluster/optics_.py::_xi_cluster"
+    ],
+    "scikit-learn__scikit-learn-14629": [
+        "sklearn/multioutput.py::MultiOutputClassifier",
+        "sklearn/multioutput.py::_BaseChain.fit"
+    ],
+    "scikit-learn__scikit-learn-14710": [
+        "sklearn/ensemble/_hist_gradient_boosting/gradient_boosting.py::BaseHistGradientBoosting._check_early_stopping_scorer"
+    ],
+    "scikit-learn__scikit-learn-14894": [
+        "sklearn/svm/base.py::BaseLibSVM._sparse_fit"
+    ],
+    "scikit-learn__scikit-learn-14983": [
+        "sklearn/model_selection/_split.py::_build_repr",
+        "sklearn/model_selection/_split.py::_RepeatedSplits"
+    ],
+    "scikit-learn__scikit-learn-15100": [
+        "sklearn/feature_extraction/text.py::strip_accents_unicode"
+    ],
+    "scikit-learn__scikit-learn-25102": [
+        "sklearn/feature_selection/_base.py::SelectorMixin._transform",
+        "sklearn/feature_selection/_base.py::SelectorMixin.transform",
+        "sklearn/base.py::BaseEstimator._validate_data"
+    ],
+    "scikit-learn__scikit-learn-25232": [
+        "sklearn/impute/_iterative.py::IterativeImputer",
+        "sklearn/impute/_iterative.py::IterativeImputer.__init__",
+        "sklearn/impute/_iterative.py::IterativeImputer._initial_imputation"
+    ],
+    "scikit-learn__scikit-learn-25747": [
+        "sklearn/utils/_set_output.py::_wrap_in_pandas_container"
+    ],
+    "scikit-learn__scikit-learn-25931": [
+        "sklearn/ensemble/_iforest.py::IsolationForest.score_samples",
+        "sklearn/ensemble/_iforest.py::IsolationForest.fit"
+    ],
+    "scikit-learn__scikit-learn-25973": [
+        "sklearn/feature_selection/_sequential.py::SequentialFeatureSelector.fit",
+        "sklearn/feature_selection/_sequential.py::SequentialFeatureSelector._get_best_new_feature_score"
+    ],
+    "scikit-learn__scikit-learn-26194": [
+        "sklearn/metrics/_ranking.py::roc_curve"
+    ],
+    "scikit-learn__scikit-learn-26323": [
+        "sklearn/compose/_column_transformer.py::ColumnTransformer.set_output"
+    ],
+    "scikit-learn__scikit-learn-9288": [
+        "sklearn/cluster/k_means_.py::k_means"
+    ],
+    "sphinx-doc__sphinx-10323": [
+        "sphinx/directives/code.py::LiteralIncludeReader.read"
+    ],
+    "sphinx-doc__sphinx-10435": [
+        "sphinx/writers/latex.py::LaTeXTranslator.visit_literal"
+    ],
+    "sphinx-doc__sphinx-10449": [
+        "sphinx/ext/autodoc/typehints.py::merge_typehints",
+        "sphinx/ext/autodoc/typehints.py::modify_field_list"
+    ],
+    "sphinx-doc__sphinx-10466": [
+        "sphinx/builders/gettext.py::Catalog.__iter__"
+    ],
+    "sphinx-doc__sphinx-10614": [
+        "sphinx/ext/inheritance_diagram.py::html_visit_inheritance_diagram"
+    ],
+    "sphinx-doc__sphinx-10673": [
+        "sphinx/directives/other.py::TocTree.parse_content",
+        "sphinx/environment/collectors/toctree.py::TocTreeCollector.assign_figure_numbers",
+        "sphinx/environment/adapters/toctree.py::TocTree.resolve"
+    ],
+    "sphinx-doc__sphinx-11445": [
+        "sphinx/util/rst.py::prepend_prolog"
+    ],
+    "sphinx-doc__sphinx-11510": [
+        "sphinx/directives/other.py::Include.run"
+    ],
+    "sphinx-doc__sphinx-7440": [
+        "sphinx/domains/std.py::make_glossary_term",
+        "sphinx/domains/std.py::StandardDomain"
+    ],
+    "sphinx-doc__sphinx-7454": [
+        "sphinx/domains/python.py::_parse_annotation"
+    ],
+    "sphinx-doc__sphinx-7462": [
+        "sphinx/domains/python.py::_parse_annotation",
+        "sphinx/pycode/ast.py::unparse"
+    ],
+    "sphinx-doc__sphinx-7590": [
+        "sphinx/domains/cpp.py::ASTNumberLiteral.get_id",
+        "sphinx/domains/cpp.py::DefinitionParser._parse_literal",
+        "sphinx/util/cfamily.py::verify_description_mode",
+        "sphinx/domains/cpp.py::ASTCharLiteral",
+        "sphinx/domains/cpp.py::ASTIdentifier.describe_signature",
+        "sphinx/domains/c.py::DefinitionParser._parse_literal",
+        "sphinx/domains/cpp.py::ASTCharLiteral.get_id"
+    ],
+    "sphinx-doc__sphinx-7748": [
+        "sphinx/ext/autodoc/__init__.py::DocstringSignatureMixin.format_signature",
+        "sphinx/ext/autodoc/__init__.py::DocstringSignatureMixin.get_doc",
+        "sphinx/ext/autodoc/__init__.py::FunctionDocumenter.format_signature",
+        "sphinx/ext/autodoc/__init__.py::DocstringSignatureMixin",
+        "sphinx/ext/autodoc/__init__.py::DocstringSignatureMixin._find_signature"
+    ],
+    "sphinx-doc__sphinx-7757": [
+        "sphinx/util/inspect.py::signature_from_str"
+    ],
+    "sphinx-doc__sphinx-7889": [
+        "sphinx/ext/autodoc/mock.py::_MockObject.__getitem__"
+    ],
+    "sphinx-doc__sphinx-7910": [
+        "sphinx/ext/napoleon/__init__.py::_skip_member"
+    ],
+    "sphinx-doc__sphinx-7985": [
+        "sphinx/builders/linkcheck.py::CheckExternalLinksBuilder.check_thread"
+    ],
+    "sphinx-doc__sphinx-8035": [
+        "sphinx/ext/autodoc/__init__.py::merge_special_members_option",
+        "sphinx/ext/autodoc/__init__.py::ModuleDocumenter.__init__",
+        "sphinx/ext/autodoc/__init__.py::Documenter.filter_members",
+        "sphinx/ext/autodoc/__init__.py::ModuleDocumenter",
+        "sphinx/ext/autodoc/__init__.py::ClassDocumenter.__init__",
+        "sphinx/ext/autodoc/__init__.py::ClassDocumenter"
+    ],
+    "sphinx-doc__sphinx-8056": [
+        "sphinx/ext/napoleon/docstring.py::GoogleDocstring._consume_fields",
+        "sphinx/ext/napoleon/docstring.py::GoogleDocstring._parse_parameters_section"
+    ],
+    "sphinx-doc__sphinx-8120": [
+        "sphinx/locale/__init__.py::init",
+        "sphinx/application.py::Sphinx._init_i18n"
+    ],
+    "sphinx-doc__sphinx-8265": [
+        "sphinx/pycode/ast.py::_UnparseVisitor.visit_Subscript",
+        "sphinx/pycode/ast.py::_UnparseVisitor.visit_Tuple"
+    ],
+    "sphinx-doc__sphinx-8269": [
+        "sphinx/builders/linkcheck.py::CheckExternalLinksBuilder.check_thread"
+    ],
+    "sphinx-doc__sphinx-8459": [
+        "sphinx/ext/autodoc/typehints.py::record_typehints"
+    ],
+    "sphinx-doc__sphinx-8475": [
+        "sphinx/builders/linkcheck.py::CheckExternalLinksBuilder.check_thread"
+    ],
+    "sphinx-doc__sphinx-8548": [
+        "sphinx/ext/autodoc/importer.py::get_class_members",
+        "sphinx/ext/autodoc/__init__.py::ClassDocumenter.get_object_members"
+    ],
+    "sphinx-doc__sphinx-8551": [
+        "sphinx/domains/python.py::PyXrefMixin.make_xref",
+        "sphinx/util/docfields.py::DocFieldTransformer.transform"
+    ],
+    "sphinx-doc__sphinx-8593": [
+        "sphinx/ext/autodoc/__init__.py::ModuleDocumenter",
+        "sphinx/ext/autodoc/importer.py::get_module_members",
+        "sphinx/ext/autodoc/__init__.py::ModuleDocumenter.get_object_members"
+    ],
+    "sphinx-doc__sphinx-8595": [
+        "sphinx/ext/autodoc/__init__.py::ModuleDocumenter.get_object_members"
+    ],
+    "sphinx-doc__sphinx-8621": [
+        "sphinx/builders/html/transforms.py::KeyboardTransform"
+    ],
+    "sphinx-doc__sphinx-8638": [
+        "sphinx/domains/python.py::PyObject"
+    ],
+    "sphinx-doc__sphinx-8721": [
+        "sphinx/ext/viewcode.py::collect_pages"
+    ],
+    "sphinx-doc__sphinx-9229": [
+        "sphinx/ext/autodoc/__init__.py::ClassDocumenter",
+        "sphinx/ext/autodoc/__init__.py::ClassDocumenter.add_content",
+        "sphinx/ext/autodoc/__init__.py::ClassDocumenter.get_doc"
+    ],
+    "sphinx-doc__sphinx-9230": [
+        "sphinx/util/docfields.py::DocFieldTransformer.transform"
+    ],
+    "sphinx-doc__sphinx-9258": [
+        "sphinx/domains/python.py::PyXrefMixin.make_xrefs"
+    ],
+    "sphinx-doc__sphinx-9281": [
+        "sphinx/util/inspect.py::object_description"
+    ],
+    "sphinx-doc__sphinx-9320": [
+        "sphinx/cmd/quickstart.py::ask_user"
+    ],
+    "sphinx-doc__sphinx-9367": [
+        "sphinx/pycode/ast.py::_UnparseVisitor",
+        "sphinx/pycode/ast.py::_UnparseVisitor.visit_Tuple"
+    ],
+    "sphinx-doc__sphinx-9461": [
+        "sphinx/ext/autodoc/__init__.py::PropertyDocumenter.add_directive_header",
+        "sphinx/util/inspect.py::getdoc",
+        "sphinx/ext/autodoc/__init__.py::Documenter.filter_members",
+        "sphinx/ext/autodoc/__init__.py::PropertyDocumenter.can_document_member",
+        "sphinx/domains/python.py::PyProperty",
+        "sphinx/domains/python.py::PyProperty.get_signature_prefix",
+        "sphinx/util/inspect.py::isclassmethod"
+    ],
+    "sphinx-doc__sphinx-9591": [
+        "sphinx/domains/python.py::PyProperty.handle_signature"
+    ],
+    "sphinx-doc__sphinx-9602": [
+        "sphinx/domains/python.py::_parse_annotation"
+    ],
+    "sphinx-doc__sphinx-9658": [
+        "sphinx/ext/autodoc/mock.py::_make_subclass",
+        "sphinx/ext/autodoc/mock.py::_MockObject.__init__",
+        "sphinx/ext/autodoc/mock.py::_MockObject"
+    ],
+    "sphinx-doc__sphinx-9673": [
+        "sphinx/ext/autodoc/typehints.py::augment_descriptions_with_types"
+    ],
+    "sphinx-doc__sphinx-9698": [
+        "sphinx/domains/python.py::PyMethod.get_index_text"
+    ],
+    "sphinx-doc__sphinx-9711": [
+        "sphinx/extension.py::verify_needs_extensions"
+    ],
+    "sympy__sympy-11618": [
+        "sympy/geometry/point.py::Point.distance"
+    ],
+    "sympy__sympy-12096": [
+        "sympy/core/function.py::Function._eval_evalf"
+    ],
+    "sympy__sympy-12419": [
+        "sympy/matrices/expressions/matexpr.py::MatrixElement._eval_derivative",
+        "sympy/matrices/expressions/matexpr.py::Identity",
+        "sympy/matrices/expressions/matexpr.py::Identity._entry"
+    ],
+    "sympy__sympy-12481": [
+        "sympy/combinatorics/permutations.py::Permutation.__new__"
+    ],
+    "sympy__sympy-12489": [
+        "sympy/combinatorics/permutations.py::Permutation.unrank_lex",
+        "sympy/combinatorics/permutations.py::Permutation.random",
+        "sympy/combinatorics/permutations.py::Permutation.mul_inv",
+        "sympy/combinatorics/permutations.py::Permutation.get_precedence_matrix",
+        "sympy/combinatorics/permutations.py::Permutation",
+        "sympy/combinatorics/permutations.py::Permutation.transpositions",
+        "sympy/combinatorics/permutations.py::Permutation.josephus",
+        "sympy/combinatorics/permutations.py::Permutation.next_trotterjohnson",
+        "sympy/combinatorics/permutations.py::Permutation.__rxor__",
+        "sympy/combinatorics/permutations.py::Permutation.__new__",
+        "sympy/combinatorics/permutations.py::Permutation._af_new",
+        "sympy/combinatorics/permutations.py::Permutation.__iter__",
+        "sympy/combinatorics/permutations.py::Permutation.unrank_nonlex",
+        "sympy/combinatorics/permutations.py::Permutation.__rmul__",
+        "sympy/combinatorics/permutations.py::Permutation.signature",
+        "sympy/combinatorics/permutations.py::Permutation.from_inversion_vector",
+        "sympy/combinatorics/permutations.py::Permutation.rank",
+        "sympy/combinatorics/permutations.py::Cycle",
+        "sympy/combinatorics/permutations.py::Permutation.__pow__",
+        "sympy/combinatorics/permutations.py::Permutation.commutes_with",
+        "sympy/combinatorics/permutations.py::_af_pow",
+        "sympy/combinatorics/permutations.py::Permutation.rmul_with_af",
+        "sympy/combinatorics/permutations.py::_af_invert",
+        "sympy/combinatorics/permutations.py::Permutation.unrank_trotterjohnson",
+        "sympy/combinatorics/permutations.py::Permutation.__mul__",
+        "sympy/combinatorics/permutations.py::Permutation.rank_nonlex",
+        "sympy/combinatorics/permutations.py::Permutation.__sub__"
+    ],
+    "sympy__sympy-13031": [
+        "sympy/matrices/sparse.py::MutableSparseMatrix.col_join",
+        "sympy/matrices/sparse.py::MutableSparseMatrix.row_join"
+    ],
+    "sympy__sympy-13091": [
+        "sympy/polys/monomials.py::Monomial.__ne__",
+        "sympy/tensor/array/ndim_array.py::NDimArray.__ne__",
+        "sympy/polys/domains/pythonrational.py::PythonRational.__ne__",
+        "sympy/polys/fields.py::FracElement.__ne__",
+        "sympy/core/numbers.py::Rational.__lt__",
+        "sympy/polys/polyclasses.py::DMF.__le__",
+        "sympy/core/numbers.py::Float.__ne__",
+        "sympy/core/numbers.py::Rational.__ge__",
+        "sympy/core/numbers.py::Float.__le__",
+        "sympy/polys/rings.py::PolyRing.__ne__",
+        "sympy/core/exprtools.py::Factors.__ne__",
+        "sympy/polys/polytools.py::GroebnerBasis.__ne__",
+        "sympy/polys/domains/domain.py::Domain.__ne__",
+        "sympy/polys/domains/quotientring.py::QuotientRingElement.__ne__",
+        "sympy/polys/rootoftools.py::ComplexRootOf._eval_Eq",
+        "sympy/physics/vector/dyadic.py::Dyadic.__ne__",
+        "sympy/core/numbers.py::Float.__eq__",
+        "sympy/core/numbers.py::Float.__gt__",
+        "sympy/core/numbers.py::Float.__lt__",
+        "sympy/polys/polytools.py::Poly.eq",
+        "sympy/geometry/entity.py::GeometryEntity.__ne__",
+        "sympy/polys/polyclasses.py::ANP.__lt__",
+        "sympy/core/numbers.py::NumberSymbol.__ne__",
+        "sympy/core/exprtools.py::Term.__ne__",
+        "sympy/polys/polytools.py::Poly.__ne__",
+        "sympy/core/numbers.py::Rational.__gt__",
+        "sympy/polys/polyclasses.py::ANP.__ge__",
+        "sympy/utilities/enumerative.py::PartComponent.__ne__",
+        "sympy/core/basic.py::Basic._has_matcher",
+        "sympy/polys/polyclasses.py::DMF.__lt__",
+        "sympy/polys/polyclasses.py::DMF.__ge__",
+        "sympy/polys/polyclasses.py::ANP.__le__",
+        "sympy/polys/polyclasses.py::DMP.__lt__",
+        "sympy/core/numbers.py::Float.__ge__",
+        "sympy/core/basic.py::Basic.__ne__",
+        "sympy/physics/optics/medium.py::Medium.__gt__",
+        "sympy/core/basic.py::Basic.__eq__",
+        "sympy/polys/rings.py::PolyElement.__ne__",
+        "sympy/polys/fields.py::FracField.__ne__",
+        "sympy/core/numbers.py::Rational.__le__",
+        "sympy/core/numbers.py::Rational.__eq__",
+        "sympy/physics/vector/frame.py::CoordinateSym.__ne__",
+        "sympy/polys/polyclasses.py::DMP.__le__",
+        "sympy/core/numbers.py::Rational.__ne__",
+        "sympy/polys/polyclasses.py::DMP.__ge__",
+        "sympy/physics/vector/vector.py::Vector.__ne__",
+        "sympy/polys/polyclasses.py::ANP.__gt__",
+        "sympy/polys/polyclasses.py::DMP.__ne__",
+        "sympy/core/numbers.py::NumberSymbol.__eq__",
+        "sympy/polys/agca/modules.py::ModuleElement.__ne__",
+        "sympy/core/numbers.py::Integer.__ne__",
+        "sympy/polys/polyclasses.py::DMP.eq",
+        "sympy/polys/polyclasses.py::DMP.__gt__",
+        "sympy/polys/polyclasses.py::DMF.__gt__"
+    ],
+    "sympy__sympy-13372": [
+        "sympy/core/evalf.py::evalf"
+    ],
+    "sympy__sympy-13480": [
+        "sympy/functions/elementary/hyperbolic.py::coth.eval"
+    ],
+    "sympy__sympy-13551": [
+        "sympy/concrete/products.py::Product._eval_product"
+    ],
+    "sympy__sympy-13615": [
+        "sympy/sets/sets.py::Set._complement"
+    ],
+    "sympy__sympy-13647": [
+        "sympy/matrices/common.py::MatrixShaping._eval_col_insert"
+    ],
+    "sympy__sympy-13757": [
+        "sympy/polys/polytools.py::Poly"
+    ],
+    "sympy__sympy-13798": [
+        "sympy/printing/latex.py::LatexPrinter.__init__"
+    ],
+    "sympy__sympy-13852": [
+        "sympy/functions/special/zeta_functions.py::polylog._eval_expand_func",
+        "sympy/functions/special/zeta_functions.py::polylog.eval",
+        "sympy/functions/special/zeta_functions.py::polylog"
+    ],
+    "sympy__sympy-13877": [
+        "sympy/matrices/matrices.py::MatrixDeterminant._eval_det_bareiss",
+        "sympy/utilities/randtest.py::random_complex_number",
+        "sympy/matrices/matrices.py::_iszero"
+    ],
+    "sympy__sympy-13878": [
+        "sympy/stats/crv_types.py::Dagum",
+        "sympy/stats/crv_types.py::ExponentialDistribution._cdf",
+        "sympy/stats/crv_types.py::DagumDistribution",
+        "sympy/stats/crv_types.py::FrechetDistribution",
+        "sympy/stats/crv_types.py::Frechet",
+        "sympy/stats/crv_types.py::UniformSumDistribution",
+        "sympy/stats/crv_types.py::RaisedCosineDistribution",
+        "sympy/stats/crv_types.py::Arcsin",
+        "sympy/stats/crv_types.py::ContinuousRV",
+        "sympy/stats/crv_types.py::Erlang",
+        "sympy/stats/crv_types.py::LogNormalDistribution._cdf",
+        "sympy/stats/crv_types.py::Nakagami",
+        "sympy/stats/crv_types.py::ArcsinDistribution",
+        "sympy/stats/crv_types.py::ChiSquaredDistribution._cdf",
+        "sympy/stats/crv_types.py::TrapezoidalDistribution",
+        "sympy/stats/crv_types.py::KumaraswamyDistribution",
+        "sympy/stats/crv_types.py::LaplaceDistribution",
+        "sympy/stats/crv_types.py::GammaInverseDistribution",
+        "sympy/stats/crv_types.py::Kumaraswamy",
+        "sympy/stats/crv_types.py::UniformSum",
+        "sympy/stats/crv_types.py::StudentT",
+        "sympy/stats/crv_types.py::StudentTDistribution",
+        "sympy/stats/crv_types.py::GompertzDistribution",
+        "sympy/stats/crv_types.py::NakagamiDistribution",
+        "sympy/stats/crv_types.py::GammaInverse",
+        "sympy/stats/crv_types.py::Laplace",
+        "sympy/stats/crv_types.py::Logistic",
+        "sympy/stats/crv_types.py::LogisticDistribution",
+        "sympy/stats/crv_types.py::GammaDistribution"
+    ],
+    "sympy__sympy-13974": [
+        "sympy/physics/quantum/tensorproduct.py::tensor_product_simp_Mul",
+        "sympy/physics/quantum/tensorproduct.py::tensor_product_simp"
+    ],
+    "sympy__sympy-14248": [
+        "sympy/printing/str.py::StrPrinter._print_MatMul",
+        "sympy/printing/latex.py::LatexPrinter._print_MatMul",
+        "sympy/printing/pretty/pretty.py::PrettyPrinter._print_MatAdd",
+        "sympy/printing/latex.py::LatexPrinter._print_MatAdd",
+        "sympy/printing/str.py::StrPrinter._print_MatAdd"
+    ],
+    "sympy__sympy-14531": [
+        "sympy/printing/str.py::StrPrinter._print_PolyRing",
+        "sympy/printing/str.py::StrPrinter._print_Normal",
+        "sympy/printing/str.py::StrPrinter._print_ExprCondPair",
+        "sympy/printing/str.py::StrPrinter._print_AppliedPredicate",
+        "sympy/printing/str.py::StrPrinter._print_PermutationGroup",
+        "sympy/printing/str.py::StrPrinter._print_Permutation",
+        "sympy/printing/str.py::StrPrinter._print_MatrixElement",
+        "sympy/printing/str.py::StrPrinter._print_Lambda",
+        "sympy/printing/str.py::StrPrinter._print_Uniform",
+        "sympy/printing/str.py::StrPrinter._print_Limit",
+        "sympy/printing/str.py::StrPrinter._print_Relational",
+        "sympy/printing/str.py::StrPrinter._print_FracField"
+    ],
+    "sympy__sympy-14711": [
+        "sympy/physics/vector/vector.py::Vector.__add__"
+    ],
+    "sympy__sympy-14976": [
+        "sympy/printing/pycode.py::MpmathPrinter"
+    ],
+    "sympy__sympy-15017": [
+        "sympy/tensor/array/dense_ndim_array.py::ImmutableDenseNDimArray._new"
+    ],
+    "sympy__sympy-15345": [
+        "sympy/printing/mathematica.py::MCodePrinter"
+    ],
+    "sympy__sympy-15349": [
+        "sympy/algebras/quaternion.py::Quaternion.to_rotation_matrix"
+    ],
+    "sympy__sympy-15599": [
+        "sympy/core/mod.py::Mod.eval"
+    ],
+    "sympy__sympy-15809": [
+        "sympy/functions/elementary/miscellaneous.py::MinMaxBase.__new__"
+    ],
+    "sympy__sympy-15875": [
+        "sympy/core/add.py::Add._eval_is_zero"
+    ],
+    "sympy__sympy-15976": [
+        "sympy/printing/mathml.py::MathMLPresentationPrinter._print_Symbol"
+    ],
+    "sympy__sympy-16450": [
+        "sympy/simplify/simplify.py::posify"
+    ],
+    "sympy__sympy-16597": [
+        "sympy/assumptions/ask.py::get_known_facts",
+        "sympy/printing/tree.py::print_tree",
+        "sympy/tensor/indexed.py::Idx.__new__",
+        "sympy/assumptions/ask_generated.py::get_known_facts_dict",
+        "sympy/core/power.py::Pow._eval_is_rational",
+        "sympy/assumptions/ask_generated.py::get_known_facts_cnf"
+    ],
+    "sympy__sympy-16766": [
+        "sympy/printing/pycode.py::PythonCodePrinter"
+    ],
+    "sympy__sympy-16792": [
+        "sympy/utilities/codegen.py::CodeGen.routine"
+    ],
+    "sympy__sympy-16886": [
+        "sympy/crypto/crypto.py"
+    ],
+    "sympy__sympy-17139": [
+        "sympy/simplify/fu.py::_TR56"
+    ],
+    "sympy__sympy-17318": [
+        "sympy/simplify/sqrtdenest.py::_sqrt_match",
+        "sympy/simplify/radsimp.py::rad_rationalize",
+        "sympy/simplify/radsimp.py::split_surds"
+    ],
+    "sympy__sympy-17630": [
+        "sympy/matrices/expressions/matexpr.py::get_postprocessor"
+    ],
+    "sympy__sympy-17655": [
+        "sympy/geometry/point.py::Point"
+    ],
+    "sympy__sympy-18189": [
+        "sympy/solvers/diophantine.py::diophantine"
+    ],
+    "sympy__sympy-18199": [
+        "sympy/ntheory/residue_ntheory.py::nthroot_mod"
+    ],
+    "sympy__sympy-18211": [
+        "sympy/core/relational.py::Relational._eval_as_set"
+    ],
+    "sympy__sympy-18698": [
+        "sympy/polys/polytools.py::_symbolic_factor_list"
+    ],
+    "sympy__sympy-18763": [
+        "sympy/printing/latex.py::LatexPrinter._print_Subs"
+    ],
+    "sympy__sympy-19040": [
+        "sympy/polys/factortools.py::dmp_ext_factor"
+    ],
+    "sympy__sympy-19346": [
+        "sympy/printing/repr.py::ReprPrinter"
+    ],
+    "sympy__sympy-19495": [
+        "sympy/sets/conditionset.py::ConditionSet",
+        "sympy/sets/conditionset.py::ConditionSet._eval_subs"
+    ],
+    "sympy__sympy-19637": [
+        "sympy/core/sympify.py::kernS"
+    ],
+    "sympy__sympy-19783": [
+        "sympy/physics/quantum/operator.py::IdentityOperator.__mul__",
+        "sympy/physics/quantum/dagger.py::Dagger"
+    ],
+    "sympy__sympy-19954": [
+        "sympy/combinatorics/perm_groups.py::PermutationGroup.minimal_blocks"
+    ],
+    "sympy__sympy-20154": [
+        "sympy/utilities/iterables.py::partitions"
+    ],
+    "sympy__sympy-20428": [
+        "sympy/polys/domains/expressiondomain.py::Expression.__bool__"
+    ],
+    "sympy__sympy-20438": [
+        "sympy/core/relational.py::Equality._eval_simplify",
+        "sympy/core/relational.py::Relational._eval_simplify"
+    ],
+    "sympy__sympy-20590": [
+        "sympy/core/_print_helpers.py::Printable"
+    ],
+    "sympy__sympy-20801": [
+        "sympy/core/numbers.py::Float.__eq__"
+    ],
+    "sympy__sympy-20916": [
+        "sympy/printing/conventions.py::split_super_sub"
+    ],
+    "sympy__sympy-21379": [
+        "sympy/core/mod.py::Mod.eval"
+    ],
+    "sympy__sympy-21596": [
+        "sympy/sets/handlers/intersection.py::intersection_sets"
+    ],
+    "sympy__sympy-21612": [
+        "sympy/printing/str.py::StrPrinter._print_Mul"
+    ],
+    "sympy__sympy-21847": [
+        "sympy/polys/monomials.py::itermonomials"
+    ],
+    "sympy__sympy-21930": [
+        "sympy/physics/secondquant.py::CreateBoson._latex",
+        "sympy/physics/secondquant.py::AntiSymmetricTensor._latex",
+        "sympy/physics/secondquant.py::CreateFermion._latex"
+    ],
+    "sympy__sympy-22080": [
+        "sympy/printing/codeprinter.py::CodePrinter._print_Mul"
+    ],
+    "sympy__sympy-22456": [
+        "sympy/codegen/ast.py::String"
+    ],
+    "sympy__sympy-22714": [
+        "sympy/geometry/point.py::Point.__new__"
+    ],
+    "sympy__sympy-22914": [
+        "sympy/printing/pycode.py"
+    ],
+    "sympy__sympy-23262": [
+        "sympy/utilities/lambdify.py::_recursive_to_string"
+    ],
+    "sympy__sympy-23413": [
+        "sympy/polys/matrices/normalforms.py::_hermite_normal_form"
+    ],
+    "sympy__sympy-23534": [
+        "sympy/core/symbol.py::symbols"
+    ],
+    "sympy__sympy-23824": [
+        "sympy/physics/hep/gamma_matrices.py::kahane_simplify"
+    ],
+    "sympy__sympy-23950": "sympy/sets/contains.py::Contains.as_set",
+    "sympy__sympy-24066": [
+        "sympy/physics/units/unitsystem.py::UnitSystem._collect_factor_and_dimension"
+    ],
+    "sympy__sympy-24213": [
+        "sympy/physics/units/unitsystem.py::UnitSystem._collect_factor_and_dimension"
+    ],
+    "sympy__sympy-24443": [
+        "sympy/combinatorics/homomorphisms.py::_check_homomorphism"
+    ],
+    "sympy__sympy-24539": [
+        "sympy/polys/rings.py::PolyElement.as_expr"
+    ],
+    "sympy__sympy-24562": [
+        "sympy/core/numbers.py::Rational.__new__"
+    ],
+    "sympy__sympy-24661": [
+        "sympy/parsing/sympy_parser.py::EvaluateFalseTransformer"
+    ]
+}

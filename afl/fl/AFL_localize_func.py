@@ -105,7 +105,10 @@ def localize_instance(
 
 
 def localize(args):
-    swe_bench_data = load_from_disk("./datasets/SWE-bench_Lite_test")
+    if args.dataset == "princeton-nlp/SWE-bench_Verified":
+        swe_bench_data = load_from_disk("./datasets/SWE-bench_Verified_test")
+    else:
+        swe_bench_data = load_dataset("./datasets/SWE-bench_Lite_test")
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
     )
@@ -151,6 +154,13 @@ def main():
     parser.add_argument("--sticky_scroll", action="store_true")
     parser.add_argument("--context_window", type=int, default=10)
     parser.add_argument("--num_samples", type=int, default=1)
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="princeton-nlp/SWE-bench_Lite",
+        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
+        help="Current supported dataset for evaluation",
+    )
 
     parser.add_argument(
         "--num_threads",
