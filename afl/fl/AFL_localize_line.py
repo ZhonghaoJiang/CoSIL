@@ -112,7 +112,7 @@ def localize(args):
     if args.dataset == "princeton-nlp/SWE-bench_Verified":
         swe_bench_data = load_from_disk("./datasets/SWE-bench_Verified_test")
     else:
-        swe_bench_data = load_dataset("./datasets/SWE-bench_Lite_test")
+        swe_bench_data = load_from_disk("./datasets/SWE-bench_Lite_test")
 
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()

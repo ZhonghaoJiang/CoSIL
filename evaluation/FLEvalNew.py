@@ -123,7 +123,7 @@ def evaluate_accuracy(loc_outputs, gt_data):
         pred_funcs = construct_pred_func(predicted_files, loc_output.get('found_related_locs', {}))
         predicted_methods = extract_predicted_methods(pred_funcs)
         print(f"predicted_files:{predicted_files}, predicted_methods:{predicted_methods}")
-        if not predicted_methods:
+        if len(predicted_methods) == 0:
             empty_count += 1
 
         # 如果存在ground truth数据
@@ -209,9 +209,10 @@ if __name__ == "__main__":
     # loc_outputs = load_jsonl('../results/afl/func_level_qwen2.5-14b/loc_qwen2.5-14b_func.jsonl')
     # loc_outputs = load_jsonl('../results/agentless/qwen2.5-14b/loc_outputs.jsonl')
     # loc_outputs = load_jsonl('../results/agentless/qwen2.5_7b/loc_outputs.jsonl')
-    # loc_outputs = load_jsonl('../loc_to_patch_verified/agentless/agentless_qwen_coder_7b_func.jsonl')[:150]
-    # loc_outputs = load_jsonl('../loc_to_patch_verified/afl/afl_qwen_coder_7b_func.jsonl')
-    # loc_outputs = load_jsonl('../loc_to_patch_verified/orcaloca/orcaloca_qwen_coder_32b_func.jsonl')
+    loc_outputs = load_jsonl('../loc_to_patch_verified/agentless/agentless_qwen_coder_14b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch_verified/afl/afl_qwen_coder_14b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch_verified/orcaloca/orcaloca_qwen_coder_7b_func.jsonl')
+
 
 
     gt_data = load_json('gt_verified.json')

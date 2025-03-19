@@ -218,7 +218,7 @@ def main():
     parser.add_argument(
         "-l",
         "--output_dir",
-        default="../loc_to_patch_verified/orcaloca/output_32b",
+        default="../loc_to_patch_verified/orcaloca/output_7b",
         help=f"The directory of the output dir(agent's output)",
     )
     parser.add_argument(
