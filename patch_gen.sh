@@ -50,3 +50,11 @@ for i in "${!methods[@]}"; do
   done
 done
 
+folders=("results/patches/repair_sample_afl_32b")
+for folder in "${folders[@]}"; do
+    run_id_prefix=$(basename ${folder%/*})-$(basename $folder)
+    python agentless/repair/rerank.py --patch_folder ${folder}  \
+                                    --output_file all_preds_${run_id_prefix}.jsonl \
+                                    --num_samples 10 \
+                                    --deduplicate
+done
