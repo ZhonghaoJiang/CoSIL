@@ -1,5 +1,5 @@
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-export PROJECT_FILE_LOC="/home/yanmeng/jiangzhonghao/FLProject/AFL/repo_structures"
+export PROJECT_FILE_LOC=""
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Patch Generation
@@ -12,7 +12,7 @@ sleep 900
 
 methods=("afl" "agentless" "orcaloca")
 folders=("loc_to_patch/afl" "loc_to_patch/agentless" "loc_to_patch/orcaloca")
-scales=("7b" "14b" "32b")
+scales=("32b")
 
 for i in "${!methods[@]}"; do
   for j in "${!scales[@]}"; do

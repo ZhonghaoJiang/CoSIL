@@ -1,5 +1,5 @@
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-export PROJECT_FILE_LOC="/home/yanmeng/jiangzhonghao/FLProject/AFL/repo_structures"
+export PROJECT_FILE_LOC=""
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Fault Localization
@@ -7,8 +7,6 @@ models=("qwen2.5-32b")
 model_names=("qwen2.5-coder-32b-instruct")
 backend=("openai")
 threads=5
-
-sleep 900
 
 for i in "${!models[@]}"; do
   python afl/fl/ablation_file.py --file_level \
@@ -88,6 +86,17 @@ for i in "${!models[@]}"; do
     --skip_existing \
     --max_retry 5 \
     --num_threads ${threads}
+
+  python afl/fl/AFL_localize_func.py \
+  --output_folder "results/round/func_level_${models[$i]}_5" \
+  --loc_file "results/round/file_level_${models[$i]}/loc_outputs.jsonl" \
+  --output_file "loc_${models[$i]}_func.jsonl" \
+  --temperature 0.0 \
+  --model "${model_names[$i]}" \
+  --backend "${backend[$i]}" \
+  --skip_existing \
+  --max_retry 7 \
+  --num_threads ${threads}
 done
 
 
