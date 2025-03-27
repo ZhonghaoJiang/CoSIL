@@ -95,16 +95,16 @@ class AFL(FL):
     def localize(
             self, max_retry=10, file=None, mock=False
     ) -> tuple[list[str], Any, Any]:
-        # lazy import, not sure if this is actually better?
-
         from afl.util.model import make_model
         max_try = max_retry
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
         system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
+        # construct first-order function call graph
         bug_file_content = self.consturct_bug_file_list(file)
         location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
                                                                pre_select_num=7,
                                                                top_n=5)
+        # init sate and start search
         user_msg = f"""
                 {bug_report}
                 {location_guidence_msg}
@@ -142,6 +142,7 @@ class AFL(FL):
             "content": location_summary.format(bug_file_list=bug_file_content)
         }], self.model_name) + self.max_tokens
 
+        # search step
         for j in range(max_try):
 
             if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
@@ -193,7 +194,7 @@ class AFL(FL):
                     "role": "user",
                     "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
 
-
+        # summary the locations
         message.append({
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
@@ -494,16 +495,16 @@ class AFL(FL):
     def localize_with_p(
             self, max_retry=10, file=None, mock=False
     ) -> tuple[list[str], Any, Any]:
-        # lazy import, not sure if this is actually better?
-
         from afl.util.model import make_model
         max_try = max_retry
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
         system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
+        # construct first-order function call graph
         bug_file_content = self.consturct_bug_file_list(file)
         location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
                                                                pre_select_num=7,
                                                                top_n=5)
+        # init search state
         user_msg = f"""
                 {bug_report}
                 {location_guidence_msg}
@@ -541,6 +542,7 @@ class AFL(FL):
             "content": location_summary.format(bug_file_list=bug_file_content)
         }], self.model_name) + self.max_tokens
 
+        # Seach step
         for j in range(max_try):
 
             if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
@@ -580,8 +582,8 @@ class AFL(FL):
                     function_retval = get_code_of_file_function(arg1, arg2, self.instance_id)
                 else:
                     break
-                # print(function_retval)
 
+                # pruner agent
                 check_func_retval_prompt = f"""
 You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
 Your task is to locate the most likely culprit functions/classes based on the bug report.
@@ -610,11 +612,13 @@ False
                 print(flag)
                 if flag == "True":
                     message.append({"role": "user", "content": function_retval})
+                    # search the next function node
                     message.append({
                         "role": "user",
                         "content": call_function_prompt + "\nYou can check the function it calls.\n" + bug_file_content
                     })
                 else:
+                    # pruning the context
                     message.append({"role": "user",
                                     "content": "I have already checked this function/class is not related to the bug. Don't check the functions it calls."})
                     message.append({"role": "user", "content": function_retval})
@@ -629,7 +633,7 @@ False
                     "role": "user",
                     "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
 
-
+        # summary the locs
         message.append({
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
@@ -722,7 +726,7 @@ False
             if len(found_files) == 0:
                 found_files = [get_best_match(f, all_files) for f in model_found_files]
 
-
+        # extract the first-order module graph context
         import_content = ""
         _parsed_path = []
         for loc in found_files:
@@ -731,6 +735,7 @@ False
             import_content += f"file: {loc}\n {get_imports_of_file(loc, self.instance_id)}\n"
             _parsed_path.append(loc)
 
+        # reflection
         reflection_result = model.codegen(
             [{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
                                                                        structure=show_project_structure(
