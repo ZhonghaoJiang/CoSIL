@@ -1,4 +1,4 @@
-# CoSIL: LLM-Driven Code Repository Graph Searching for Issue Localization
+# CoSIL: Software Issue Localization via LLM-Driven Code Repository Graph Searching
 
 This technique was firstly used by CodeFuse-AAIS submitted on Jan 2025 on [SWE-bench](https://github.com/swe-bench/SWE-bench.git). 
 See [here](https://github.com/ZhonghaoJiang/AAIS) for more details.
