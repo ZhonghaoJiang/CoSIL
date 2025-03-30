@@ -881,11 +881,9 @@ False
                                                 structure=show_project_structure(self.structure).strip())
 
         system_msg = file_system_prompt_without_tool
-        guidence_msg = file_guidence_prmpt_without_tool.format(pre_select_num=int(max_retry * 0.75),
-                                                               top_n=int(max_retry / 2))
+
         user_msg = f"""
         {bug_report}
-        {guidence_msg}
         {file_summary}
         """
 
@@ -927,12 +925,10 @@ False
         self.logger.info(raw_output)
         model_found_files = self._parse_top5_file(raw_output)
 
-        found_files = [f for f in model_found_files if f in all_files]
-
         # extract the first-order module graph context
         import_content = ""
         _parsed_path = []
-        for loc in found_files:
+        for loc in model_found_files:
             if loc in _parsed_path:
                 continue
             import_content += f"file: {loc}\n {get_imports_of_file(loc, self.instance_id)}\n"
@@ -940,11 +936,9 @@ False
 
         # reflection with model call graph
         reflection_result = model.codegen(
-            [{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
-                                                                       structure=show_project_structure(
-                                                                           self.structure).strip(),
+            [{"role": "user", "content": file_reflection_ablation_prompt.format(problem_statement=self.problem_statement,
                                                                        import_content=import_content,
-                                                                       pre_files=found_files)}],
+                                                                       pre_files=model_found_files)}],
             num_samples=1)[0]["response"]
         self.logger.info(reflection_result)
         reflection_files = self._parse_top5_file(reflection_result)
