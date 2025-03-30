@@ -936,13 +936,15 @@ False
 
         # reflection with model call graph
         reflection_result = model.codegen(
-            [{"role": "user", "content": file_reflection_ablation_prompt.format(problem_statement=self.problem_statement,
+            [{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
+                                                                       structure=show_project_structure(
+                                                                           self.structure).strip(),
                                                                        import_content=import_content,
                                                                        pre_files=model_found_files)}],
             num_samples=1)[0]["response"]
         self.logger.info(reflection_result)
         reflection_files = self._parse_top5_file(reflection_result)
-        reflection_files = [f for f in reflection_files if f in all_files]
+
 
         return (
             reflection_files,
