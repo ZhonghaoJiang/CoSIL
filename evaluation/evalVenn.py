@@ -108,3 +108,21 @@ if __name__ == '__main__':
     print(u_func)
     print(u_file & u_func)
 
+"""
+AFL
+django__django-13315
+predicted_files:['django/db/models/fields/related.py', 'django/db/models/query.py', 'django/db/models/sql/compiler.py', 'django/db/models/sql/where.py', 'django/forms/models.py'], predicted_methods:['apply_limit_choices_to_to_formfield', 'ModelChoiceField._get_choices', 'ForeignKey.get_limit_choices_to', 'QuerySet.filter', 'SQLCompiler.get_distinct']
+gt_files:{'django/forms/models.py'}, gt_methods:{'apply_limit_choices_to_to_formfield'}
+
+Agentless
+predicted_files:['django/forms/fields.py', 'django/db/models/fields/related.py', 'django/db/models/fields/related_descriptors.py', 'django/db/models/query.py', 'django/db/models/sql/compiler.py'], predicted_methods:['ForeignKey.formfield', 'ForeignKey.get_limit_choices_to', 'ForeignObject', 'ForeignObject.get_limit_choices_to', 'RelatedField', 'RelatedField.get_limit_choices_to', 'QuerySet', 'QuerySet.filter', 'QuerySet.distinct', 'SQLCompiler', 'SQLCompiler.get_related_selections', 'SQLCompiler.get_distinct']
+gt_files:{'django/forms/models.py'}, gt_methods:{'apply_limit_choices_to_to_formfield'}
+
+Orcaloca
+predicted_files:['django/db/models/fields/related.py'], predicted_methods:['ForeignKey.formfield', 'ForeignKey']
+gt_files:{'django/forms/models.py'}, gt_methods:{'apply_limit_choices_to_to_formfield'}.
+
+
+ForeignKey.formfield() <- RelatedField.formfield() <- Field.formfield() <- ModelFormMetaclass.__new__() -> apply_limit_choices_to_to_formfield()
+
+"""
