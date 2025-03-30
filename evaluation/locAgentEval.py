@@ -102,7 +102,7 @@ def evaluate_accuracy(loc_outputs, gt_data):
 
     empty_count = 0
 
-    delta = 500 - len(loc_outputs)
+    delta = total_instances - len(loc_outputs)
 
     empty_count += delta
     # 对每个实例进行评估
@@ -115,8 +115,6 @@ def evaluate_accuracy(loc_outputs, gt_data):
             continue
         predicted_files, predicted_methods = construct_pred_func(loc_output.get('found_entities', {}))
         print(f"predicted_files:{predicted_files}, predicted_methods:{predicted_methods}")
-        if not predicted_methods:
-            empty_count += 1
 
         # 如果存在ground truth数据
         if instance_id in gt_data:
@@ -154,7 +152,7 @@ def evaluate_accuracy(loc_outputs, gt_data):
             print(top1_func_correct, top3_func_correct, top5_func_correct)
 
     # 使用固定的实例总数（例如300），与原代码保持一致
-    total_instances = 300
+    total_instances = len(loc_outputs)
     # 计算TOPN准确率百分比
     top1_file_accuracy = top1_file_correct / total_instances * 100
     top3_file_accuracy = top3_file_correct / total_instances * 100
@@ -196,16 +194,14 @@ if __name__ == "__main__":
     # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_7b_func.jsonl')
     # loc_outputs = load_jsonl('../loc_to_patch/afl/loc_qwen_coder_32b_func.jsonl')
     # loc_outputs = load_jsonl('../loc_to_patch/orcaloca/orca_qwen_coder_32b_func.jsonl')
-    loc_outputs = load_jsonl('loc_outputs.jsonl')
-    # loc_outputs = load_jsonl('loc_qwen_2.5_32b_func.jsonl')[:6]
-    # loc_outputs = load_jsonl('../results/afl/func_level_qwen2.5-14b/loc_qwen2.5-14b_func.jsonl')
-    # loc_outputs = load_jsonl('../results/agentless/qwen2.5-14b/loc_outputs.jsonl')
-    # loc_outputs = load_jsonl('../results/agentless/qwen2.5_7b/loc_outputs.jsonl')
-    # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_32b_func.jsonl')[:33]
-    # loc_outputs = load_jsonl('loc_qwen2.5-14b_func.jsonl')
+    # loc_outputs = load_jsonl('loc_outputs.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch/locagent/locagent_qwen_coder_7b_func.jsonl')
+
+    loc_outputs = load_jsonl('../loc_to_patch_verified/locagent/locagent_qwen_coder_14b_func.jsonl')
 
 
-    gt_data = load_json('gt.json')
+    # gt_data = load_json('gt.json')
+    gt_data = load_json('gt_verified.json')
     print(len(loc_outputs))
 
     # 进行评估
@@ -219,3 +215,4 @@ if __name__ == "__main__":
     print("\nFunction-level accuracy:")
     for k, v in accuracy_results['function_level'].items():
         print(f"{k}: {v:.2f}%")
+

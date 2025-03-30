@@ -717,6 +717,7 @@ False
 
         found_files = [f for f in model_found_files if f in all_files]
 
+        # reflection to correct format
         if len(found_files) == 0:
             corrcted_tpl = format_correct_prompt.format(res=raw_output)
             formated_res = model.codegen([{"role": "user", "content": corrcted_tpl}], num_samples=1)[0]["response"]
@@ -735,7 +736,7 @@ False
             import_content += f"file: {loc}\n {get_imports_of_file(loc, self.instance_id)}\n"
             _parsed_path.append(loc)
 
-        # reflection
+        # reflection with module call graph
         reflection_result = model.codegen(
             [{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
                                                                        structure=show_project_structure(
@@ -872,6 +873,85 @@ False
             traj,
         )
 
+    def ablation_refection(self, max_retry=10, mock=False):
+        from afl.util.api_requests import num_tokens_from_messages
+        from afl.util.model import make_model
+        all_files = get_all_of_files(self.instance_id)
+        bug_report = bug_report_template.format(problem_statement=self.problem_statement,
+                                                structure=show_project_structure(self.structure).strip())
+
+        system_msg = file_system_prompt_without_tool
+
+        user_msg = f"""
+        {bug_report}
+        {file_summary}
+        """
+
+        message = [
+            {
+                "role": "system",
+                "content": system_msg
+            },
+            {
+                "role": "user",
+                "content": user_msg
+            }
+        ]
+        self.logger.info(f"prompting with message:\n{message}")
+        self.logger.info("=" * 80)
+        if mock:
+            self.logger.info("Skipping querying model since mock=True")
+            traj = {
+                "prompt": message,
+                "usage": {
+                    "prompt_tokens": num_tokens_from_messages(message, self.model_name),
+                },
+            }
+            return [], {"raw_output_loc": ""}, traj
+
+        model = make_model(
+            model=self.model_name,
+            backend=self.backend,
+            logger=self.logger,
+            max_tokens=self.max_tokens,
+            temperature=0,
+            batch_size=1,
+        )
+
+        traj = model.codegen(message, num_samples=1)[0]
+        traj["prompt"] = message
+        raw_output = traj["response"]
+
+        self.logger.info(raw_output)
+        model_found_files = self._parse_top5_file(raw_output)
+
+        # extract the first-order module graph context
+        import_content = ""
+        _parsed_path = []
+        for loc in model_found_files:
+            if loc in _parsed_path:
+                continue
+            import_content += f"file: {loc}\n {get_imports_of_file(loc, self.instance_id)}\n"
+            _parsed_path.append(loc)
+
+        # reflection with model call graph
+        reflection_result = model.codegen(
+            [{"role": "user", "content": file_reflection_prompt.format(problem_statement=self.problem_statement,
+                                                                       structure=show_project_structure(
+                                                                           self.structure).strip(),
+                                                                       import_content=import_content,
+                                                                       pre_files=model_found_files)}],
+            num_samples=1)[0]["response"]
+        self.logger.info(reflection_result)
+        reflection_files = self._parse_top5_file(reflection_result)
+
+
+        return (
+            reflection_files,
+            {"raw_output_files": raw_output},
+            traj,
+        )
+
 def construct_topn_file_context(
         file_to_locs,
         pred_files,
@@ -919,20 +999,50 @@ def construct_topn_file_context(
 
 # if __name__ == '__main__':
 #
-#
+#     from datasets import load_from_disk
 #     print("加载数据")
 #     swe_bench_data = load_from_disk("../../datasets/SWE-bench_Lite_test")
 #     # bug = swe_bench_data[5]
-#     bug = [x for x in swe_bench_data if x["instance_id"] == "astropy__astropy-14365"][0]
+#     bug = [x for x in swe_bench_data if x["instance_id"] == "django__django-13315"][0]
 #     problem_statement = bug["problem_statement"]
 #     instance_id = bug["instance_id"]
 #     print(problem_statement)
 #     print(instance_id)
 #     d = load_json(f"../../repo_structures/{instance_id}.json")
 #     structure = d["structure"]
-#     print(show_project_structure(structure))
-    #predicted_files:['astropy/io/ascii/qdp.py', 'astropy/io/ascii/core.py', 'astropy/io/ascii/ui.py', 'astropy/table/table.py'], predicted_methods:['_line_type', '_get_tables_from_qdp_file', '_read_table_qdp', 'QDP.read', '_interpret_err_lines']
-    # gt_files:{'astropy/io/ascii/qdp.py'}, gt_methods:{'_line_type', '_get_tables_from_qdp_file'}
+#     # print(show_project_structure(structure))
+#     found_files = ["django/forms/models.py"]
+#     import_content = ""
+#     _parsed_path = []
+#     for loc in found_files:
+#         if loc in _parsed_path:
+#             continue
+#         import_content += f"file: {loc}\n {get_imports_of_file(loc, instance_id)}\n"
+#         _parsed_path.append(loc)
+#
+#     print(import_content)
+#     """
+#     file: django/db/models/fields/related.py
+#     imports: ['django.forms', 'django.apps', 'django.conf', 'django.core', 'django.db.model', 'django.db.backends'...]
+#     """
+#     def consturct_bug_file_list(file: list):
+#         bug_file_content = ""
+#         for name in file:
+#             class_content = get_classes_of_file(name, instance_id)
+#             class_list = eval(get_classes_of_file(name, instance_id))
+#             class_func_content = "[\n"
+#             for class_name in class_list:
+#                 class_func = get_functions_of_class(class_name, instance_id)
+#                 class_func_content += f"{class_name}: {class_func} \n"
+#             class_func_content += "]"
+#             file_func_content = get_functions_of_file(name, instance_id)
+#             single_file_context = f"file: {name} \n\t class: {class_content} \n\t static functions:  {file_func_content} \n\t class fucntions: {class_func_content}\n"
+#             bug_file_content += single_file_context
+#             # print(bug_file_content)
+#         return bug_file_content
+#     bug_file_content = consturct_bug_file_list(found_files)
+#     print(bug_file_content)
+
 
     # import logging
     # fl = AFL(
