@@ -67,8 +67,6 @@ python FLEvalNew.py --dataset ["lite"/"verified"] --loc_file ["path to your loca
 
 ## Acknowledgement
 
-We would like to thank the open source developers who contributed to the SWE-Bench benchmark and its resolutions, especially, Agentless, OrcaLoca.
-They contribute and open-source essential issue localization baselines, advancing the progress of automated program repair. \
 This repository is partially based on OpenAutoCoder/Agentless.
 * [Agentless](https://github.com/OpenAutoCoder/Agentless/tree/main)
 * [SWE-Bench](https://github.com/swe-bench/SWE-bench.git)
