@@ -117,15 +117,13 @@ def evaluate_accuracy(loc_outputs, gt_data):
     for loc_output in loc_outputs:
         instance_id = loc_output['instance_id']
         print(instance_id)
-        predicted_files = loc_output['found_files']
+        predicted_files = loc_output['found_files'][:5]
         if not predicted_files:
             empty_count += 1
             continue
-        pred_funcs = construct_pred_func(predicted_files, loc_output.get('found_related_locs', {}))
+        pred_funcs = construct_pred_func(predicted_files, loc_output.get('found_related_locs', {}))[:5]
         predicted_methods = extract_predicted_methods(pred_funcs)
         print(f"predicted_files:{predicted_files}, predicted_methods:{predicted_methods}")
-        if len(predicted_methods) == 0:
-            empty_count += 1
 
         # 如果存在ground truth数据
         if instance_id in gt_data:
@@ -221,7 +219,10 @@ if __name__ == "__main__":
     )
     parser.add_argument("--loc_file", type=str, default="loc_outputs.jsonl")
     args = parser.parse_args()
-    loc_outputs = load_jsonl(args.loc_file)
+    # loc_outputs = load_jsonl(args.loc_file)
+    # loc_outputs = load_jsonl('../loc_to_patch_verified/afl/afl_qwen_coder_32b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_32b_func.jsonl')
+    loc_outputs = load_jsonl('loc_outputs.jsonl')
     if args.dataset == "lite":
         gt_data = load_json('gt.json')
     else:
