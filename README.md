@@ -2,7 +2,8 @@
 
 This technique was firstly used by CodeFuse-AAIS submitted on Jan 2025 on [SWE-bench](https://github.com/swe-bench/SWE-bench.git). 
 See [here](https://github.com/ZhonghaoJiang/AAIS) for more details.
-During the running of experiment, `afl` is used to represented our approach, CoSIL.
+In the experiment, we use `afl` to represent our approach, CoSIL.
+
 ## Environment Setup
 
 ```shell
