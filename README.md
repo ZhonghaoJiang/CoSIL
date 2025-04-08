@@ -2,6 +2,7 @@
 
 This technique was firstly used by CodeFuse-AAIS submitted on Jan 2025 on [SWE-bench](https://github.com/swe-bench/SWE-bench.git). 
 See [here](https://github.com/ZhonghaoJiang/AAIS) for more details.
+During the running of experiment, `afl` is used to represented our approach, CoSIL.
 ## Environment Setup
 
 ```shell
@@ -41,20 +42,20 @@ bash run_verified.sh
 ```
 And the results will be stored in `results` folder.
 
-### RQ2: Guidance
+### RQ2: Ablation
 To reproduce RQ2's results, you can run the following command.
+
+```shell
+bash ablation.sh
+```
+
+### RQ3: Usefulness
+To reproduce RQ3's results, you can run the following command.
 
 ```shell
 bash patch_gen.sh
 ```
 And then you can use the offcial evaluation method to evaluate the generated patches on SWE-Bench.
-
-### RQ3: Ablation
-To reproduce RQ3's results, you can run the following command.
-
-```shell
-bash ablation.sh
-```
 
 ### Evaluation
 You can use the following command to evaluate the localization results on SWE-bench-Lite or SWE-Bench-Verified.
@@ -66,8 +67,11 @@ python FLEvalNew.py --dataset ["lite"/"verified"] --loc_file ["path to your loca
 
 ## Acknowledgement
 
-We would like to thank the open source developers who contributed to the SWE-Bench benchmark and its resolutions. \
+We would like to thank the open source developers who contributed to the SWE-Bench benchmark and its resolutions, especially, Agentless, OrcaLoca.
+They contribute and open-source essential issue localization baselines, advancing the progress of automated program repair. \
 This repository is partially based on OpenAutoCoder/Agentless.
 * [Agentless](https://github.com/OpenAutoCoder/Agentless/tree/main)
 * [SWE-Bench](https://github.com/swe-bench/SWE-bench.git)
+* [OrcaLoca](https://github.com/fishmingyu/OrcaLoca)
+
 
