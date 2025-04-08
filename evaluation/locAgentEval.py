@@ -98,7 +98,7 @@ def evaluate_accuracy(loc_outputs, gt_data):
     func_RR_sum = 0.0
 
     # 总实例数（初始设为读取的实例数）
-    total_instances = len(loc_outputs)
+    total_instances = len(gt_data)
 
     empty_count = 0
 
@@ -113,8 +113,12 @@ def evaluate_accuracy(loc_outputs, gt_data):
         if not predicted_files:
             empty_count += 1
             continue
-        predicted_files, predicted_methods = construct_pred_func(loc_output.get('found_entities', {}))
+        _, predicted_methods = construct_pred_func(loc_output.get('found_entities', {}))
         print(f"predicted_files:{predicted_files}, predicted_methods:{predicted_methods}")
+
+        if not predicted_methods:
+            empty_count += 1
+            continue
 
         # 如果存在ground truth数据
         if instance_id in gt_data:
@@ -151,8 +155,7 @@ def evaluate_accuracy(loc_outputs, gt_data):
             print(top1_file_correct, top3_file_correct, top5_file_correct)
             print(top1_func_correct, top3_func_correct, top5_func_correct)
 
-    # 使用固定的实例总数（例如300），与原代码保持一致
-    total_instances = len(loc_outputs)
+
     # 计算TOPN准确率百分比
     top1_file_accuracy = top1_file_correct / total_instances * 100
     top3_file_accuracy = top3_file_correct / total_instances * 100
@@ -194,10 +197,10 @@ if __name__ == "__main__":
     # loc_outputs = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_7b_func.jsonl')
     # loc_outputs = load_jsonl('../loc_to_patch/afl/loc_qwen_coder_32b_func.jsonl')
     # loc_outputs = load_jsonl('../loc_to_patch/orcaloca/orca_qwen_coder_32b_func.jsonl')
-    # loc_outputs = load_jsonl('loc_outputs.jsonl')
+    loc_outputs = load_jsonl('loc_outputs.jsonl')
     # loc_outputs = load_jsonl('../loc_to_patch/locagent/locagent_qwen_coder_7b_func.jsonl')
 
-    loc_outputs = load_jsonl('../loc_to_patch_verified/locagent/locagent_qwen_coder_14b_func.jsonl')
+    # loc_outputs = load_jsonl('../loc_to_patch_verified/locagent/locagent_qwen_coder_14b_func.jsonl')
 
 
     # gt_data = load_json('gt.json')
