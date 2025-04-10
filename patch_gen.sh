@@ -44,6 +44,7 @@ for i in "${!methods[@]}"; do
                                       --max_samples 20  \
                                       --cot \
                                       --diff_format \
+                                      --line_level \
                                       --gen_and_process \
                                       --dataset "${dataset}" \
                                       --num_threads ${threads} \
