@@ -614,7 +614,7 @@ def post_process_repair(args):
         log_file = os.path.join(args.output_folder, "repair_logs", f"{instance_id}.log")
         logger = setup_logger(log_file)
 
-        if raw_output["raw_output"] == "":
+        if raw_output["raw_output"] == [""]:
             with open(args.output_file, "a") as f:
                 f.write(
                     json.dumps(

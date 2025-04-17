@@ -1,100 +1,149 @@
-import json
 import re
 from tqdm import tqdm
-from afl.util.utils import load_json
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from afl.util.utils import load_json, load_jsonl
 from afl.util.preprocess_data import extract_structure
 
-REPO_STRUCTURE = None
 
-def load_jsonl(file_path):
-    with open(file_path, 'r') as file:
-        data = [json.loads(line) for line in file]
-    return data
+REPO_STRUCTURE = {}
+STRUCTURE_INDEX = {}
 
-def extract_file(diff_text):
-    file_pattern = r"^diff --git a\/(.+?) b\/\1"
-    files = re.findall(file_pattern, diff_text, re.MULTILINE)
-    return files
+def process_instance(instance_id):
+    try:
+        d = load_json(f"../repo_structures/{instance_id}.json")
+        structure = d.get("structure", [])
+        _, classes, functions = extract_structure(structure)
 
-def extract_line(diff_text):
-    lines_pattern = r"@@ -(\d+),(\d+) \+(\d+),(\d+)"
-    line_changes = re.findall(lines_pattern, diff_text)
-    lines = [int(int(l[0]) + int(l[1])/2) for l in line_changes]
-    return lines
+        func_map = {}
+        for f in functions:
+            func_map.setdefault(f['file'], []).append((int(f['start_line']), int(f['end_line']), f['name']))
 
-def parse_gt_methods(gt_entries):
-    """
-    解析ground truth中的条目，并统一处理为文件级别和函数级别的定位。
-    """
-    files, methods = set(), set()
+        class_map = {}
+        for c in classes:
+            entries = []
+            for m in c.get('methods', []):
+                full_name = f"{c['name']}.{m['name']}"
+                entries.append((int(m['start_line']), int(m['end_line']), full_name))
+            entries.append((int(c['start_line']), int(c['end_line']), c['name']))
+            class_map.setdefault(c['file'], []).extend(entries)
 
-    for entry in gt_entries:
-        parts = entry.split('::')
+        return instance_id, d, {"func_map": func_map, "class_map": class_map}
+    except Exception as e:
+        print(f"[ERROR] Failed to process {instance_id}: {e}")
+        return instance_id, None, None
 
-        if len(parts) == 2:  # File::Method 或 File::Class
-            file_name, method_or_class = parts
-            files.add(file_name)
-            methods.add(method_or_class)
+from multiprocessing import cpu_count
 
-        elif len(parts) == 1:  # File
-            files.add(parts[0])
+def load_all_structures_parallel(instance_ids):
+    global REPO_STRUCTURE, STRUCTURE_INDEX
+    with ProcessPoolExecutor(max_workers=100) as executor:
+        futures = {executor.submit(process_instance, iid): iid for iid in instance_ids}
 
-    return files, methods
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Building structure index"):
+            instance_id, repo_data, index = future.result()
+            if repo_data and index:
+                REPO_STRUCTURE[instance_id] = repo_data
+                STRUCTURE_INDEX[instance_id] = index
 
 
 def get_function_from_line(file_name: str, line: int, instance_id: str):
     line = int(line)
-    d = REPO_STRUCTURE[instance_id]
-    structure = d["structure"]
-    files, classes, functions = extract_structure(structure)
+    if instance_id not in STRUCTURE_INDEX:
+        return None
 
-    for item in functions:
-        if item['file'] == file_name and int(item['start_line']) <= line <= int(item['end_line']):
-            return item['name']
+    func_map = STRUCTURE_INDEX[instance_id]["func_map"]
+    class_map = STRUCTURE_INDEX[instance_id]["class_map"]
 
-    for item in classes:
-        if item['file'] == file_name and int(item['start_line']) <= line <= int(item['end_line']):
-            for method in item['methods']:
-                if int(method['start_line']) <= line <= int(method['end_line']):
-                    return f"{item['name']}.{method['name']}"
-            return item['name']
+    for start, end, name in func_map.get(file_name, []):
+        if start <= line <= end:
+            return name
+
+    for start, end, name in class_map.get(file_name, []):
+        if start <= line <= end:
+            return name
 
     return None
+
+def extract_file_to_old_lines(diff_text):
+    """
+    解析 diff，返回一个 dict: {filename: [old_lines]}，
+    表示每个文件中受修改的旧行号（原始行号）列表。
+    """
+    file_to_lines = {}
+    current_file = None
+
+    lines = diff_text.splitlines()
+    for i, line in enumerate(lines):
+        if line.startswith("diff --git"):
+            match = re.match(r"^diff --git a\/.+? b\/(.+)", line)
+            if match:
+                current_file = match.group(1)
+                file_to_lines[current_file] = []
+        elif line.startswith("@@") and current_file:
+            match = re.match(r"@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))?", line)
+            if match:
+                old_start = int(match.group(1))
+                old_len = int(match.group(2)) if match.group(2) else 1
+                # 加入 old 区间中间的那一行，代表修改大致区域
+                file_to_lines[current_file].append(old_start + old_len // 2)
+
+    return file_to_lines
 
 def eval_acc(patches, gt):
     acc_f = 0
     acc_func = 0
+    total = 300  # 固定样本总数，不根据有效样本动态调整
 
     for patch in tqdm(patches, desc="Evaluating patches"):
-        if patch['model_patch']=="":
+        if not patch.get('model_patch'):
             continue
-        instance_id = patch['instance_id']
+        instance_id = patch.get('instance_id')
+        if not instance_id or instance_id not in gt:
+            continue
+
         try:
-            file_name = extract_file(patch['model_patch'])[0]
-            line_list = extract_line(patch['model_patch'])
-        except:
+            file_line_map = extract_file_to_old_lines(patch['model_patch'])
+        except Exception:
             continue
-        function_list = []
-        for line in line_list:
-            function = get_function_from_line(file_name, line, instance_id)
-            function_list.append(f"{file_name}::{function}")
-        gt_methods = gt[instance_id]
-        gt_file = set([x.split("::")[0] for x in gt_methods])
-        if set(function_list) & set(gt_methods) != set():
-            acc_func += 1
-        if {file_name} & set(gt_file) != set():
+
+        if not file_line_map:
+            continue
+
+        gt_methods = set(gt[instance_id])
+        gt_files = set(x.split("::")[0] for x in gt_methods)
+        has_function_level_gt = any("::" in x for x in gt_methods)
+
+        matched_funcs = set()
+        matched_files = set()
+
+        for file_name, old_lines in file_line_map.items():
+            for line in old_lines:
+                function = get_function_from_line(file_name, line, instance_id)
+                if function:
+                    matched_funcs.add(f"{file_name}::{function}")
+                matched_files.add(file_name)
+
+        if matched_files & gt_files:
             acc_f += 1
 
-    return acc_f/300, acc_func / 300
+        if not has_function_level_gt:
+            acc_func += 1
+        elif matched_funcs & gt_methods:
+            acc_func += 1
+
+    return acc_f / total, acc_func / total
+
 
 if __name__ == '__main__':
     gt_data = load_json('gt.json')
-    REPO_STRUCTURE = {instance_id: load_json(f"../repo_structures/{instance_id}.json") for instance_id in
-                      tqdm(gt_data.keys())}
+    instance_ids = list(gt_data.keys())
+    load_all_structures_parallel(instance_ids)
+
     path_list = [
-        "../test_patches/agentless_1.5.jsonl",
+        "./openhands.jsonl",
     ]
     for p in path_list:
         patches = load_jsonl(p)
         file_match, function_match = eval_acc(patches, gt_data)
         print(p, file_match, function_match)
+
