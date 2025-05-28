@@ -4,7 +4,7 @@ import json
 import os
 from multiprocessing import Lock, Manager
 
-from datasets import load_dataset
+from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
 
 from afl.fl.AFL import AFL
@@ -82,6 +82,7 @@ def localize_instance(
                 {
                     "instance_id": instance_id,
                     "found_files": found_files,
+                    "file_traj": file_traj,
                 }
             )
             + "\n"
@@ -91,7 +92,10 @@ def localize_instance(
 
 
 def localize(args):
-    swe_bench_data = load_dataset(args.dataset, split="test")
+    if "sampled" in args.dataset:
+        swe_bench_data = load_from_disk(f"./datasets/{args.dataset}")
+    else:
+        swe_bench_data = load_dataset(args.dataset, split="test")
     start_file_locs = load_jsonl(args.start_file) if args.start_file else None
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
@@ -245,7 +249,6 @@ def main():
         "--dataset",
         type=str,
         default="princeton-nlp/SWE-bench_Lite",
-        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
         help="Current supported dataset for evaluation",
     )
 
