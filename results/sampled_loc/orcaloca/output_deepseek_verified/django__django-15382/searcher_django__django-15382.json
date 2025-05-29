@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue involves interaction between Exists.as_sql() and QuerySet._filter_or_exclude_inplace() methods when handling empty querysets. The Exists class shows negated handling which might be related to the WHERE block disappearance.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/models/expressions.py",
+            "class_name": "Exists",
+            "method_name": "as_sql"
+        },
+        {
+            "file_path": "django/db/models/query.py",
+            "class_name": "QuerySet",
+            "method_name": "_filter_or_exclude_inplace"
+        }
+    ]
+}

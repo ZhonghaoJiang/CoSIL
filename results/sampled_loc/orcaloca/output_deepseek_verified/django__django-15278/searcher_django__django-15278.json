@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue occurs when adding a UNIQUE column in SQLite through a OneToOneField migration. The DatabaseSchemaEditor.add_field() method in sqlite3/schema.py calls _remake_table() for fields with UNIQUE constraints, which may not properly handle SQLite's limitations.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/db/backends/sqlite3/schema.py",
+            "class_name": "DatabaseSchemaEditor",
+            "method_name": "add_field"
+        },
+        {
+            "file_path": "django/db/backends/sqlite3/schema.py",
+            "class_name": "DatabaseSchemaEditor",
+            "method_name": "_remake_table"
+        }
+    ]
+}

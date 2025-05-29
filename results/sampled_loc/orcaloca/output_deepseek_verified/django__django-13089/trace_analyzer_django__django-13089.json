@@ -1,0 +1,54 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "cache_key_culling_sql",
+            "file_path": ""
+        },
+        {
+            "keyword": "render",
+            "file_path": "django/template/response.py"
+        },
+        {
+            "keyword": "_cull",
+            "file_path": "django/core/cache/backends/db.py"
+        },
+        {
+            "keyword": "process_response",
+            "file_path": "django/middleware/cache.py"
+        },
+        {
+            "keyword": "set",
+            "file_path": "django/core/cache/backends/db.py"
+        },
+        {
+            "keyword": "execute",
+            "file_path": ""
+        },
+        {
+            "keyword": "learn_cache_key",
+            "file_path": "django/utils/cache.py"
+        },
+        {
+            "keyword": "callback",
+            "file_path": "django/utils/decorators.py"
+        },
+        {
+            "keyword": "_base_set",
+            "file_path": "django/core/cache/backends/db.py"
+        },
+        {
+            "keyword": "fetchone",
+            "file_path": ""
+        },
+        {
+            "keyword": "_get_response",
+            "file_path": "django/core/handlers/base.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\ncursor.execute(\n    connection.ops.cache_key_culling_sql() % table,\n    [cull_num])\ncursor.execute(\"DELETE FROM %s \"\n             \"WHERE cache_key < %%s\" % table,\n             [cursor.fetchone()[0]])\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}

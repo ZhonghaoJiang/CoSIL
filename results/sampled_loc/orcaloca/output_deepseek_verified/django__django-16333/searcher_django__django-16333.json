@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe UserCreationForm.save() method in django/contrib/auth/forms.py doesn't call save_m2m() when commit=True, which differs from its parent class ModelForm's behavior. We need to check ModelForm.save() to understand the expected behavior.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "django/contrib/auth/forms.py",
+            "class_name": "UserCreationForm",
+            "method_name": "save"
+        }
+    ]
+}

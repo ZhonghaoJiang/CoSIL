@@ -1,0 +1,18 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "User",
+            "file_path": "django/contrib/auth/models.py"
+        },
+        {
+            "keyword": "Q",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django.conf.global_settings')\n\nfrom django.db.models import Q\nfrom django.contrib.auth.models import User\n\nUser.objects.filter(Q(id=1)).count()\nUser.objects.filter(Q(id=1) ^ Q(id=1)).count()\nUser.objects.filter(Q(id=1) ^ Q(id=1) ^ Q(id=1)).count()\nUser.objects.filter(Q(id=1) ^ Q(id=1) ^ Q(id=1) ^ Q(id=1)).count()\nUser.objects.filter(Q(id=1) ^ Q(id=1) ^ Q(id=1) ^ Q(id=1) ^ Q(id=1)).count()",
+    "env_reproduce_path": "/django__django/reproducer_django__django-16901.py"
+}

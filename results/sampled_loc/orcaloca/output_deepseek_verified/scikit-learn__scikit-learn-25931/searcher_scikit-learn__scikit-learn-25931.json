@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe bug occurs when contamination is not 'auto' and involves feature name validation during fitting. The fit method calls score_samples which triggers validation warnings incorrectly.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sklearn/ensemble/_iforest.py",
+            "class_name": "IsolationForest",
+            "method_name": "fit"
+        },
+        {
+            "file_path": "sklearn/ensemble/_iforest.py",
+            "class_name": "IsolationForest",
+            "method_name": "score_samples"
+        }
+    ]
+}

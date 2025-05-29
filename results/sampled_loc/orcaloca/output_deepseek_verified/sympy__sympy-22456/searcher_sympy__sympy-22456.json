@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe String class has been found in sympy/codegen/ast.py with its methods _construct_text and _sympystr. The issue relates to argument invariance, specifically with *expr.args versus **expr.kwargs(). The class inherits from Token and needs to properly handle argument invariance for Basic subclass compatibility.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/codegen/ast.py",
+            "class_name": "String",
+            "method_name": "_sympystr"
+        }
+    ]
+}

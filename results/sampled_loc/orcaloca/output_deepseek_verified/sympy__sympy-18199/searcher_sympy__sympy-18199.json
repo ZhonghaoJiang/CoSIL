@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe nthroot_mod function does not handle the case when a % p == 0, missing the root x = 0 mod p. The sqrt_mod_iter function correctly handles this case by checking if a == 0 and calling _sqrt_mod1.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/ntheory/residue_ntheory.py",
+            "class_name": "",
+            "method_name": "nthroot_mod"
+        }
+    ]
+}

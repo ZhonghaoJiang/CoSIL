@@ -1,0 +1,58 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "models",
+            "file_path": ""
+        },
+        {
+            "keyword": "filter",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "CharField",
+            "file_path": "django/db/models/fields/__init__.py"
+        },
+        {
+            "keyword": "settings",
+            "file_path": ""
+        },
+        {
+            "keyword": "os",
+            "file_path": ""
+        },
+        {
+            "keyword": "MyModel",
+            "file_path": ""
+        },
+        {
+            "keyword": "Exists",
+            "file_path": "django/db/models/expressions.py"
+        },
+        {
+            "keyword": "configure",
+            "file_path": "django/conf/__init__.py"
+        },
+        {
+            "keyword": "environ",
+            "file_path": ""
+        },
+        {
+            "keyword": "none",
+            "file_path": "django/db/models/query.py"
+        },
+        {
+            "keyword": "Model",
+            "file_path": "django/db/models/base.py"
+        },
+        {
+            "keyword": "query",
+            "file_path": "django/db/models/sql/query.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": false,
+    "reproduce_code": "import os\nos.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django.conf.global_settings')\n\nfrom django.db import models\nfrom django.conf import settings\n\nsettings.configure(\n    INSTALLED_APPS=['django.contrib.contenttypes'],\n    DATABASES={\n        'default': {\n            'ENGINE': 'django.db.backends.sqlite3',\n            'NAME': ':memory:',\n        }\n    }\n)\n\nclass MyModel(models.Model):\n    name = models.CharField(max_length=100)\n\nqs = MyModel.objects.filter(~models.Exists(MyModel.objects.none()), name='test')\nqs\nprint(qs.query)",
+    "env_reproduce_path": "/django__django/reproducer_django__django-15382.py"
+}

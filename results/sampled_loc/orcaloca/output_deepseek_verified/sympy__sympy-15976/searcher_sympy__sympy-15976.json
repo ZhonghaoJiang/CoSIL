@@ -1,0 +1,10 @@
+{
+    "conclusion": "<Observation>\nThe issue occurs when printing symbols ending with numbers in MathML presentation format. The bug likely lies in MathMLPresentationPrinter's _print_Symbol method, particularly in how it handles symbol names with numbers. The method splits the symbol name into name, supers, and subs components, but may not properly handle numeric suffixes.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sympy/printing/mathml.py",
+            "class_name": "MathMLPresentationPrinter",
+            "method_name": "_print_Symbol"
+        }
+    ]
+}

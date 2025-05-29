@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe check() method in CheckExternalLinksBuilder explicitly returns 'local' status for non-http/https URIs without checking them, which is the core issue. The check_uri() method only handles external links.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "sphinx/builders/linkcheck.py",
+            "class_name": "CheckExternalLinksBuilder",
+            "method_name": "check"
+        },
+        {
+            "file_path": "sphinx/builders/linkcheck.py",
+            "class_name": "CheckExternalLinksBuilder",
+            "method_name": "check_thread"
+        }
+    ]
+}

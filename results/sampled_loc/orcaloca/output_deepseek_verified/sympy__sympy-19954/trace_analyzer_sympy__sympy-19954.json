@@ -1,0 +1,48 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "PermutationGroup",
+            "file_path": "sympy/combinatorics/__init__.py"
+        },
+        {
+            "keyword": "Permutation",
+            "file_path": "sympy/combinatorics/__init__.py"
+        },
+        {
+            "keyword": "DihedralGroup",
+            "file_path": "sympy/combinatorics/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "sylow_subgroup",
+            "file_path": "sympy/combinatorics/perm_groups.py",
+            "class_name": "PermutationGroup"
+        },
+        {
+            "keyword": "minimal_blocks",
+            "file_path": "sympy/combinatorics/perm_groups.py",
+            "class_name": "PermutationGroup"
+        },
+        {
+            "keyword": "minimal_block",
+            "file_path": "sympy/combinatorics/perm_groups.py",
+            "class_name": "PermutationGroup"
+        },
+        {
+            "keyword": "_number_blocks",
+            "file_path": "sympy/combinatorics/perm_groups.py",
+            "class_name": "PermutationGroup"
+        },
+        {
+            "keyword": "_union_find_merge",
+            "file_path": "sympy/combinatorics/perm_groups.py",
+            "class_name": "PermutationGroup"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sympy.combinatorics import DihedralGroup, PermutationGroup, Permutation\n\nG = DihedralGroup(18)\n\nS2 = G.sylow_subgroup(p=2)\n",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-19954.py"
+}

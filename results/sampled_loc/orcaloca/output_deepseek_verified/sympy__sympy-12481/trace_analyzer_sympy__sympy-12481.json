@@ -1,0 +1,32 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Mapping",
+            "file_path": "sympy/core/basic.py"
+        },
+        {
+            "keyword": "Permutation",
+            "file_path": "sympy/combinatorics/permutations.py"
+        },
+        {
+            "keyword": "feasible",
+            "file_path": "sympy/solvers/diophantine.py"
+        },
+        {
+            "keyword": "Callable",
+            "file_path": "sympy/plotting/plot.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "__new__",
+            "file_path": "sympy/combinatorics/permutations.py",
+            "class_name": "Permutation"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy.combinatorics import Permutation\nPermutation([[0,1],[0,1]])",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-12481.py"
+}

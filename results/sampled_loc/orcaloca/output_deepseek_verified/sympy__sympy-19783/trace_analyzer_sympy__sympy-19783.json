@@ -1,0 +1,30 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "Operator",
+            "file_path": "sympy/physics/quantum/operator.py"
+        },
+        {
+            "keyword": "IdentityOperator",
+            "file_path": "sympy/physics/quantum/__init__.py"
+        },
+        {
+            "keyword": "Dagger",
+            "file_path": ""
+        },
+        {
+            "keyword": "Dagger",
+            "file_path": "sympy/physics/quantum/dagger.py"
+        },
+        {
+            "keyword": "I",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "from sympy.physics.quantum.dagger import Dagger\nfrom sympy.physics.quantum.operator import Operator\nfrom sympy.physics.quantum import IdentityOperator\nA = Operator('A')\nIdentity = IdentityOperator()\nprint(A * Identity) #This gives A, correctly\nB = Dagger(A)\nprint(B * Identity) #This returns A^\\dagger I",
+    "env_reproduce_path": "/sympy__sympy/reproducer_sympy__sympy-19783.py"
+}

@@ -1,0 +1,15 @@
+{
+    "conclusion": "<Observation>\nThe issue occurs when to_native_string is called with binary data in _encode_params, which is called by prepare_body. The default ASCII encoding in to_native_string causes problems with non-ASCII binary data.\n</Observation>",
+    "bug_locations": [
+        {
+            "file_path": "requests/utils.py",
+            "class_name": "",
+            "method_name": "to_native_string"
+        },
+        {
+            "file_path": "requests/models.py",
+            "class_name": "RequestEncodingMixin",
+            "method_name": "_encode_params"
+        }
+    ]
+}

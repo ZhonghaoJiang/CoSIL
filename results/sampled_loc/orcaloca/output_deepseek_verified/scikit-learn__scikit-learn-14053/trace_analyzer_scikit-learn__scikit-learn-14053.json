@@ -1,0 +1,24 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "DecisionTreeClassifier",
+            "file_path": "sklearn/tree/__init__.py"
+        },
+        {
+            "keyword": "load_iris",
+            "file_path": "sklearn/datasets/__init__.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "export_text",
+            "file_path": "sklearn/tree/export.py",
+            "class_name": "_MPLTreeExporter"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nfrom sklearn.tree import DecisionTreeClassifier\nfrom sklearn.tree.export import export_text\nfrom sklearn.datasets import load_iris\n\nX, y = load_iris(return_X_y=True)\nX = X[:, 0].reshape(-1, 1)\n\ntree = DecisionTreeClassifier()\ntree.fit(X, y)\ntree_text = export_text(tree, feature_names=['sepal_length'])\nprint(tree_text)\n\n",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-14053.py"
+}

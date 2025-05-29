@@ -1,0 +1,42 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "fit",
+            "file_path": "sklearn/cluster/optics_.py"
+        },
+        {
+            "keyword": "fit",
+            "file_path": "sklearn/neighbors/base.py"
+        },
+        {
+            "keyword": "OPTICS",
+            "file_path": "sklearn/cluster/optics_.py"
+        },
+        {
+            "keyword": "_fit",
+            "file_path": "sklearn/neighbors/base.py"
+        },
+        {
+            "keyword": "compute_optics_graph",
+            "file_path": "sklearn/cluster/optics_.py"
+        },
+        {
+            "keyword": "min_samples",
+            "file_path": ""
+        },
+        {
+            "keyword": "n_samples",
+            "file_path": ""
+        },
+        {
+            "keyword": "make_blobs",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "\n    if min_samples <= 1:\n        min_samples = max(2, min_samples * n_samples)           # Still a float\n",
+    "is_reproduce_pass": false,
+    "reproduce_code": "from sklearn.datasets import make_blobs\nfrom sklearn.cluster import OPTICS\n\nX, _ = make_blobs(n_samples=100, centers=3, n_features=2, random_state=42)\n\nclust = OPTICS(metric='minkowski', n_jobs=-1, min_samples=0.1)\ntry:\n    clust.fit(X)\nexcept Exception as e:\n    print(f\"Error: {e}\")",
+    "env_reproduce_path": "/scikit-learn__scikit-learn/reproducer_scikit-learn__scikit-learn-14496.py"
+}

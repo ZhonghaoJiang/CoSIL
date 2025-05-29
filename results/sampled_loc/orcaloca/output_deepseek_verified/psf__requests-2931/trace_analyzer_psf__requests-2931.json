@@ -1,0 +1,79 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "request",
+            "file_path": "build/lib/requests/api.py"
+        },
+        {
+            "keyword": "prepare_request",
+            "file_path": "requests/sessions.py"
+        },
+        {
+            "keyword": "put",
+            "file_path": "requests/api.py"
+        },
+        {
+            "keyword": "prepare",
+            "file_path": "requests/models.py"
+        },
+        {
+            "keyword": "put",
+            "file_path": "build/lib/requests/api.py"
+        },
+        {
+            "keyword": "requests",
+            "file_path": ""
+        },
+        {
+            "keyword": "request",
+            "file_path": "requests/sessions.py"
+        },
+        {
+            "keyword": "prepare_request",
+            "file_path": "build/lib/requests/sessions.py"
+        },
+        {
+            "keyword": "prepare",
+            "file_path": "build/lib/requests/models.py"
+        },
+        {
+            "keyword": "request",
+            "file_path": "requests/api.py"
+        },
+        {
+            "keyword": "put",
+            "file_path": ""
+        },
+        {
+            "keyword": "request",
+            "file_path": "build/lib/requests/sessions.py"
+        }
+    ],
+    "suspicious_code_from_tracer": [
+        {
+            "keyword": "to_native_string",
+            "file_path": "requests/utils.py",
+            "class_name": ""
+        },
+        {
+            "keyword": "_encode_params",
+            "file_path": "requests/models.py",
+            "class_name": "RequestEncodingMixin"
+        },
+        {
+            "keyword": "prepare_body",
+            "file_path": "requests/models.py",
+            "class_name": "PreparedRequest"
+        },
+        {
+            "keyword": "prepare_headers",
+            "file_path": "requests/models.py",
+            "class_name": "PreparedRequest"
+        }
+    ],
+    "related_source_code": "",
+    "is_reproduce_pass": true,
+    "reproduce_code": "\nimport requests\nrequests.put(\"http://httpbin.org/put\", data=u\"\u00f6\u00f6\u00f6\".encode(\"utf-8\"))\n",
+    "env_reproduce_path": "/psf__requests/reproducer_psf__requests-2931.py"
+}

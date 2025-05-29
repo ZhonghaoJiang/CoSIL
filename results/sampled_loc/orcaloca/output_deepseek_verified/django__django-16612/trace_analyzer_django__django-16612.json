@@ -1,0 +1,14 @@
+{
+    "summary": "",
+    "suspicious_code": [
+        {
+            "keyword": "HttpResponsePermanentRedirect",
+            "file_path": ""
+        }
+    ],
+    "suspicious_code_from_tracer": [],
+    "related_source_code": "return HttpResponsePermanentRedirect(\"%s/\" % request.path)",
+    "is_reproduce_pass": false,
+    "reproduce_code": "",
+    "env_reproduce_path": ""
+}
