@@ -1,8 +1,5 @@
-# CoSIL: Software Issue Localization via LLM-Driven Code Repository Graph Searching
+# Issue Localization via LLM-Driven Iteritive Code Graph Searching
 
-[//]: # (This technique was firstly used by CodeFuse-AAIS submitted on Jan 2025 on [SWE-bench]&#40;https://github.com/swe-bench/SWE-bench.git&#41;. )
-
-[//]: # (See [here]&#40;https://github.com/ZhonghaoJiang/AAIS&#41; for more details.)
 In the experiment, we use `afl` to represent our approach, CoSIL.
 
 ## Environment Setup
@@ -21,7 +18,7 @@ in `afl/util/api_requests.py`:
 client = openai.OpenAI(api_key="sk-xxxx", base_url="https://xxx/v1")
 ```
 
-Then, you should generate the reporistory structure by running the following command:
+Then, you should generate the repository structure by running the following command:
 ```shell
 python get_lite_structure.py # For SWE-Bench Lite
 python get_verified_structure.py # For SWE-Bench Verified
@@ -51,14 +48,20 @@ To reproduce RQ2's results, you can run the following command.
 bash ablation.sh
 ```
 
-### RQ3: Usefulness
+### RQ3: Application
 To reproduce RQ3's results, you can run the following command.
 
 ```shell
 bash patch_gen.sh
 ```
-And then you can use the offcial evaluation method to evaluate the generated patches on SWE-Bench.
+And then you can use the official evaluation method to evaluate the generated patches on SWE-Bench.
 
+### RQ4: Generalizbility
+To reproduce RQ4's results, you can run the following command.
+
+```shell
+bash sample.sh
+``` 
 ### Evaluation
 You can use the following command to evaluate the localization results on SWE-bench-Lite or SWE-Bench-Verified.
 

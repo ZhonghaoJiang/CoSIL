@@ -1,5 +1,5 @@
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-export PROJECT_FILE_LOC="/home/yanmeng/jiangzhonghao/FLProject/AFL/repo_structures"
+export PROJECT_FILE_LOC=""
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Fault Localization
