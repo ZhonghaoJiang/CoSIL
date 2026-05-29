@@ -95,7 +95,13 @@ class AFL(FL):
         for tool_call in assistant_message.get("tool_calls") or []:
             tool_name = tool_call["function"]["name"]
             try:
-                arguments = json.loads(tool_call["function"].get("arguments") or "{}")
+                raw_arguments = tool_call["function"].get("arguments")
+                # Some providers (via litellm) already return arguments as a dict instead
+                # of a JSON string; only json.loads when we actually got a string.
+                if isinstance(raw_arguments, dict):
+                    arguments = raw_arguments
+                else:
+                    arguments = json.loads(raw_arguments or "{}")
                 tool_result = dispatch_afl_location_tool(tool_name, arguments, self.instance_id)
                 if prune_tool_result is not None:
                     tool_result = prune_tool_result(tool_name, arguments, tool_result)
@@ -136,16 +142,6 @@ class AFL(FL):
             temperature=0.0,
             batch_size=1,
         )
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        reason = traj["response"]
-        current_tokens = traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
-
-        message.append({
-            "role": "assistant",
-            "content": reason
-        })
-
         max_context_length = model.max_context_tokens
         location_summary_tokens = num_tokens_from_messages([{
             "role": "user",
@@ -153,19 +149,27 @@ class AFL(FL):
         }], self.model_name) + (model.max_new_tokens or 0)
 
         def prune_tool_result(tool_name, arguments, tool_result):
+            # The prune step is itself a small agent: it may call the location tools to
+            # gather more context (e.g. inspect callees / related classes) before deciding
+            # whether the retrieved code is relevant.
             check_func_retval_prompt = f"""
 You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
-Your task is to locate the most likely culprit functions/classes based on the bug report.
+Your task is to decide whether a retrieved function/class is related to the bug and should be kept in context.
 <bug report>
 {self.problem_statement}
 </bug report>
 
-Here is a result of a function/class code retrived by '{tool_name}' with arguments {arguments}.
-Please check if the code is related to the bug and if the code should be added into context.
+Here is a result of a function/class code retrieved by '{tool_name}' with arguments {arguments}.
 <code>
 {tool_result}
 </code>
-Return True if the code is related to the bug and should be added into context, otherwise return False.
+
+You may call the provided tools to inspect related code (e.g. functions it calls or the
+class it belongs to) before making your decision. Investigate first; do not answer yet.
+"""
+            prune_decision_prompt = """
+Based on everything you have inspected, decide whether the original retrieved code is
+related to the bug and should be added into context.
 Since your answer will be processed automatically, please give your answer in the format as follows.
 The returned content should be wrapped with ```.
 ```
@@ -176,7 +180,36 @@ or
 False
 ```
 """
-            check_res = model.codegen([{"role": "user", "content": check_func_retval_prompt}], num_samples=1)[0]["response"]
+            prune_messages = [
+                {"role": "system", "content": "You are a debugging assistant that judges code relevance to a bug report."},
+                {"role": "user", "content": check_func_retval_prompt},
+            ]
+            prune_max_try = 3
+            for _ in range(prune_max_try):
+                try:
+                    sub_traj = model.codegen(
+                        prune_messages,
+                        num_samples=1,
+                        tools=AFL_LOCATION_TOOL_SCHEMAS,
+                        tool_choice="auto",
+                        return_message=True,
+                    )[0]
+                except Exception:
+                    break
+                sub_msg = sub_traj.get("message", {"role": "assistant", "content": sub_traj["response"]})
+                if not sub_msg.get("tool_calls"):
+                    prune_messages.append(sub_msg)
+                    break
+                # The prune agent explores with raw tool results; do not recurse into prune.
+                self._append_tool_results(prune_messages, sub_msg, prune_tool_result=None)
+
+            prune_messages.append({"role": "user", "content": prune_decision_prompt})
+            check_res = model.codegen(
+                prune_messages,
+                num_samples=1,
+                tools=AFL_LOCATION_TOOL_SCHEMAS,
+                tool_choice="none",
+            )[0]["response"]
             try:
                 flag = self._parse_output(check_res).strip()
             except Exception:
@@ -186,7 +219,8 @@ False
                 return tool_result
             return "I have already checked this function/class and it is not related to the bug. Don't check the functions it calls."
 
-        last_traj = traj
+        current_tokens = num_tokens_from_messages(message, self.model_name)
+        last_traj = None
         for _ in range(max_try):
             if current_tokens > max_context_length - 3 * location_summary_tokens:
                 break
@@ -198,7 +232,10 @@ False
                     tool_choice="auto",
                     return_message=True,
                 )[0]
-                current_tokens += tool_traj["usage"]["completion_tokens"] + tool_traj["usage"]["prompt_tokens"]
+                # prompt_tokens already reflects the full running conversation, so the
+                # latest call's prompt + completion is the true context size. Assigning
+                # (instead of +=) avoids multiply-counting history and prematurely breaking.
+                current_tokens = tool_traj["usage"]["prompt_tokens"] + tool_traj["usage"]["completion_tokens"]
                 last_traj = tool_traj
             except Exception as e:
                 if "Tokens" in str(e):
@@ -220,7 +257,14 @@ False
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
         })
-        traj = model.codegen(message, num_samples=1)[0]
+        # The conversation may contain tool_calls / tool messages, so keep `tools` present
+        # (some strict providers reject such history without it) while forcing a text answer.
+        traj = model.codegen(
+            message,
+            num_samples=1,
+            tools=AFL_LOCATION_TOOL_SCHEMAS,
+            tool_choice="none",
+        )[0]
         traj["prompt"] = message
         traj["tool_traj"] = last_traj
         raw_output = traj["response"]
@@ -859,68 +903,3 @@ def construct_topn_file_context(
             file_loc_intervals[pred_file] = context_intervals
 
     return topn_content, file_loc_intervals
-
-# if __name__ == '__main__':
-#
-#     from datasets import load_from_disk
-#     print("加载数据")
-#     swe_bench_data = load_from_disk("../../datasets/SWE-bench_Lite_test")
-#     # bug = swe_bench_data[5]
-#     bug = [x for x in swe_bench_data if x["instance_id"] == "django__django-13315"][0]
-#     problem_statement = bug["problem_statement"]
-#     instance_id = bug["instance_id"]
-#     print(problem_statement)
-#     print(instance_id)
-#     d = load_json(f"../../repo_structures/{instance_id}.json")
-#     structure = d["structure"]
-#     # print(show_project_structure(structure))
-#     found_files = ["django/forms/models.py"]
-#     import_content = ""
-#     _parsed_path = []
-#     for loc in found_files:
-#         if loc in _parsed_path:
-#             continue
-#         import_content += f"file: {loc}\n {get_imports_of_file(loc, instance_id)}\n"
-#         _parsed_path.append(loc)
-#
-#     print(import_content)
-#     """
-#     file: django/db/models/fields/related.py
-#     imports: ['django.forms', 'django.apps', 'django.conf', 'django.core', 'django.db.model', 'django.db.backends'...]
-#     """
-#     def consturct_bug_file_list(file: list):
-#         bug_file_content = ""
-#         for name in file:
-#             class_content = get_classes_of_file(name, instance_id)
-#             class_list = eval(get_classes_of_file(name, instance_id))
-#             class_func_content = "[\n"
-#             for class_name in class_list:
-#                 class_func = get_functions_of_class(class_name, instance_id)
-#                 class_func_content += f"{class_name}: {class_func} \n"
-#             class_func_content += "]"
-#             file_func_content = get_functions_of_file(name, instance_id)
-#             single_file_context = f"file: {name} \n\t class: {class_content} \n\t static functions:  {file_func_content} \n\t class fucntions: {class_func_content}\n"
-#             bug_file_content += single_file_context
-#             # print(bug_file_content)
-#         return bug_file_content
-#     bug_file_content = consturct_bug_file_list(found_files)
-#     print(bug_file_content)
-
-
-    # import logging
-    # fl = AFL(
-    #     d["instance_id"],
-    #     structure,
-    #     problem_statement,
-    #     "deepseek-coder",
-    #     "deepseek",
-    #     logging.getLogger("AFL"),
-    # )
-    # print("------------------------------")
-    # print("start localization")
-    # ret = fl.file_localize()[0]
-    # print(ret)
-    # loc = fl.localize(file=ret)[0]
-    # print(loc)
-    # line_loc = fl.localize_line(ret, loc, temperature=0.85, num_samples=1)[0]
-    # print(line_loc)
