@@ -202,13 +202,16 @@ False
                     self.logger.warning(f"  [prune {prune_idx}] codegen failed: {e}")
                     break
                 sub_msg = sub_traj.get("message", {"role": "assistant", "content": sub_traj["response"]})
-                if not sub_msg.get("tool_calls"):
+                sub_tool_calls = sub_msg.get("tool_calls") or []
+                if not sub_tool_calls:
                     prune_messages.append(sub_msg)
                     break
                 # The prune agent explores with raw tool results; do not recurse into prune.
                 self._append_tool_results(
                     prune_messages, sub_msg, prune_tool_result=None, log_prefix=f"  [prune {prune_idx}] "
                 )
+                if any(tc["function"]["name"] == "exit" for tc in sub_tool_calls):
+                    break
 
             prune_messages.append({"role": "user", "content": prune_decision_prompt})
             check_res = model.codegen(
@@ -273,6 +276,9 @@ False
                 prune_tool_result if prune_tool_results else None,
                 log_prefix=f"[round {round_idx}] ",
             )
+            if any(tc["function"]["name"] == "exit" for tc in tool_calls):
+                self.logger.info(f"[round {round_idx}] model called exit(), ending tool loop")
+                break
         self.logger.info("==== tool-call loop end ====")
 
         message.append({
@@ -292,16 +298,40 @@ False
         raw_output = traj["response"]
 
         self.logger.info(raw_output)
-        model_found_locs = extract_code_blocks(raw_output)
-        model_found_locs_separated = extract_locs_for_files(
-            model_found_locs, file
-        )
+        model_found_locs_separated = self._parse_xml_locations(raw_output, file)
+        self.logger.info(f"parsed locations: {model_found_locs_separated}")
 
         return (
             model_found_locs_separated,
             raw_output,
             traj,
         )
+
+    def _parse_xml_locations(self, raw_output: str, file_names) -> dict:
+        """Parse the XML <locations> summary into the same shape extract_locs_for_files
+        produces: {file_name: ["function: X\\nclass: Y..."]}, so downstream localize_line
+        is unaffected. Falls back gracefully on malformed XML."""
+        results: dict[str, list[str]] = {}
+        for block in re.findall(r"<location>(.*?)</location>", raw_output, re.DOTALL):
+            file_match = re.search(r"<file>(.*?)</file>", block, re.DOTALL)
+            type_match = re.search(r"<type>(.*?)</type>", block, re.DOTALL)
+            name_match = re.search(r"<name>(.*?)</name>", block, re.DOTALL)
+            if not (file_match and name_match):
+                continue
+            file_name = file_match.group(1).strip()
+            loc_type = (type_match.group(1).strip() if type_match else "function")
+            loc_type = loc_type if loc_type in ("function", "class", "variable") else "function"
+            loc_name = name_match.group(1).strip()
+            if not file_name or not loc_name:
+                continue
+            if file_names and file_name not in file_names:
+                # keep only locations within the candidate files, matching the old behaviour
+                continue
+            results.setdefault(file_name, []).append(f"{loc_type}: {loc_name}")
+
+        for file_name in (file_names or []):
+            results.setdefault(file_name, [])
+        return {fn: ["\n".join(lines)] for fn, lines in results.items()}
 
     def localize(
             self, max_retry=10, file=None, mock=False

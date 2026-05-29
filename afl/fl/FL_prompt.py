@@ -159,7 +159,21 @@ location_system_prompt = """
 You will be presented with a bug report and tools to access the source code of the system under test (SUT).
 Since the modification is based on the code repository, the modified locations may include files, classes, and functions, and the modifications may be in the form of addition, deletion, or update.
 Your task is to locate the top-5 most likely culprit locations based on the bug report and the information you retrieve using the provided tools.
-Use at most {max_try} tool-call rounds before making the final decision.
+
+The tools available to you are:
+* get_code_of_class(file_name, class_name) -> source code of a class.
+* get_code_of_class_function(file_name, class_name, func_name) -> source code of a method defined in a class.
+* get_code_of_file_function(file_name, func_name) -> source code of a top-level (static) function in a file.
+* exit() -> stop calling tools and proceed to your final answer.
+
+Working rules:
+- Do NOT guess the culprit from the file structure alone. You MUST first retrieve and read the actual
+  source code with the tools before deciding a location is relevant.
+- Inspect candidates one or a few at a time, reason over the returned code, then continue.
+- Avoid repeating an identical tool call.
+- You have at most {max_try} tool-call rounds. As soon as you are confident, call exit() to finish early.
+- Do NOT produce the final top-5 answer while you are still calling tools; you will be explicitly asked
+  for the final answer after the tool phase ends.
 """
 
 location_system_prompt_ablation = """
@@ -169,15 +183,19 @@ Your task is to locate the top-5 most likely culprit locations based on the bug 
 """
 
 location_guidence_prmpt = """
-Let's locate the faulty file step by step using reasoning and tool calls.
+Let's locate the faulty location (class / function) step by step using reasoning and tool calls.
 I have pre-identified top-5 files that may contain bugs. Their structures are as follows:
 {bug_file_list}
 The tool parameter 'file_name' takes the value in "file:".
 The tool parameter 'class_name' takes the value in "class:".
 The tool parameter 'func_name' takes the value in "static functions:" and "class functions:".
+Use the tools as follows:
+* For a class, use 'get_code_of_class(file_name, class_name)'.
+* For a class method (in "class functions:"), use 'get_code_of_class_function(file_name, class_name, func_name)'.
+* For a static/top-level function (in "static functions:"), use 'get_code_of_file_function(file_name, func_name)'.
+* When you are confident about the culprit locations, call 'exit()' to finish.
 Avoid making multiple identical tool calls to save overhead.
-For static functions, use 'get_code_of_file_function'; for class functions, use 'get_code_of_class_function'.
-In order to locate accurately, pre-select {pre_select_num} locations, inspect them through tool calls, and finally confirm {top_n} locations.
+In order to locate accurately, pre-select {pre_select_num} locations, inspect their code through tool calls, and finally confirm {top_n} locations.
 """
 
 location_guidence_prmpt_ablation = """
@@ -196,35 +214,54 @@ Function calls you can use are as follows:
 """
 
 location_summary = """
-Based on the available information, reconfirm and provide complete name of the top-5 most likely culprit locations for the bug. 
-Before make the final decision, please check wether the function name is correct or not, for static functions, don't add class name.
+Based on the available information, reconfirm and provide the complete names of the top-5 most likely culprit locations for the bug.
+Before making the final decision, please check whether the function name is correct or not. For static (top-level) functions, do NOT add a class name.
 {bug_file_list}
 
-Please provide the complete set of locations as either a class name, a function name, or a variable name.
-The returned files should be separated by new lines ordered by most to least important and wrapped with ```
-Since your answer will be processed automatically, please give your answer in the exapmle format as follows.
-```
-top1_file_fullpath.py
-function: Class1.Function1
+Since your answer will be processed automatically, return ONLY an XML document in the exact structure below,
+ordered from most to least likely. Do not add any text outside the <locations> element.
+For each location:
+- <file> is the full file path.
+- <type> is either "function" or "class".
+- <name> is "ClassName.MethodName" for a class method, "FunctionName" for a static/top-level function,
+  or "ClassName" for a whole class.
 
-top2_file_fullpath.py
-function: Function2
+<locations>
+  <location>
+    <file>top1_file_fullpath.py</file>
+    <type>function</type>
+    <name>Class1.Function1</name>
+  </location>
+  <location>
+    <file>top2_file_fullpath.py</file>
+    <type>function</type>
+    <name>Function2</name>
+  </location>
+  <location>
+    <file>top3_file_fullpath.py</file>
+    <type>class</type>
+    <name>Class3</name>
+  </location>
+  <location>
+    <file>top4_file_fullpath.py</file>
+    <type>function</type>
+    <name>Class4.Function4</name>
+  </location>
+  <location>
+    <file>top5_file_fullpath.py</file>
+    <type>function</type>
+    <name>Function5</name>
+  </location>
+</locations>
 
-top3_file_fullpath.py
-class: Class3
-
-top4_file_fullpath.py
-function: Class4.Function4
-
-top5_file_fullpath.py
-function: Function5
-```
-Replace the 'Top_file_fullpath.py' with the actual file path, the 'Class' with the actual class name and the 'Function' with the actual function name.
-For example, 
-```
-sklearn/linear_model/__init__.py
-function: LinearRegression.fit
-```
+For example:
+<locations>
+  <location>
+    <file>sklearn/linear_model/__init__.py</file>
+    <type>function</type>
+    <name>LinearRegression.fit</name>
+  </location>
+</locations>
 """
 
 location_summary_ablation = """

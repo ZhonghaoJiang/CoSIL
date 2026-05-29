@@ -6,24 +6,6 @@ AFL_LOCATION_TOOL_SCHEMAS = [
     {
         "type": "function",
         "function": {
-            "name": "get_functions_of_class",
-            "description": "Get method names defined in a class from the repository structure.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "class_name": {
-                        "type": "string",
-                        "description": "Class name exactly as shown in the candidate file structure.",
-                    },
-                },
-                "required": ["class_name"],
-                "additionalProperties": False,
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
             "name": "get_code_of_class",
             "description": "Get the source code of a class in a file.",
             "parameters": {
@@ -87,6 +69,18 @@ AFL_LOCATION_TOOL_SCHEMAS = [
                     },
                 },
                 "required": ["file_name", "func_name"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "exit",
+            "description": "Exit tool calling and proceed to give the final answer once you are confident about the culprit locations. Call this instead of making further retrieval calls.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
                 "additionalProperties": False,
             },
         },
@@ -181,8 +175,8 @@ def get_code_of_file_function(file_name: str, func_name: str, instance_id: str):
     return "You provide a wrong file name or function name. Please try another file name again. It may be a class function."
 
 def dispatch_afl_location_tool(name: str, arguments: dict, instance_id: str) -> str:
-    if name == "get_functions_of_class":
-        return get_functions_of_class(arguments["class_name"], instance_id)
+    if name == "exit":
+        return "Exiting tool calls. Now provide your final answer."
     if name == "get_code_of_class":
         return get_code_of_class(arguments["file_name"], arguments["class_name"], instance_id)
     if name == "get_code_of_class_function":
