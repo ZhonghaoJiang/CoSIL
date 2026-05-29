@@ -1,23 +1,11 @@
+import json
 import time
 from typing import Dict, Union
 
-import openai
 import anthropic
 import tiktoken
 
 
-# def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
-#     """Returns the number of tokens used by a list of messages."""
-#     try:
-#         encoding = tiktoken.encoding_for_model(model)
-#     except KeyError:
-#         encoding = tiktoken.get_encoding("cl100k_base")
-#     if isinstance(message, list):
-#         # use last message.
-#         num_tokens = len(encoding.encode(message[0]["content"]))
-#     else:
-#         num_tokens = len(encoding.encode(message))
-#     return num_tokens
 
 def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
     """Returns the number of tokens used by a list of messages."""
@@ -26,11 +14,17 @@ def num_tokens_from_messages(message, model="gpt-3.5-turbo-0301"):
     except KeyError:
         encoding = tiktoken.get_encoding("cl100k_base")
     if isinstance(message, list):
-        # use last message.
         num_tokens = 0
         for msg in message:
-            num_tokens += len(encoding.encode(msg["content"]))
+            content = msg.get("content", "")
+            if not isinstance(content, str):
+                content = json.dumps(content, ensure_ascii=False)
+            num_tokens += len(encoding.encode(content))
+            if "tool_calls" in msg:
+                num_tokens += len(encoding.encode(json.dumps(msg["tool_calls"], ensure_ascii=False)))
     else:
+        if not isinstance(message, str):
+            message = json.dumps(message, ensure_ascii=False)
         num_tokens = len(encoding.encode(message))
     return num_tokens
 
@@ -42,6 +36,8 @@ def create_chatgpt_config(
     batch_size: int = 1,
     system_message: str = "You are a debugging assistant of our Python software.",
     model: str = "gpt-3.5-turbo",
+    tools: list | None = None,
+    tool_choice: str | dict | None = None,
 ) -> Dict:
     if isinstance(message, list):
         config = {
@@ -62,6 +58,10 @@ def create_chatgpt_config(
                 {"role": "user", "content": message},
             ],
         }
+    if tools is not None:
+        config["tools"] = tools
+    if tool_choice is not None:
+        config["tool_choice"] = tool_choice
     return config
 
 
@@ -71,39 +71,39 @@ def handler(signum, frame):
 
 
 def request_chatgpt_engine(config, logger, base_url=None, max_retries=40, timeout=100):
+    from litellm import completion
+
     ret = None
     retries = 0
-
-    if "deepseek" in config["model"]:
-        client = openai.OpenAI(api_key="", base_url="https://api.deepseek.com/v1")
-    elif config["model"] == "llama3":
-        client = openai.OpenAI(api_key="token-abc123", base_url="http://127.0.0.1:7333/v1")
+    request_config = dict(config)
+    if base_url is not None:
+        request_config["api_base"] = base_url
+    elif "deepseek" in request_config["model"]:
+        request_config["api_base"] = "https://api.deepseek.com/v1"
+    elif request_config["model"] == "llama3":
+        request_config["api_base"] = "http://127.0.0.1:7333/v1"
+        request_config["api_key"] = "token-abc123"
     else:
-        # client = openai.OpenAI(api_key="", base_url="")
-        client = openai.OpenAI(api_key="",
-                               base_url="https://api.siliconflow.cn/v1")
-
+        request_config["api_base"] = "https://api.siliconflow.cn/v1"
 
     while ret is None and retries < max_retries:
         try:
-            # Attempt to get the completion
             logger.info("Creating API request")
-
-            ret = client.chat.completions.create(**config)
-
-        except openai.OpenAIError as e:
-            if isinstance(e, openai.BadRequestError):
+            ret = completion(**request_config)
+        except Exception as e:
+            message = str(e)
+            if "badrequest" in message.lower() or "invalid" in message.lower():
                 logger.info("Request invalid")
                 print(e)
                 logger.info(e)
                 raise Exception("Invalid API Request")
-            elif isinstance(e, openai.RateLimitError):
+            if "rate" in message.lower() and "limit" in message.lower():
                 print("Rate limit exceeded. Waiting...")
                 logger.info("Rate limit exceeded. Waiting...")
                 print(e)
                 logger.info(e)
                 time.sleep(5)
-            elif isinstance(e, openai.APIConnectionError):
+            elif "connection" in message.lower() or "timeout" in message.lower():
                 print("API connection error. Waiting...")
                 logger.info("API connection error. Waiting...")
                 print(e)

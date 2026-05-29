@@ -1,3 +1,4 @@
+import json
 import re
 from abc import ABC
 from typing import Any
@@ -31,7 +32,7 @@ class AFL(FL):
             **kwargs,
     ):
         super().__init__(instance_id, structure, problem_statement)
-        self.max_tokens = 2048
+        self.max_tokens = None
         self.model_name = model_name
         self.backend = backend
         self.logger = logger
@@ -92,19 +93,35 @@ class AFL(FL):
             # print(bug_file_content)
         return bug_file_content
 
-    def localize(
-            self, max_retry=10, file=None, mock=False
+    def _append_tool_results(self, message: list[dict], assistant_message: dict, prune_tool_result=None):
+        message.append(assistant_message)
+        for tool_call in assistant_message.get("tool_calls") or []:
+            tool_name = tool_call["function"]["name"]
+            try:
+                arguments = json.loads(tool_call["function"].get("arguments") or "{}")
+                tool_result = dispatch_afl_location_tool(tool_name, arguments, self.instance_id)
+                if prune_tool_result is not None:
+                    tool_result = prune_tool_result(tool_name, arguments, tool_result)
+            except Exception as e:
+                tool_result = f"Tool call failed: {e}"
+            message.append({
+                "role": "tool",
+                "tool_call_id": tool_call["id"],
+                "name": tool_name,
+                "content": tool_result,
+            })
+
+    def _localize_with_native_tools(
+            self, max_retry=10, file=None, prune_tool_results=False
     ) -> tuple[list[str], Any, Any]:
         from afl.util.model import make_model
         max_try = max_retry
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
-        system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
-        # construct first-order function call graph
+        system_msg = location_system_prompt.format(functions="", max_try=max_try)
         bug_file_content = self.consturct_bug_file_list(file)
         location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
                                                                pre_select_num=7,
                                                                top_n=5)
-        # init sate and start search
         user_msg = f"""
                 {bug_report}
                 {location_guidence_msg}
@@ -132,75 +149,83 @@ class AFL(FL):
             "role": "assistant",
             "content": reason
         })
-        message.append({
-            "role": "user",
-            "content": call_function_prompt + bug_file_content
-        })
 
         location_summary_tokens = num_tokens_from_messages([{
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
-        }], self.model_name) + self.max_tokens
+        }], self.model_name) + (model.max_new_tokens or 0)
 
-        # search step
-        for j in range(max_try):
+        def prune_tool_result(tool_name, arguments, tool_result):
+            check_func_retval_prompt = f"""
+You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
+Your task is to locate the most likely culprit functions/classes based on the bug report.
+<bug report>
+{self.problem_statement}
+</bug report>
 
+Here is a result of a function/class code retrived by '{tool_name}' with arguments {arguments}.
+Please check if the code is related to the bug and if the code should be added into context.
+<code>
+{tool_result}
+</code>
+Return True if the code is related to the bug and should be added into context, otherwise return False.
+Since your answer will be processed automatically, please give your answer in the format as follows.
+The returned content should be wrapped with ```.
+```
+True
+```
+or
+```
+False
+```
+"""
+            check_res = model.codegen([{"role": "user", "content": check_func_retval_prompt}], num_samples=1)[0]["response"]
+            try:
+                flag = self._parse_output(check_res).strip()
+            except Exception:
+                flag = check_res.strip()
+            print(flag)
+            if flag == "True":
+                return tool_result
+            return "I have already checked this function/class and it is not related to the bug. Don't check the functions it calls."
+
+        last_traj = traj
+        for _ in range(max_try):
             if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
-                message.pop()
                 break
             try:
-                traj = model.codegen(message, num_samples=1)[0]
-                current_tokens += traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
+                tool_traj = model.codegen(
+                    message,
+                    num_samples=1,
+                    tools=AFL_LOCATION_TOOL_SCHEMAS,
+                    tool_choice="auto",
+                    return_message=True,
+                )[0]
+                current_tokens += tool_traj["usage"]["completion_tokens"] + tool_traj["usage"]["prompt_tokens"]
+                last_traj = tool_traj
             except Exception as e:
-                if "Tokens" in str(e):  # Check if error message indicates context length issue
-                    message.pop()
+                if "Tokens" in str(e):
                     break
+                raise
 
-            content = traj["response"]
-            print(content)
-            message.append({
-                "role": "assistant",
-                "content": content
-            })
-            def filter_function_call(content):
-                return content.replace("```python", "").replace("`", "").replace("'", "").replace('"', '')
-            try:
-                function_call = filter_function_call(content)
-                function_name = function_call[:function_call.find('(')].strip()
-                arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
-                args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
+            assistant_message = tool_traj.get("message", {"role": "assistant", "content": tool_traj["response"]})
+            print(tool_traj["response"])
+            if not assistant_message.get("tool_calls"):
+                message.append(assistant_message)
+                break
+            self._append_tool_results(
+                message,
+                assistant_message,
+                prune_tool_result if prune_tool_results else None,
+            )
 
-                # 确保参数数量不超过三个
-                arg1, arg2, arg3 = (args + ['None'] * 3)[:3]
-                if function_name == 'get_functions_of_class':
-                    function_retval = get_functions_of_class(arg1, self.instance_id)
-                elif function_name == 'get_code_of_class':
-                    function_retval = get_code_of_class(arg1, arg2, self.instance_id)
-                elif function_name == 'get_code_of_class_function':
-                    function_retval = get_code_of_class_function(arg1, arg2, arg3, self.instance_id)
-                elif function_name == 'get_code_of_file_function':
-                    function_retval = get_code_of_file_function(arg1, arg2, self.instance_id)
-                else:
-                    break
-                # print(function_retval)
-                message.append({"role": "user", "content": function_retval})
-                message.append({
-                    "role": "user",
-                    "content": call_function_prompt + bug_file_content
-                })
-            except Exception as e:
-                print(e)
-                message.append({
-                    "role": "user",
-                    "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
-
-        # summary the locations
         message.append({
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
         })
         traj = model.codegen(message, num_samples=1)[0]
         traj["prompt"] = message
+        traj["tool_traj"] = last_traj
         raw_output = traj["response"]
 
         self.logger.info(raw_output)
@@ -214,6 +239,11 @@ class AFL(FL):
             raw_output,
             traj,
         )
+
+    def localize(
+            self, max_retry=10, file=None, mock=False
+    ) -> tuple[list[str], Any, Any]:
+        return self._localize_with_native_tools(max_retry=max_retry, file=file, prune_tool_results=False)
 
     def localize_line(
             self,
@@ -495,176 +525,7 @@ class AFL(FL):
     def localize_with_p(
             self, max_retry=10, file=None, mock=False
     ) -> tuple[list[str], Any, Any]:
-        from afl.util.model import make_model
-        max_try = max_retry
-        bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
-        system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
-        # construct first-order function call graph
-        bug_file_content = self.consturct_bug_file_list(file)
-        location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
-                                                               pre_select_num=7,
-                                                               top_n=5)
-        # init search state
-        user_msg = f"""
-                {bug_report}
-                {location_guidence_msg}
-                """
-
-        message = [
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": user_msg}
-        ]
-
-        model = make_model(
-            model=self.model_name,
-            backend=self.backend,
-            logger=self.logger,
-            max_tokens=self.max_tokens,
-            temperature=0.0,
-            batch_size=1,
-        )
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        reason = traj["response"]
-        current_tokens = traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
-
-        message.append({
-            "role": "assistant",
-            "content": reason
-        })
-        message.append({
-            "role": "user",
-            "content": call_function_prompt + bug_file_content
-        })
-
-        location_summary_tokens = num_tokens_from_messages([{
-            "role": "user",
-            "content": location_summary.format(bug_file_list=bug_file_content)
-        }], self.model_name) + self.max_tokens
-
-        # Seach step
-        for j in range(max_try):
-
-            if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
-                message.pop()
-                break
-            try:
-                traj = model.codegen(message, num_samples=1)[0]
-                current_tokens += traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
-            except Exception as e:
-                if "Tokens" in str(e):  # Check if error message indicates context length issue
-                    message.pop()
-                    break
-
-            content = traj["response"]
-            print(content)
-            message.append({
-                "role": "assistant",
-                "content": content
-            })
-
-            def filter_function_call(content):
-                if "```python" in content:
-                    code_blocks = re.findall(r'```python\s*\n?(.*?)```', content, re.DOTALL)
-
-                    if code_blocks:
-                        last_block = code_blocks[-1].strip()
-                        return last_block.replace("```python", "").replace("`", "").replace("'", "").replace('"', '')
-
-                return ""
-
-            try:
-                function_call = filter_function_call(content)
-                if function_call == "":
-                    raise ValueError("Function call cannot be empty")
-                print(f"Function call: {function_call}")
-                function_name = function_call[:function_call.find('(')].strip()
-                arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
-                args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
-
-                # 确保参数数量不超过三个
-                arg1, arg2, arg3 = (args + ['None'] * 3)[:3]
-                if function_name == 'get_functions_of_class':
-                    function_retval = get_functions_of_class(arg1, self.instance_id)
-                elif function_name == 'get_code_of_class':
-                    function_retval = get_code_of_class(arg1, arg2, self.instance_id)
-                elif function_name == 'get_code_of_class_function':
-                    function_retval = get_code_of_class_function(arg1, arg2, arg3, self.instance_id)
-                elif function_name == 'get_code_of_file_function':
-                    function_retval = get_code_of_file_function(arg1, arg2, self.instance_id)
-                else:
-                    break
-
-                # pruner agent
-                check_func_retval_prompt = f"""
-You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
-Your task is to locate the most likely culprit functions/classes based on the bug report.
-<bug report>
-{self.problem_statement}
-</bug report>
-
-Here is a result of a function/class code retrived by '{content}'.
-Please check if the code is related to the bug and if the code should be added into context.
-<code>
-{function_retval}
-</code>
-Return True if the code is related to the bug and should be added into context, otherwise return False.
-Since your answer will be processed automatically, please give your answer in the format as follows.
-The returned content should be wrapped with ```.
-```
-True
-```
-or
-```
-False
-```
-"""
-                check_res = model.codegen([{"role": "user", "content": check_func_retval_prompt}], num_samples=1)[0]["response"]
-                flag = self._parse_output(check_res).strip()
-                print(flag)
-                if flag == "True":
-                    message.append({"role": "user", "content": function_retval})
-                    # search the next function node
-                    message.append({
-                        "role": "user",
-                        "content": call_function_prompt + "\nYou can check the function it calls.\n" + bug_file_content
-                    })
-                else:
-                    # pruning the context
-                    message.append({"role": "user",
-                                    "content": "I have already checked this function/class is not related to the bug. Don't check the functions it calls."})
-                    message.append({"role": "user", "content": function_retval})
-                    message.append({
-                        "role": "user",
-                        "content": call_function_prompt
-                    })
-
-            except Exception as e:
-                print(e)
-                message.append({
-                    "role": "user",
-                    "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
-
-        # summary the locs
-        message.append({
-            "role": "user",
-            "content": location_summary.format(bug_file_list=bug_file_content)
-        })
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        raw_output = traj["response"]
-
-        self.logger.info(raw_output)
-        model_found_locs = extract_code_blocks(raw_output)
-        model_found_locs_separated = extract_locs_for_files(
-            model_found_locs, file
-        )
-
-        return (
-            model_found_locs_separated,
-            raw_output,
-            traj,
-        )
+        return self._localize_with_native_tools(max_retry=max_retry, file=file, prune_tool_results=True)
 
     def file_localize_with_g(self, max_retry=10, mock=False):
         from afl.util.api_requests import num_tokens_from_messages

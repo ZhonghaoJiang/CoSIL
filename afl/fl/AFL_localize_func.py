@@ -187,7 +187,7 @@ def main():
         default="gpt-4o-2024-08-06",
     )
     parser.add_argument(
-        "--backend", type=str, default="openai", choices=["openai", "deepseek", "anthropic", "claude"]
+        "--backend", type=str, default="openai"
     )
 
     args = parser.parse_args()

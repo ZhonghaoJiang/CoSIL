@@ -156,11 +156,10 @@ In order to locate accurately, you can pre-select {pre_select_num} files, then c
 """
 
 location_system_prompt = """
-You will be presented with a bug report and tools (functions) to access the source code of the system under test (SUT).
+You will be presented with a bug report and tools to access the source code of the system under test (SUT).
 Since the modification is based on the code repository, the modified locations may include files, classes, and functions, and the modifications may be in the form of addition, deletion, or update.
-Your task is to locate the top-5 most likely culprit locations based on the bug report and the information you retrieve using given functions.
-{functions}
-You have {max_try} chances to call function.
+Your task is to locate the top-5 most likely culprit locations based on the bug report and the information you retrieve using the provided tools.
+Use at most {max_try} tool-call rounds before making the final decision.
 """
 
 location_system_prompt_ablation = """
@@ -170,17 +169,15 @@ Your task is to locate the top-5 most likely culprit locations based on the bug 
 """
 
 location_guidence_prmpt = """
-Let's locate the faulty file step by step using reasoning and function calls. 
-I have pre-identified top-5 files that may contain bugs. There stuctures are as follows:
+Let's locate the faulty file step by step using reasoning and tool calls.
+I have pre-identified top-5 files that may contain bugs. Their structures are as follows:
 {bug_file_list}
-The formal parameter 'file_name' takes the value in "file:"
-The formal parameter 'ckass_name' takes the value in "class:"
-The formal parameter 'func_name' takes the value in "static functions:" and "class functions: "
-Avoid making multiple identical calls to save overhead.
-You must strictly follow the structure I give to call different tools.
-For static functions, you can use 'get_code_of_file_function', and for class functions, you can use 'get_code_of_class_function'.
-In order to locate accurately, you can pre-select {pre_select_num} locations, then check them through function calls, and finally confirm {top_n} file names.
-Don't make the first function call in this message.
+The tool parameter 'file_name' takes the value in "file:".
+The tool parameter 'class_name' takes the value in "class:".
+The tool parameter 'func_name' takes the value in "static functions:" and "class functions:".
+Avoid making multiple identical tool calls to save overhead.
+For static functions, use 'get_code_of_file_function'; for class functions, use 'get_code_of_class_function'.
+In order to locate accurately, pre-select {pre_select_num} locations, inspect them through tool calls, and finally confirm {top_n} locations.
 """
 
 location_guidence_prmpt_ablation = """
