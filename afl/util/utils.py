@@ -79,13 +79,25 @@ def setup_logger(log_file):
     logger = logging.getLogger(log_file)
     logger.setLevel(logging.DEBUG)
 
-    fh = logging.FileHandler(log_file)
-    fh.setLevel(logging.DEBUG)
+    # Avoid attaching duplicate handlers if the same logger name is set up twice.
+    if logger.handlers:
+        return logger
 
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-    fh.setFormatter(formatter)
 
+    fh = logging.FileHandler(log_file)
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(formatter)
     logger.addHandler(fh)
+
+    # Opt-in console output (e.g. AFL_LOG_CONSOLE=1) so tool-call logs can be seen live.
+    # Off by default to avoid interleaved spam under high thread counts.
+    if os.environ.get("AFL_LOG_CONSOLE"):
+        sh = logging.StreamHandler()
+        sh.setLevel(logging.INFO)
+        sh.setFormatter(formatter)
+        logger.addHandler(sh)
+
     return logger
 
 

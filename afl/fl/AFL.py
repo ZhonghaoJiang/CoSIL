@@ -90,12 +90,13 @@ class AFL(FL):
             # print(bug_file_content)
         return bug_file_content
 
-    def _append_tool_results(self, message: list[dict], assistant_message: dict, prune_tool_result=None):
+    def _append_tool_results(self, message: list[dict], assistant_message: dict, prune_tool_result=None, log_prefix=""):
         message.append(assistant_message)
         for tool_call in assistant_message.get("tool_calls") or []:
             tool_name = tool_call["function"]["name"]
+            raw_arguments = tool_call["function"].get("arguments")
+            self.logger.info(f"{log_prefix}[tool-call] {tool_name} args={raw_arguments}")
             try:
-                raw_arguments = tool_call["function"].get("arguments")
                 # Some providers (via litellm) already return arguments as a dict instead
                 # of a JSON string; only json.loads when we actually got a string.
                 if isinstance(raw_arguments, dict):
@@ -107,6 +108,8 @@ class AFL(FL):
                     tool_result = prune_tool_result(tool_name, arguments, tool_result)
             except Exception as e:
                 tool_result = f"Tool call failed: {e}"
+                self.logger.warning(f"{log_prefix}[tool-error] {tool_name}: {e}")
+            self.logger.info(f"{log_prefix}[tool-result] {tool_name} ->\n{tool_result}")
             message.append({
                 "role": "tool",
                 "tool_call_id": tool_call["id"],
@@ -184,8 +187,9 @@ False
                 {"role": "system", "content": "You are a debugging assistant that judges code relevance to a bug report."},
                 {"role": "user", "content": check_func_retval_prompt},
             ]
+            self.logger.info(f"  [prune] start for {tool_name} args={arguments}")
             prune_max_try = 3
-            for _ in range(prune_max_try):
+            for prune_idx in range(prune_max_try):
                 try:
                     sub_traj = model.codegen(
                         prune_messages,
@@ -194,14 +198,17 @@ False
                         tool_choice="auto",
                         return_message=True,
                     )[0]
-                except Exception:
+                except Exception as e:
+                    self.logger.warning(f"  [prune {prune_idx}] codegen failed: {e}")
                     break
                 sub_msg = sub_traj.get("message", {"role": "assistant", "content": sub_traj["response"]})
                 if not sub_msg.get("tool_calls"):
                     prune_messages.append(sub_msg)
                     break
                 # The prune agent explores with raw tool results; do not recurse into prune.
-                self._append_tool_results(prune_messages, sub_msg, prune_tool_result=None)
+                self._append_tool_results(
+                    prune_messages, sub_msg, prune_tool_result=None, log_prefix=f"  [prune {prune_idx}] "
+                )
 
             prune_messages.append({"role": "user", "content": prune_decision_prompt})
             check_res = model.codegen(
@@ -214,15 +221,22 @@ False
                 flag = self._parse_output(check_res).strip()
             except Exception:
                 flag = check_res.strip()
-            print(flag)
+            self.logger.info(f"  [prune] decision for {tool_name} args={arguments}: {flag}")
             if flag == "True":
                 return tool_result
             return "I have already checked this function/class and it is not related to the bug. Don't check the functions it calls."
 
         current_tokens = num_tokens_from_messages(message, self.model_name)
         last_traj = None
-        for _ in range(max_try):
+        self.logger.info(
+            f"==== tool-call loop start (max_try={max_try}, prune={prune_tool_results}, "
+            f"max_context={max_context_length}, reserved={3 * location_summary_tokens}) ===="
+        )
+        for round_idx in range(max_try):
             if current_tokens > max_context_length - 3 * location_summary_tokens:
+                self.logger.info(
+                    f"[round {round_idx}] stop: current_tokens={current_tokens} exceeds budget"
+                )
                 break
             try:
                 tool_traj = model.codegen(
@@ -238,20 +252,28 @@ False
                 current_tokens = tool_traj["usage"]["prompt_tokens"] + tool_traj["usage"]["completion_tokens"]
                 last_traj = tool_traj
             except Exception as e:
+                self.logger.warning(f"[round {round_idx}] codegen failed: {e}")
                 if "Tokens" in str(e):
                     break
                 raise
 
             assistant_message = tool_traj.get("message", {"role": "assistant", "content": tool_traj["response"]})
-            print(tool_traj["response"])
-            if not assistant_message.get("tool_calls"):
+            tool_calls = assistant_message.get("tool_calls") or []
+            self.logger.info(
+                f"[round {round_idx}] tokens={current_tokens} tool_calls={len(tool_calls)} "
+                f"content={tool_traj['response']!r}"
+            )
+            if not tool_calls:
+                self.logger.info(f"[round {round_idx}] no tool calls, exiting loop")
                 message.append(assistant_message)
                 break
             self._append_tool_results(
                 message,
                 assistant_message,
                 prune_tool_result if prune_tool_results else None,
+                log_prefix=f"[round {round_idx}] ",
             )
+        self.logger.info("==== tool-call loop end ====")
 
         message.append({
             "role": "user",
@@ -364,8 +386,6 @@ False
             self.logger.info(f"==== raw output ====")
             self.logger.info(raw_output)
             self.logger.info("=" * 80)
-            print(raw_output)
-            print("=" * 80)
             self.logger.info(f"==== extracted locs ====")
             for loc in model_found_locs_separated:
                 self.logger.info(loc)
