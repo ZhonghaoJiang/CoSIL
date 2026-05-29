@@ -3,117 +3,114 @@ export PROJECT_FILE_LOC=""
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Fault Localization
-models=("qwen2.5-32b")
-model_names=("qwen2.5-coder-32b-instruct")
-backend=("openai")
+models=("openai/qwen2.5-coder-32b-instruct")
 threads=5
 
-for i in "${!models[@]}"; do
+module_prefix="results/ablation_module_call_graph"
+reflection_prefix="results/ablation_reflection"
+func_prefix="results/ablation_func"
+round_prefix="results/round"
+
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
   python afl/fl/ablation_module_call_graph.py --file_level \
-                               --output_folder "results/ablation_module_call_graph/file_level_${models[$i]}" \
+                               --output_folder "${module_prefix}/file_level_${model_tag}" \
                                --num_threads ${threads} \
-                               --model "${model_names[$i]}" \
-                               --backend "${backend[$i]}" \
+                               --model "${model}" \
                                --skip_existing
 
   python afl/fl/AFL_localize_func.py \
-  --output_folder "results/ablation_module_call_graph/func_level_${models[$i]}" \
-  --loc_file "results/ablation_module_call_graph/file_level_${models[$i]}/loc_outputs.jsonl" \
-  --output_file "loc_${models[$i]}_func.jsonl" \
+  --output_folder "${module_prefix}/func_level_${model_tag}" \
+  --loc_file "${module_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+  --output_file "loc_${model_tag}_func.jsonl" \
   --temperature 0.0 \
-  --model "${model_names[$i]}" \
-  --backend "${backend[$i]}" \
+  --model "${model}" \
   --skip_existing \
   --num_threads ${threads}
 
 done
 
-for i in "${!models[@]}"; do
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
   python afl/fl/ablation_reflection.py --file_level \
-                               --output_folder "results/ablation_reflection/file_level_${models[$i]}" \
+                               --output_folder "${reflection_prefix}/file_level_${model_tag}" \
                                --num_threads ${threads} \
-                               --model "${model_names[$i]}" \
-                               --backend "${backend[$i]}" \
+                               --model "${model}" \
                                --skip_existing
 
   python afl/fl/AFL_localize_func.py \
-  --output_folder "results/ablation_reflection/func_level_${models[$i]}" \
-  --loc_file "results/ablation_reflection/file_level_${models[$i]}/loc_outputs.jsonl" \
-  --output_file "loc_${models[$i]}_func.jsonl" \
+  --output_folder "${reflection_prefix}/func_level_${model_tag}" \
+  --loc_file "${reflection_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+  --output_file "loc_${model_tag}_func.jsonl" \
   --temperature 0.0 \
-  --model "${model_names[$i]}" \
-  --backend "${backend[$i]}" \
+  --model "${model}" \
   --skip_existing \
   --num_threads ${threads}
 
 done
 
 
-for i in "${!models[@]}"; do
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
   python afl/fl/AFL_localize_file.py --file_level \
-                             --output_folder "results/ablation_func/file_level_${models[$i]}" \
+                             --output_folder "${func_prefix}/file_level_${model_tag}" \
                              --num_threads ${threads} \
-                             --model "${model_names[$i]}" \
-                             --backend "${backend[$i]}" \
+                             --model "${model}" \
                              --skip_existing
 
   python afl/fl/ablation_func.py \
-    --output_folder "results/ablation_func/func_level_${models[$i]}" \
-    --loc_file "results/ablation_func/file_level_${models[$i]}/loc_outputs.jsonl" \
-    --output_file "loc_${models[$i]}_func.jsonl" \
+    --output_folder "${func_prefix}/func_level_${model_tag}" \
+    --loc_file "${func_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+    --output_file "loc_${model_tag}_func.jsonl" \
     --temperature 0.0 \
-    --model "${model_names[$i]}" \
-    --backend "${backend[$i]}" \
+    --model "${model}" \
     --skip_existing \
     --num_threads ${threads}
 done
 
 
 
-for i in "${!models[@]}"; do
-  mkdir results/round
-  cp -r "results/ablation_func/file_level_${models[$i]}" "results/round/file_level_${models[$i]}"
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
+  mkdir -p "${round_prefix}"
+  cp -r "${func_prefix}/file_level_${model_tag}" "${round_prefix}/file_level_${model_tag}"
 
   python afl/fl/AFL_localize_func.py \
-    --output_folder "results/round/func_level_${models[$i]}_1" \
-    --loc_file "results/round/file_level_${models[$i]}/loc_outputs.jsonl" \
-    --output_file "loc_${models[$i]}_func.jsonl" \
+    --output_folder "${round_prefix}/func_level_${model_tag}_1" \
+    --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+    --output_file "loc_${model_tag}_func.jsonl" \
     --temperature 0.0 \
-    --model "${model_names[$i]}" \
-    --backend "${backend[$i]}" \
+    --model "${model}" \
     --skip_existing \
     --max_retry 1 \
     --num_threads ${threads}
 
   python afl/fl/AFL_localize_func.py \
-    --output_folder "results/round/func_level_${models[$i]}_3" \
-    --loc_file "results/round/file_level_${models[$i]}/loc_outputs.jsonl" \
-    --output_file "loc_${models[$i]}_func.jsonl" \
+    --output_folder "${round_prefix}/func_level_${model_tag}_3" \
+    --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+    --output_file "loc_${model_tag}_func.jsonl" \
     --temperature 0.0 \
-    --model "${model_names[$i]}" \
-    --backend "${backend[$i]}" \
+    --model "${model}" \
     --skip_existing \
     --max_retry 3 \
     --num_threads ${threads}
 
   python afl/fl/AFL_localize_func.py \
-    --output_folder "results/round/func_level_${models[$i]}_5" \
-    --loc_file "results/round/file_level_${models[$i]}/loc_outputs.jsonl" \
-    --output_file "loc_${models[$i]}_func.jsonl" \
+    --output_folder "${round_prefix}/func_level_${model_tag}_5" \
+    --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+    --output_file "loc_${model_tag}_func.jsonl" \
     --temperature 0.0 \
-    --model "${model_names[$i]}" \
-    --backend "${backend[$i]}" \
+    --model "${model}" \
     --skip_existing \
     --max_retry 5 \
     --num_threads ${threads}
 
   python afl/fl/AFL_localize_func.py \
-  --output_folder "results/round/func_level_${models[$i]}_5" \
-  --loc_file "results/round/file_level_${models[$i]}/loc_outputs.jsonl" \
-  --output_file "loc_${models[$i]}_func.jsonl" \
+  --output_folder "${round_prefix}/func_level_${model_tag}_7" \
+  --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+  --output_file "loc_${model_tag}_func.jsonl" \
   --temperature 0.0 \
-  --model "${model_names[$i]}" \
-  --backend "${backend[$i]}" \
+  --model "${model}" \
   --skip_existing \
   --max_retry 7 \
   --num_threads ${threads}

@@ -3,31 +3,30 @@ export PROJECT_FILE_LOC=""
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Fault Localization
-models=("qwen2.5-14b")
-model_names=("qwen-coder-14b")
-backend=("openai")
+models=("openai/qwen-coder-14b")
 threads=200
+output_prefix="results/swe-bench-verified"
 
-for i in "${!models[@]}"; do
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
   python afl/fl/AFL_localize_file.py --file_level \
-                               --output_folder "results/swe-bench-verified/file_level_${models[$i]}" \
+                               --output_folder "${output_prefix}/file_level_${model_tag}" \
                                --num_threads ${threads} \
-                               --model "${model_names[$i]}" \
-                               --backend "${backend[$i]}" \
+                               --model "${model}" \
                                --dataset "princeton-nlp/SWE-bench_Verified" \
                                --skip_existing
 
 done
 
 
-for i in "${!models[@]}"; do
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
   python afl/fl/AFL_localize_func.py \
-    --output_folder "results/swe-bench-verified/func_level_${models[$i]}" \
-    --loc_file "results/swe-bench-verified/file_level_${models[$i]}/loc_outputs.jsonl" \
-    --output_file "loc_${models[$i]}_func_2.jsonl" \
+    --output_folder "${output_prefix}/func_level_${model_tag}" \
+    --loc_file "${output_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+    --output_file "loc_${model_tag}_func.jsonl" \
     --temperature 0.0 \
-    --model "${model_names[$i]}" \
-    --backend "${backend[$i]}" \
+    --model "${model}" \
     --dataset "princeton-nlp/SWE-bench_Verified" \
     --skip_existing \
     --num_threads ${threads}

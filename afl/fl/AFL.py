@@ -27,17 +27,15 @@ class AFL(FL):
             structure,
             problem_statement,
             model_name,
-            backend,
             logger,
             **kwargs,
     ):
         super().__init__(instance_id, structure, problem_statement)
         self.max_tokens = None
         self.model_name = model_name
-        self.backend = backend
         self.logger = logger
 
-        self.MAX_CONTEXT_LENGTH = 32768 if "qwen2.5-7b" in model_name else 100000
+        self.MAX_CONTEXT_LENGTH = None
 
     def _parse_top5_file(self, content: str) -> list[str]:
         if content.count("```") % 2 != 0:
@@ -67,7 +65,6 @@ class AFL(FL):
         ]
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=4096,
             temperature=0.85,
@@ -134,7 +131,6 @@ class AFL(FL):
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0.0,
@@ -150,6 +146,7 @@ class AFL(FL):
             "content": reason
         })
 
+        max_context_length = model.max_context_tokens
         location_summary_tokens = num_tokens_from_messages([{
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
@@ -191,7 +188,7 @@ False
 
         last_traj = traj
         for _ in range(max_try):
-            if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
+            if current_tokens > max_context_length - 3 * location_summary_tokens:
                 break
             try:
                 tool_traj = model.codegen(
@@ -287,16 +284,15 @@ False
         )
         self.logger.info(f"prompting with message:\n{message}")
         self.logger.info("=" * 80)
-        assert num_tokens_from_messages(message, self.model_name) < self.MAX_CONTEXT_LENGTH
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=temperature,
             batch_size=num_samples,
         )
+        assert num_tokens_from_messages(message, self.model_name) < model.max_context_tokens
         raw_trajs = model.codegen(message, num_samples=num_samples)
 
         # Merge trajectories
@@ -384,7 +380,6 @@ False
         ]
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0.85,
@@ -462,7 +457,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -567,7 +561,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -667,7 +660,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -724,7 +716,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0.85,
@@ -784,7 +775,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,

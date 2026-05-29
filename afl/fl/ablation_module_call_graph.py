@@ -55,7 +55,6 @@ def localize_instance(
             structure,
             problem_statement,
             args.model,
-            args.backend,
             logger,
         )
         found_files, additional_artifact_loc_file, file_traj = fl.ablation_file(
@@ -177,10 +176,6 @@ def check_valid_args(args):
         (not args.file_level) and (not args.start_file)
     ), "Must use either file_level or start_file"
 
-    assert (not "deepseek" in args.model) or (
-        args.backend == "deepseek"
-    ), "Must specify `--backend deepseek` if using a DeepSeek model"
-
 
 def main():
     parser = argparse.ArgumentParser()
@@ -232,11 +227,6 @@ def main():
         "--model",
         type=str,
         default="gpt-4o-2024-05-13",
-    )
-    parser.add_argument(
-        "--backend",
-        type=str,
-        default="openai",
     )
     parser.add_argument(
         "--dataset",

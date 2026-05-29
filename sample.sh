@@ -3,32 +3,31 @@ export PROJECT_FILE_LOC=""
 export HF_ENDPOINT=https://hf-mirror.com
 
 # Fault Localization
-models=("gpt")
-model_names=("gpt-4o-2024-08-06")
-backend=("openai")
+models=("openai/gpt-4o-2024-08-06")
 threads=5
 dataset_name="SWE-bench_Lite_sampled"
+output_prefix="results/sample-lite"
 
-# for i in "${!models[@]}"; do
+# for model in "${models[@]}"; do
+#   model_tag=${model//\//_}
 #   python afl/fl/AFL_localize_file.py --file_level \
-#                                --output_folder "results/sample-lite/file_level_${models[$i]}" \
+#                                --output_folder "${output_prefix}/file_level_${model_tag}" \
 #                                --num_threads ${threads} \
-#                                --model "${model_names[$i]}" \
-#                                --backend "${backend[$i]}" \
+#                                --model "${model}" \
 #                                --dataset ${dataset_name} \
 #                                --skip_existing
 
 # done
 
 
-for i in "${!models[@]}"; do
+for model in "${models[@]}"; do
+  model_tag=${model//\//_}
   python afl/fl/AFL_localize_func.py \
-    --output_folder "results/sample-lite/func_level_${models[$i]}" \
-    --loc_file "results/sample-lite/file_level_${models[$i]}/loc_outputs.jsonl" \
-    --output_file "loc_${models[$i]}_func.jsonl" \
+    --output_folder "${output_prefix}/func_level_${model_tag}" \
+    --loc_file "${output_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
+    --output_file "loc_${model_tag}_func.jsonl" \
     --temperature 0.0 \
-    --model "${model_names[$i]}" \
-    --backend "${backend[$i]}" \
+    --model "${model}" \
     --dataset ${dataset_name} \
     --skip_existing \
     --num_threads ${threads}

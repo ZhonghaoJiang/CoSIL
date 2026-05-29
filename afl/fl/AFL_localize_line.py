@@ -69,7 +69,6 @@ def localize_instance(
         structure,
         problem_statement,
         args.model,
-        args.backend,
         logger
     )
 
@@ -176,9 +175,6 @@ def main():
         default="gpt-4o-2024-05-13",
     )
     parser.add_argument(
-        "--backend", type=str, default="openai"
-    )
-    parser.add_argument(
         "--dataset",
         type=str,
         default="princeton-nlp/SWE-bench_Lite",
@@ -196,10 +192,6 @@ def main():
     assert (
             not os.path.exists(args.output_file) or args.skip_existing
     ), "Output file already exists and not set to skip existing localizations"
-
-    assert (not "deepseek" in args.model) or (
-            args.backend == "deepseek"
-    ), "Must specify `--backend deepseek` if using a DeepSeek model"
 
     os.makedirs(os.path.join(args.output_folder, "localization_logs"), exist_ok=True)
     os.makedirs(args.output_folder, exist_ok=True)

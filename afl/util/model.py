@@ -19,13 +19,14 @@ class DecoderBase(ABC):
         self.logger = logger
         self.batch_size = batch_size
         self.temperature = temperature
+        try:
+            model_info = get_model_info(name)
+        except Exception:
+            model_info = {}
+        self.max_context_tokens = model_info.get("max_input_tokens") or model_info.get("max_tokens") or 100000
         self.max_new_tokens = max_new_tokens
         if self.max_new_tokens is None:
-            try:
-                model_info = get_model_info(name)
-                self.max_new_tokens = model_info.get("max_output_tokens") or model_info.get("max_tokens")
-            except Exception:
-                self.max_new_tokens = 4096
+            self.max_new_tokens = model_info.get("max_output_tokens") or model_info.get("max_tokens") or 4096
 
     @abstractmethod
     def codegen(
@@ -145,7 +146,6 @@ class LiteLLMChatDecoder(DecoderBase):
 
 def make_model(
     model: str,
-    backend: str,
     logger,
     batch_size: int = 1,
     max_tokens: int | None = None,
