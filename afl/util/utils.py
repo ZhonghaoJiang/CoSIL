@@ -13,8 +13,24 @@ def load_jsonl(filepath):
     Returns:
     A list of dictionaries representing the data in each line of the JSONL file.
     """
-    with open(filepath, "r") as file:
-        return [json.loads(line) for line in file]
+    with open(filepath, "r", encoding="utf-8") as file:
+        return [json.loads(line) for line in file if line.strip()]
+
+
+def load_swe_bench_dataset(dataset: str):
+    from datasets import load_dataset, load_from_disk
+
+    if dataset.endswith(".jsonl") or os.path.isfile(dataset):
+        return load_jsonl(dataset)
+
+    if os.path.isdir(dataset):
+        return load_from_disk(dataset)
+
+    local_dataset = os.path.join(".", "datasets", dataset)
+    if os.path.isdir(local_dataset):
+        return load_from_disk(local_dataset)
+
+    return load_dataset(dataset, split="test")
 
 
 def write_jsonl(data, filepath):

@@ -14,7 +14,6 @@ class DecoderBase(ABC):
         max_new_tokens: int | None = None,
         **kwargs,
     ) -> None:
-        print("Initializing a decoder model: {} ...".format(name))
         self.name = name
         self.logger = logger
         self.batch_size = batch_size

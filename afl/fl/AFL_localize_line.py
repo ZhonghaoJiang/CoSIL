@@ -3,7 +3,6 @@ import concurrent.futures
 import json
 import os
 
-from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
 
 from afl.fl.AFL import AFL
@@ -14,6 +13,7 @@ from afl.util.preprocess_data import (
 from afl.util.utils import (
     load_existing_instance_ids,
     load_json,
+    load_swe_bench_dataset,
     setup_logger,
 )
 from get_repo_structure.get_repo_structure import (
@@ -108,10 +108,7 @@ def localize_instance(
 
 
 def localize(args):
-    if args.dataset == "princeton-nlp/SWE-bench_Verified":
-        swe_bench_data = load_from_disk("./datasets/SWE-bench_Verified_test")
-    else:
-        swe_bench_data = load_from_disk("./datasets/SWE-bench_Lite_test")
+    swe_bench_data = load_swe_bench_dataset(args.dataset)
 
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()

@@ -4,8 +4,8 @@ import json
 import os
 from multiprocessing import Lock, Manager
 
-from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
+
 
 from afl.fl.AFL import AFL
 from afl.util.preprocess_data import (
@@ -14,7 +14,7 @@ from afl.util.preprocess_data import (
     filter_out_test_files,
     get_repo_structure,
 )
-from afl.util.utils import load_existing_instance_ids, load_jsonl, setup_logger
+from afl.util.utils import load_existing_instance_ids, load_jsonl, load_swe_bench_dataset, setup_logger
 
 MAX_RETRIES = 5
 
@@ -91,10 +91,7 @@ def localize_instance(
 
 
 def localize(args):
-    if "sampled" in args.dataset:
-        swe_bench_data = load_from_disk(f"./datasets/{args.dataset}")
-    else:
-        swe_bench_data = load_dataset(args.dataset, split="test")
+    swe_bench_data = load_swe_bench_dataset(args.dataset)
     start_file_locs = load_jsonl(args.start_file) if args.start_file else None
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
