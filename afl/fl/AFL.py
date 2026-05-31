@@ -230,7 +230,7 @@ False
             return "I have already checked this function/class and it is not related to the bug. Don't check the functions it calls."
 
         current_tokens = num_tokens_from_messages(message, self.model_name)
-        last_traj = None
+        tool_trajs = []
         self.logger.info(
             f"==== tool-call loop start (max_try={max_try}, prune={prune_tool_results}, "
             f"max_context={max_context_length}, reserved={3 * location_summary_tokens}) ===="
@@ -253,7 +253,7 @@ False
                 # latest call's prompt + completion is the true context size. Assigning
                 # (instead of +=) avoids multiply-counting history and prematurely breaking.
                 current_tokens = tool_traj["usage"]["prompt_tokens"] + tool_traj["usage"]["completion_tokens"]
-                last_traj = tool_traj
+                tool_trajs.append(tool_traj)
             except Exception as e:
                 self.logger.warning(f"[round {round_idx}] codegen failed: {e}")
                 if "Tokens" in str(e):
@@ -281,21 +281,64 @@ False
                 break
         self.logger.info("==== tool-call loop end ====")
 
-        message.append({
-            "role": "user",
-            "content": location_summary.format(bug_file_list=bug_file_content)
-        })
-        # The conversation may contain tool_calls / tool messages, so keep `tools` present
-        # (some strict providers reject such history without it) while forcing a text answer.
+        # Build a fresh conversation for the summary phase.  Reusing the tool-calling
+        # history causes the model to continue the <tool_call> pattern instead of
+        # producing a clean <locations> summary.  Extract the retrieved code from
+        # tool messages and format it as plain code blocks.
+        collected_code_blocks = []
+        for msg in message:
+            if msg.get("role") == "tool":
+                content = (msg.get("content") or "").strip()
+                if not content:
+                    continue
+                if "not related" in content.lower():
+                    continue
+                tool_name = msg.get("name", "unknown")
+                collected_code_blocks.append(
+                    f"<code from=\"{tool_name}\">\n{content}\n</code>"
+                )
+
+        summary_user_msg = (
+            f"{bug_report}\n\n"
+            f"{bug_file_content}\n\n"
+            + ("Relevant code retrieved during analysis:\n\n"
+               + "\n\n".join(collected_code_blocks) + "\n\n"
+               if collected_code_blocks else "")
+            + location_summary.format(bug_file_list=bug_file_content)
+        )
+        summary_message = [
+            {"role": "system", "content": "You are a debugging assistant.  Based on the "
+             "bug report and the code retrieved above, output ONLY the XML locations "
+             "summary as instructed.  Do NOT make any tool calls; you are in the final "
+             "summary phase."},
+            {"role": "user", "content": summary_user_msg},
+        ]
         traj = model.codegen(
-            message,
+            summary_message,
             num_samples=1,
-            tools=AFL_LOCATION_TOOL_SCHEMAS,
-            tool_choice="none",
         )[0]
-        traj["prompt"] = message
-        traj["tool_traj"] = last_traj
+        summary_usage = traj.get("usage", {})
         raw_output = traj["response"]
+
+        # Merge token usage: sum across all tool-calling rounds + summary phase.
+        total_prompt_tokens = sum(
+            t.get("usage", {}).get("prompt_tokens", 0) for t in tool_trajs
+        ) + summary_usage.get("prompt_tokens", 0)
+        total_completion_tokens = sum(
+            t.get("usage", {}).get("completion_tokens", 0) for t in tool_trajs
+        ) + summary_usage.get("completion_tokens", 0)
+
+        traj["usage"] = {
+            "prompt_tokens": total_prompt_tokens,
+            "completion_tokens": total_completion_tokens,
+        }
+        traj["prompt"] = summary_message
+        traj["tool_trajs"] = tool_trajs
+        traj["summary_traj"] = {
+            "response": raw_output,
+            "usage": summary_usage,
+            "prompt": summary_message,
+        }
 
         self.logger.info(raw_output)
         model_found_locs_separated = self._parse_xml_locations(raw_output, file)
