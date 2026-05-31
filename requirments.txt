@@ -6,3 +6,4 @@ tiktoken
 libcst
 llama-index
 jsonlines
+litellm

@@ -1,5 +1,91 @@
-from afl.util.preprocess_data import extract_structure
-from afl.util.utils import load_json
+from CoSIL.util.preprocess_data import extract_structure
+from CoSIL.util.utils import load_json
+
+
+CoSIL_LOCATION_TOOL_SCHEMAS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_code_of_class",
+            "description": "Get the source code of a class in a file.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "file_name": {
+                        "type": "string",
+                        "description": "Full file path exactly as shown after 'file:' in the candidate file structure.",
+                    },
+                    "class_name": {
+                        "type": "string",
+                        "description": "Class name exactly as shown in the candidate file structure.",
+                    },
+                },
+                "required": ["file_name", "class_name"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_code_of_class_function",
+            "description": "Get the source code of a method defined in a class.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "file_name": {
+                        "type": "string",
+                        "description": "Full file path exactly as shown after 'file:' in the candidate file structure.",
+                    },
+                    "class_name": {
+                        "type": "string",
+                        "description": "Class name exactly as shown in the candidate file structure.",
+                    },
+                    "func_name": {
+                        "type": "string",
+                        "description": "Method name exactly as shown in the class functions list.",
+                    },
+                },
+                "required": ["file_name", "class_name", "func_name"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_code_of_file_function",
+            "description": "Get the source code of a top-level function defined in a file.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "file_name": {
+                        "type": "string",
+                        "description": "Full file path exactly as shown after 'file:' in the candidate file structure.",
+                    },
+                    "func_name": {
+                        "type": "string",
+                        "description": "Top-level function name exactly as shown in the static functions list.",
+                    },
+                },
+                "required": ["file_name", "func_name"],
+                "additionalProperties": False,
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "exit",
+            "description": "Exit tool calling and proceed to give the final answer once you are confident about the culprit locations. Call this instead of making further retrieval calls.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": False,
+            },
+        },
+    },
+]
 
 
 def get_functions_of_class(class_name: str, instance_id: str):
@@ -87,6 +173,20 @@ def get_code_of_file_function(file_name: str, func_name: str, instance_id: str):
             return "\n".join(item['text'])
 
     return "You provide a wrong file name or function name. Please try another file name again. It may be a class function."
+
+def dispatch_cosil_location_tool(name: str, arguments: dict, instance_id: str) -> str:
+    if name == "exit":
+        return "Exiting tool calls. Now provide your final answer."
+    if name == "get_code_of_class":
+        return get_code_of_class(arguments["file_name"], arguments["class_name"], instance_id)
+    if name == "get_code_of_class_function":
+        return get_code_of_class_function(
+            arguments["file_name"], arguments["class_name"], arguments["func_name"], instance_id
+        )
+    if name == "get_code_of_file_function":
+        return get_code_of_file_function(arguments["file_name"], arguments["func_name"], instance_id)
+    raise ValueError(f"Unknown CoSIL location tool: {name}")
+
 
 def get_all_of_files(instance_id: str):
     d = load_json(f"./repo_structures/{instance_id}.json")

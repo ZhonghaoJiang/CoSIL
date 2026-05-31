@@ -1,12 +1,13 @@
+import json
 import re
 from abc import ABC
 from typing import Any
 
 from FL_prompt import *
 from FL_tools import *
-from afl.util.api_requests import num_tokens_from_messages
-from afl.util.postprocess_data import extract_code_blocks, extract_locs_for_files, extract_func_locs_for_files
-from afl.util.preprocess_data import (get_repo_files, get_full_file_paths_and_classes_and_functions, correct_file_paths,
+from CoSIL.util.api_requests import num_tokens_from_messages
+from CoSIL.util.postprocess_data import extract_code_blocks, extract_locs_for_files, extract_func_locs_for_files
+from CoSIL.util.preprocess_data import (get_repo_files, get_full_file_paths_and_classes_and_functions, correct_file_paths,
                                       line_wrap_content, transfer_arb_locs_to_locs, show_project_structure,
                                       )
 
@@ -19,24 +20,22 @@ class FL(ABC):
         self.problem_statement = problem_statement
 
 
-class AFL(FL):
+class CoSIL(FL):
     def __init__(
             self,
             instance_id,
             structure,
             problem_statement,
             model_name,
-            backend,
             logger,
             **kwargs,
     ):
         super().__init__(instance_id, structure, problem_statement)
-        self.max_tokens = 2048
+        self.max_tokens = None
         self.model_name = model_name
-        self.backend = backend
         self.logger = logger
 
-        self.MAX_CONTEXT_LENGTH = 32768 if "qwen2.5-7b" in model_name else 100000
+        self.MAX_CONTEXT_LENGTH = None
 
     def _parse_top5_file(self, content: str) -> list[str]:
         if content.count("```") % 2 != 0:
@@ -56,7 +55,7 @@ class AFL(FL):
         return extracted_output
 
     def _issue_clarify(self):
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         clarify_msg = bug_report_clarify_prompt.format(problem_statement=self.problem_statement)
         message = [
             {
@@ -66,7 +65,6 @@ class AFL(FL):
         ]
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=4096,
             temperature=0.85,
@@ -92,19 +90,44 @@ class AFL(FL):
             # print(bug_file_content)
         return bug_file_content
 
-    def localize(
-            self, max_retry=10, file=None, mock=False
+    def _append_tool_results(self, message: list[dict], assistant_message: dict, prune_tool_result=None, log_prefix=""):
+        message.append(assistant_message)
+        for tool_call in assistant_message.get("tool_calls") or []:
+            tool_name = tool_call["function"]["name"]
+            raw_arguments = tool_call["function"].get("arguments")
+            self.logger.info(f"{log_prefix}[tool-call] {tool_name} args={raw_arguments}")
+            try:
+                # Some providers (via litellm) already return arguments as a dict instead
+                # of a JSON string; only json.loads when we actually got a string.
+                if isinstance(raw_arguments, dict):
+                    arguments = raw_arguments
+                else:
+                    arguments = json.loads(raw_arguments or "{}")
+                tool_result = dispatch_cosil_location_tool(tool_name, arguments, self.instance_id)
+                if prune_tool_result is not None:
+                    tool_result = prune_tool_result(tool_name, arguments, tool_result)
+            except Exception as e:
+                tool_result = f"Tool call failed: {e}"
+                self.logger.warning(f"{log_prefix}[tool-error] {tool_name}: {e}")
+            self.logger.info(f"{log_prefix}[tool-result] {tool_name} ->\n{tool_result}")
+            message.append({
+                "role": "tool",
+                "tool_call_id": tool_call["id"],
+                "name": tool_name,
+                "content": tool_result,
+            })
+
+    def _localize_with_native_tools(
+            self, max_retry=10, file=None, prune_tool_results=False
     ) -> tuple[list[str], Any, Any]:
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         max_try = max_retry
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
-        system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
-        # construct first-order function call graph
+        system_msg = location_system_prompt.format(functions="", max_try=max_try)
         bug_file_content = self.consturct_bug_file_list(file)
         location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
                                                                pre_select_num=7,
                                                                top_n=5)
-        # init sate and start search
         user_msg = f"""
                 {bug_report}
                 {location_guidence_msg}
@@ -117,103 +140,246 @@ class AFL(FL):
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0.0,
             batch_size=1,
         )
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        reason = traj["response"]
-        current_tokens = traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
-
-        message.append({
-            "role": "assistant",
-            "content": reason
-        })
-        message.append({
-            "role": "user",
-            "content": call_function_prompt + bug_file_content
-        })
-
+        max_context_length = model.max_context_tokens
         location_summary_tokens = num_tokens_from_messages([{
             "role": "user",
             "content": location_summary.format(bug_file_list=bug_file_content)
-        }], self.model_name) + self.max_tokens
+        }], self.model_name) + (model.max_new_tokens or 0)
 
-        # search step
-        for j in range(max_try):
+        def prune_tool_result(tool_name, arguments, tool_result):
+            # The prune step is itself a small agent: it may call the location tools to
+            # gather more context (e.g. inspect callees / related classes) before deciding
+            # whether the retrieved code is relevant.
+            check_func_retval_prompt = f"""
+You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
+Your task is to decide whether a retrieved function/class is related to the bug and should be kept in context.
+<bug report>
+{self.problem_statement}
+</bug report>
 
-            if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
-                message.pop()
+Here is a result of a function/class code retrieved by '{tool_name}' with arguments {arguments}.
+<code>
+{tool_result}
+</code>
+
+You may call the provided tools to inspect related code (e.g. functions it calls or the
+class it belongs to) before making your decision. Investigate first; do not answer yet.
+"""
+            prune_decision_prompt = """
+Based on everything you have inspected, decide whether the original retrieved code is
+related to the bug and should be added into context.
+Since your answer will be processed automatically, please give your answer in the format as follows.
+The returned content should be wrapped with ```.
+```
+True
+```
+or
+```
+False
+```
+"""
+            prune_messages = [
+                {"role": "system", "content": "You are a debugging assistant that judges code relevance to a bug report."},
+                {"role": "user", "content": check_func_retval_prompt},
+            ]
+            self.logger.info(f"  [prune] start for {tool_name} args={arguments}")
+            prune_max_try = 3
+            for prune_idx in range(prune_max_try):
+                try:
+                    sub_traj = model.codegen(
+                        prune_messages,
+                        num_samples=1,
+                        tools=CoSIL_LOCATION_TOOL_SCHEMAS,
+                        tool_choice="auto",
+                        return_message=True,
+                    )[0]
+                except Exception as e:
+                    self.logger.warning(f"  [prune {prune_idx}] codegen failed: {e}")
+                    break
+                sub_msg = sub_traj.get("message", {"role": "assistant", "content": sub_traj["response"]})
+                sub_tool_calls = sub_msg.get("tool_calls") or []
+                if not sub_tool_calls:
+                    prune_messages.append(sub_msg)
+                    break
+                # The prune agent explores with raw tool results; do not recurse into prune.
+                self._append_tool_results(
+                    prune_messages, sub_msg, prune_tool_result=None, log_prefix=f"  [prune {prune_idx}] "
+                )
+                if any(tc["function"]["name"] == "exit" for tc in sub_tool_calls):
+                    break
+
+            prune_messages.append({"role": "user", "content": prune_decision_prompt})
+            check_res = model.codegen(
+                prune_messages,
+                num_samples=1,
+                tools=CoSIL_LOCATION_TOOL_SCHEMAS,
+                tool_choice="none",
+            )[0]["response"]
+            try:
+                flag = self._parse_output(check_res).strip()
+            except Exception:
+                flag = check_res.strip()
+            self.logger.info(f"  [prune] decision for {tool_name} args={arguments}: {flag}")
+            if flag == "True":
+                return tool_result
+            return "I have already checked this function/class and it is not related to the bug. Don't check the functions it calls."
+
+        current_tokens = num_tokens_from_messages(message, self.model_name)
+        tool_trajs = []
+        self.logger.info(
+            f"==== tool-call loop start (max_try={max_try}, prune={prune_tool_results}, "
+            f"max_context={max_context_length}, reserved={3 * location_summary_tokens}) ===="
+        )
+        for round_idx in range(max_try):
+            if current_tokens > max_context_length - 3 * location_summary_tokens:
+                self.logger.info(
+                    f"[round {round_idx}] stop: current_tokens={current_tokens} exceeds budget"
+                )
                 break
             try:
-                traj = model.codegen(message, num_samples=1)[0]
-                current_tokens += traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
+                tool_traj = model.codegen(
+                    message,
+                    num_samples=1,
+                    tools=CoSIL_LOCATION_TOOL_SCHEMAS,
+                    tool_choice="auto",
+                    return_message=True,
+                )[0]
+                # prompt_tokens already reflects the full running conversation, so the
+                # latest call's prompt + completion is the true context size. Assigning
+                # (instead of +=) avoids multiply-counting history and prematurely breaking.
+                current_tokens = tool_traj["usage"]["prompt_tokens"] + tool_traj["usage"]["completion_tokens"]
+                tool_trajs.append(tool_traj)
             except Exception as e:
-                if "Tokens" in str(e):  # Check if error message indicates context length issue
-                    message.pop()
+                self.logger.warning(f"[round {round_idx}] codegen failed: {e}")
+                if "Tokens" in str(e):
                     break
+                raise
 
-            content = traj["response"]
-            print(content)
-            message.append({
-                "role": "assistant",
-                "content": content
-            })
-            def filter_function_call(content):
-                return content.replace("```python", "").replace("`", "").replace("'", "").replace('"', '')
-            try:
-                function_call = filter_function_call(content)
-                function_name = function_call[:function_call.find('(')].strip()
-                arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
-                args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
+            assistant_message = tool_traj.get("message", {"role": "assistant", "content": tool_traj["response"]})
+            tool_calls = assistant_message.get("tool_calls") or []
+            self.logger.info(
+                f"[round {round_idx}] tokens={current_tokens} tool_calls={len(tool_calls)} "
+                f"content={tool_traj['response']!r}"
+            )
+            if not tool_calls:
+                self.logger.info(f"[round {round_idx}] no tool calls, exiting loop")
+                message.append(assistant_message)
+                break
+            self._append_tool_results(
+                message,
+                assistant_message,
+                prune_tool_result if prune_tool_results else None,
+                log_prefix=f"[round {round_idx}] ",
+            )
+            if any(tc["function"]["name"] == "exit" for tc in tool_calls):
+                self.logger.info(f"[round {round_idx}] model called exit(), ending tool loop")
+                break
+        self.logger.info("==== tool-call loop end ====")
 
-                # 确保参数数量不超过三个
-                arg1, arg2, arg3 = (args + ['None'] * 3)[:3]
-                if function_name == 'get_functions_of_class':
-                    function_retval = get_functions_of_class(arg1, self.instance_id)
-                elif function_name == 'get_code_of_class':
-                    function_retval = get_code_of_class(arg1, arg2, self.instance_id)
-                elif function_name == 'get_code_of_class_function':
-                    function_retval = get_code_of_class_function(arg1, arg2, arg3, self.instance_id)
-                elif function_name == 'get_code_of_file_function':
-                    function_retval = get_code_of_file_function(arg1, arg2, self.instance_id)
-                else:
-                    break
-                # print(function_retval)
-                message.append({"role": "user", "content": function_retval})
-                message.append({
-                    "role": "user",
-                    "content": call_function_prompt + bug_file_content
-                })
-            except Exception as e:
-                print(e)
-                message.append({
-                    "role": "user",
-                    "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
+        # Build a fresh conversation for the summary phase.  Reusing the tool-calling
+        # history causes the model to continue the <tool_call> pattern instead of
+        # producing a clean <locations> summary.  Extract the retrieved code from
+        # tool messages and format it as plain code blocks.
+        collected_code_blocks = []
+        for msg in message:
+            if msg.get("role") == "tool":
+                content = (msg.get("content") or "").strip()
+                if not content:
+                    continue
+                if "not related" in content.lower():
+                    continue
+                tool_name = msg.get("name", "unknown")
+                collected_code_blocks.append(
+                    f"<code from=\"{tool_name}\">\n{content}\n</code>"
+                )
 
-        # summary the locations
-        message.append({
-            "role": "user",
-            "content": location_summary.format(bug_file_list=bug_file_content)
-        })
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
+        summary_user_msg = (
+            f"{bug_report}\n\n"
+            f"{bug_file_content}\n\n"
+            + ("Relevant code retrieved during analysis:\n\n"
+               + "\n\n".join(collected_code_blocks) + "\n\n"
+               if collected_code_blocks else "")
+            + location_summary.format(bug_file_list=bug_file_content)
+        )
+        summary_message = [
+            {"role": "system", "content": "You are a debugging assistant.  Based on the "
+             "bug report and the code retrieved above, output ONLY the XML locations "
+             "summary as instructed.  Do NOT make any tool calls; you are in the final "
+             "summary phase."},
+            {"role": "user", "content": summary_user_msg},
+        ]
+        traj = model.codegen(
+            summary_message,
+            num_samples=1,
+        )[0]
+        summary_usage = traj.get("usage", {})
         raw_output = traj["response"]
 
+        # Merge token usage: sum across all tool-calling rounds + summary phase.
+        total_prompt_tokens = sum(
+            t.get("usage", {}).get("prompt_tokens", 0) for t in tool_trajs
+        ) + summary_usage.get("prompt_tokens", 0)
+        total_completion_tokens = sum(
+            t.get("usage", {}).get("completion_tokens", 0) for t in tool_trajs
+        ) + summary_usage.get("completion_tokens", 0)
+
+        traj["usage"] = {
+            "prompt_tokens": total_prompt_tokens,
+            "completion_tokens": total_completion_tokens,
+        }
+        traj["prompt"] = summary_message
+        traj["tool_trajs"] = tool_trajs
+        traj["summary_traj"] = {
+            "response": raw_output,
+            "usage": summary_usage,
+            "prompt": summary_message,
+        }
+
         self.logger.info(raw_output)
-        model_found_locs = extract_code_blocks(raw_output)
-        model_found_locs_separated = extract_locs_for_files(
-            model_found_locs, file
-        )
+        model_found_locs_separated = self._parse_xml_locations(raw_output, file)
+        self.logger.info(f"parsed locations: {model_found_locs_separated}")
 
         return (
             model_found_locs_separated,
             raw_output,
             traj,
         )
+
+    def _parse_xml_locations(self, raw_output: str, file_names) -> dict:
+        """Parse the XML <locations> summary into the same shape extract_locs_for_files
+        produces: {file_name: ["function: X\\nclass: Y..."]}, so downstream localize_line
+        is unaffected. Falls back gracefully on malformed XML."""
+        results: dict[str, list[str]] = {}
+        for block in re.findall(r"<location>(.*?)</location>", raw_output, re.DOTALL):
+            file_match = re.search(r"<file>(.*?)</file>", block, re.DOTALL)
+            type_match = re.search(r"<type>(.*?)</type>", block, re.DOTALL)
+            name_match = re.search(r"<name>(.*?)</name>", block, re.DOTALL)
+            if not (file_match and name_match):
+                continue
+            file_name = file_match.group(1).strip()
+            loc_type = (type_match.group(1).strip() if type_match else "function")
+            loc_type = loc_type if loc_type in ("function", "class", "variable") else "function"
+            loc_name = name_match.group(1).strip()
+            if not file_name or not loc_name:
+                continue
+            if file_names and file_name not in file_names:
+                # keep only locations within the candidate files, matching the old behaviour
+                continue
+            results.setdefault(file_name, []).append(f"{loc_type}: {loc_name}")
+
+        for file_name in (file_names or []):
+            results.setdefault(file_name, [])
+        return {fn: ["\n".join(lines)] for fn, lines in results.items()}
+
+    def localize(
+            self, max_retry=10, file=None, mock=False
+    ) -> tuple[list[str], Any, Any]:
+        return self._localize_with_native_tools(max_retry=max_retry, file=file, prune_tool_results=False)
 
     def localize_line(
             self,
@@ -226,8 +392,8 @@ class AFL(FL):
             temperature: float = 0.0,
             num_samples: int = 1,
     ):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         self.max_tokens = 4096
         coarse_locs = func_locs
         # file_names = []
@@ -257,16 +423,15 @@ class AFL(FL):
         )
         self.logger.info(f"prompting with message:\n{message}")
         self.logger.info("=" * 80)
-        assert num_tokens_from_messages(message, self.model_name) < self.MAX_CONTEXT_LENGTH
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=temperature,
             batch_size=num_samples,
         )
+        assert num_tokens_from_messages(message, self.model_name) < model.max_context_tokens
         raw_trajs = model.codegen(message, num_samples=num_samples)
 
         # Merge trajectories
@@ -294,8 +459,6 @@ class AFL(FL):
             self.logger.info(f"==== raw output ====")
             self.logger.info(raw_output)
             self.logger.info("=" * 80)
-            print(raw_output)
-            print("=" * 80)
             self.logger.info(f"==== extracted locs ====")
             for loc in model_found_locs_separated:
                 self.logger.info(loc)
@@ -325,7 +488,7 @@ class AFL(FL):
     ) -> tuple[list[str], Any, Any]:
         # lazy import, not sure if this is actually better?
 
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         max_try = max_retry
         all_files = get_all_of_files(self.instance_id)
         # clarified_issue = self._issue_clarify()
@@ -354,7 +517,6 @@ class AFL(FL):
         ]
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0.85,
@@ -391,8 +553,8 @@ class AFL(FL):
         )
 
     def file_localize(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         # bug_report = bug_report_template.format(problem_statement=self.problem_statement,
         #                                         structure=all_files.strip())
@@ -432,7 +594,6 @@ class AFL(FL):
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -495,180 +656,11 @@ class AFL(FL):
     def localize_with_p(
             self, max_retry=10, file=None, mock=False
     ) -> tuple[list[str], Any, Any]:
-        from afl.util.model import make_model
-        max_try = max_retry
-        bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
-        system_msg = location_system_prompt.format(functions=location_tool_prompt, max_try=max_try)
-        # construct first-order function call graph
-        bug_file_content = self.consturct_bug_file_list(file)
-        location_guidence_msg = location_guidence_prmpt.format(bug_file_list=bug_file_content,
-                                                               pre_select_num=7,
-                                                               top_n=5)
-        # init search state
-        user_msg = f"""
-                {bug_report}
-                {location_guidence_msg}
-                """
-
-        message = [
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": user_msg}
-        ]
-
-        model = make_model(
-            model=self.model_name,
-            backend=self.backend,
-            logger=self.logger,
-            max_tokens=self.max_tokens,
-            temperature=0.0,
-            batch_size=1,
-        )
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        reason = traj["response"]
-        current_tokens = traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
-
-        message.append({
-            "role": "assistant",
-            "content": reason
-        })
-        message.append({
-            "role": "user",
-            "content": call_function_prompt + bug_file_content
-        })
-
-        location_summary_tokens = num_tokens_from_messages([{
-            "role": "user",
-            "content": location_summary.format(bug_file_list=bug_file_content)
-        }], self.model_name) + self.max_tokens
-
-        # Seach step
-        for j in range(max_try):
-
-            if current_tokens > self.MAX_CONTEXT_LENGTH - 3 * location_summary_tokens:
-                message.pop()
-                break
-            try:
-                traj = model.codegen(message, num_samples=1)[0]
-                current_tokens += traj["usage"]["completion_tokens"] + traj["usage"]["prompt_tokens"]
-            except Exception as e:
-                if "Tokens" in str(e):  # Check if error message indicates context length issue
-                    message.pop()
-                    break
-
-            content = traj["response"]
-            print(content)
-            message.append({
-                "role": "assistant",
-                "content": content
-            })
-
-            def filter_function_call(content):
-                if "```python" in content:
-                    code_blocks = re.findall(r'```python\s*\n?(.*?)```', content, re.DOTALL)
-
-                    if code_blocks:
-                        last_block = code_blocks[-1].strip()
-                        return last_block.replace("```python", "").replace("`", "").replace("'", "").replace('"', '')
-
-                return ""
-
-            try:
-                function_call = filter_function_call(content)
-                if function_call == "":
-                    raise ValueError("Function call cannot be empty")
-                print(f"Function call: {function_call}")
-                function_name = function_call[:function_call.find('(')].strip()
-                arguments = function_call[function_call.find('(') + 1:function_call.rfind(')')].strip()
-                args = [arg.strip() for arg in re.split(r",\s*(?![^()]*\))", arguments)]
-
-                # 确保参数数量不超过三个
-                arg1, arg2, arg3 = (args + ['None'] * 3)[:3]
-                if function_name == 'get_functions_of_class':
-                    function_retval = get_functions_of_class(arg1, self.instance_id)
-                elif function_name == 'get_code_of_class':
-                    function_retval = get_code_of_class(arg1, arg2, self.instance_id)
-                elif function_name == 'get_code_of_class_function':
-                    function_retval = get_code_of_class_function(arg1, arg2, arg3, self.instance_id)
-                elif function_name == 'get_code_of_file_function':
-                    function_retval = get_code_of_file_function(arg1, arg2, self.instance_id)
-                else:
-                    break
-
-                # pruner agent
-                check_func_retval_prompt = f"""
-You will be presented with a bug report with repository structure to access the source code of the system under test (SUT).
-Your task is to locate the most likely culprit functions/classes based on the bug report.
-<bug report>
-{self.problem_statement}
-</bug report>
-
-Here is a result of a function/class code retrived by '{content}'.
-Please check if the code is related to the bug and if the code should be added into context.
-<code>
-{function_retval}
-</code>
-Return True if the code is related to the bug and should be added into context, otherwise return False.
-Since your answer will be processed automatically, please give your answer in the format as follows.
-The returned content should be wrapped with ```.
-```
-True
-```
-or
-```
-False
-```
-"""
-                check_res = model.codegen([{"role": "user", "content": check_func_retval_prompt}], num_samples=1)[0]["response"]
-                flag = self._parse_output(check_res).strip()
-                print(flag)
-                if flag == "True":
-                    message.append({"role": "user", "content": function_retval})
-                    # search the next function node
-                    message.append({
-                        "role": "user",
-                        "content": call_function_prompt + "\nYou can check the function it calls.\n" + bug_file_content
-                    })
-                else:
-                    # pruning the context
-                    message.append({"role": "user",
-                                    "content": "I have already checked this function/class is not related to the bug. Don't check the functions it calls."})
-                    message.append({"role": "user", "content": function_retval})
-                    message.append({
-                        "role": "user",
-                        "content": call_function_prompt
-                    })
-
-            except Exception as e:
-                print(e)
-                message.append({
-                    "role": "user",
-                    "content": "Please call functions in the right format to get enough information for your final answer." + location_tool_prompt})
-
-        # summary the locs
-        message.append({
-            "role": "user",
-            "content": location_summary.format(bug_file_list=bug_file_content)
-        })
-        traj = model.codegen(message, num_samples=1)[0]
-        traj["prompt"] = message
-        raw_output = traj["response"]
-
-        self.logger.info(raw_output)
-        model_found_locs = extract_code_blocks(raw_output)
-        model_found_locs_separated = extract_locs_for_files(
-            model_found_locs, file
-        )
-
-        return (
-            model_found_locs_separated,
-            raw_output,
-            traj,
-        )
+        return self._localize_with_native_tools(max_retry=max_retry, file=file, prune_tool_results=True)
 
     def file_localize_with_g(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                 structure=show_project_structure(self.structure).strip())
@@ -706,7 +698,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -769,8 +760,8 @@ False
         )
 
     def ablation_file(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                 structure=show_project_structure(self.structure).strip())
@@ -806,7 +797,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -845,7 +835,7 @@ False
     ) -> tuple[list[str], Any, Any]:
         # lazy import, not sure if this is actually better?
 
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
         system_msg = location_system_prompt_ablation
         bug_file_content = self.consturct_bug_file_list(file)
@@ -863,7 +853,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0.85,
@@ -886,8 +875,8 @@ False
         )
 
     def ablation_refection(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                 structure=show_project_structure(self.structure).strip())
@@ -923,7 +912,6 @@ False
 
         model = make_model(
             model=self.model_name,
-            backend=self.backend,
             logger=self.logger,
             max_tokens=self.max_tokens,
             temperature=0,
@@ -1008,68 +996,3 @@ def construct_topn_file_context(
             file_loc_intervals[pred_file] = context_intervals
 
     return topn_content, file_loc_intervals
-
-# if __name__ == '__main__':
-#
-#     from datasets import load_from_disk
-#     print("加载数据")
-#     swe_bench_data = load_from_disk("../../datasets/SWE-bench_Lite_test")
-#     # bug = swe_bench_data[5]
-#     bug = [x for x in swe_bench_data if x["instance_id"] == "django__django-13315"][0]
-#     problem_statement = bug["problem_statement"]
-#     instance_id = bug["instance_id"]
-#     print(problem_statement)
-#     print(instance_id)
-#     d = load_json(f"../../repo_structures/{instance_id}.json")
-#     structure = d["structure"]
-#     # print(show_project_structure(structure))
-#     found_files = ["django/forms/models.py"]
-#     import_content = ""
-#     _parsed_path = []
-#     for loc in found_files:
-#         if loc in _parsed_path:
-#             continue
-#         import_content += f"file: {loc}\n {get_imports_of_file(loc, instance_id)}\n"
-#         _parsed_path.append(loc)
-#
-#     print(import_content)
-#     """
-#     file: django/db/models/fields/related.py
-#     imports: ['django.forms', 'django.apps', 'django.conf', 'django.core', 'django.db.model', 'django.db.backends'...]
-#     """
-#     def consturct_bug_file_list(file: list):
-#         bug_file_content = ""
-#         for name in file:
-#             class_content = get_classes_of_file(name, instance_id)
-#             class_list = eval(get_classes_of_file(name, instance_id))
-#             class_func_content = "[\n"
-#             for class_name in class_list:
-#                 class_func = get_functions_of_class(class_name, instance_id)
-#                 class_func_content += f"{class_name}: {class_func} \n"
-#             class_func_content += "]"
-#             file_func_content = get_functions_of_file(name, instance_id)
-#             single_file_context = f"file: {name} \n\t class: {class_content} \n\t static functions:  {file_func_content} \n\t class fucntions: {class_func_content}\n"
-#             bug_file_content += single_file_context
-#             # print(bug_file_content)
-#         return bug_file_content
-#     bug_file_content = consturct_bug_file_list(found_files)
-#     print(bug_file_content)
-
-
-    # import logging
-    # fl = AFL(
-    #     d["instance_id"],
-    #     structure,
-    #     problem_statement,
-    #     "deepseek-coder",
-    #     "deepseek",
-    #     logging.getLogger("AFL"),
-    # )
-    # print("------------------------------")
-    # print("start localization")
-    # ret = fl.file_localize()[0]
-    # print(ret)
-    # loc = fl.localize(file=ret)[0]
-    # print(loc)
-    # line_loc = fl.localize_line(ret, loc, temperature=0.85, num_samples=1)[0]
-    # print(line_loc)

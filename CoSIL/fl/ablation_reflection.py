@@ -4,19 +4,16 @@ import json
 import os
 from multiprocessing import Lock, Manager
 
-from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
 
-from afl.fl.AFL import AFL
-from afl.util.preprocess_data import (
+from CoSIL.fl.CoSIL import CoSIL
+from CoSIL.util.preprocess_data import (
     check_contains_valid_loc,
     filter_none_python,
     filter_out_test_files,
     get_repo_structure,
 )
-from afl.util.utils import load_existing_instance_ids, load_jsonl, setup_logger
-
-MAX_RETRIES = 5
+from CoSIL.util.utils import load_existing_instance_ids, load_jsonl, load_swe_bench_dataset, setup_logger
 
 def localize_instance(
     bug, args, swe_bench_data, start_file_locs, existing_instance_ids, write_lock=None
@@ -52,15 +49,14 @@ def localize_instance(
 
     # file level localization
     if args.file_level:
-        fl = AFL(
+        fl = CoSIL(
             instance_id,
             structure,
             problem_statement,
             args.model,
-            args.backend,
             logger,
         )
-        found_files, additional_artifact_loc_file, file_traj = fl.file_localize_with_g(
+        found_files, additional_artifact_loc_file, file_traj = fl.ablation_refection(
             mock=args.mock
         )
     else:
@@ -82,7 +78,6 @@ def localize_instance(
                 {
                     "instance_id": instance_id,
                     "found_files": found_files,
-                    "file_traj": file_traj,
                 }
             )
             + "\n"
@@ -92,10 +87,7 @@ def localize_instance(
 
 
 def localize(args):
-    if "sampled" in args.dataset:
-        swe_bench_data = load_from_disk(f"./datasets/{args.dataset}")
-    else:
-        swe_bench_data = load_dataset(args.dataset, split="test")
+    swe_bench_data = load_swe_bench_dataset(args.dataset)
     start_file_locs = load_jsonl(args.start_file) if args.start_file else None
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
@@ -183,10 +175,6 @@ def check_valid_args(args):
         (not args.file_level) and (not args.start_file)
     ), "Must use either file_level or start_file"
 
-    assert (not "deepseek" in args.model) or (
-        args.backend == "deepseek"
-    ), "Must specify `--backend deepseek` if using a DeepSeek model"
-
 
 def main():
     parser = argparse.ArgumentParser()
@@ -240,15 +228,10 @@ def main():
         default="gpt-4o-2024-05-13",
     )
     parser.add_argument(
-        "--backend",
-        type=str,
-        default="openai",
-        choices=["openai", "deepseek", "anthropic", "claude"],
-    )
-    parser.add_argument(
         "--dataset",
         type=str,
         default="princeton-nlp/SWE-bench_Lite",
+        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
         help="Current supported dataset for evaluation",
     )
 

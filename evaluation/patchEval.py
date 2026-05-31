@@ -1,8 +1,8 @@
 import re
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from afl.util.utils import load_json, load_jsonl
-from afl.util.preprocess_data import extract_structure
+from CoSIL.util.utils import load_json, load_jsonl
+from CoSIL.util.preprocess_data import extract_structure
 
 
 REPO_STRUCTURE = {}

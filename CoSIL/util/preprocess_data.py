@@ -1,7 +1,7 @@
 import json
 import os
 
-from afl.util.parse_global_var import parse_global_var_from_code
+from CoSIL.util.parse_global_var import parse_global_var_from_code
 from get_repo_structure.get_repo_structure import (
     get_project_structure_from_scratch,
     parse_python_file,

@@ -3,17 +3,17 @@ import concurrent.futures
 import json
 import os
 
-from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
 
-from afl.fl.AFL import AFL
-from afl.util.preprocess_data import (
+from CoSIL.fl.CoSIL import CoSIL
+from CoSIL.util.preprocess_data import (
     filter_none_python,
     filter_out_test_files,
 )
-from afl.util.utils import (
+from CoSIL.util.utils import (
     load_existing_instance_ids,
     load_json,
+    load_swe_bench_dataset,
     setup_logger,
 )
 from get_repo_structure.get_repo_structure import (
@@ -64,12 +64,11 @@ def localize_instance(
         filter_out_test_files(structure)
 
     # file level localization
-    fl = AFL(
+    fl = CoSIL(
         d["instance_id"],
         structure,
         problem_statement,
         args.model,
-        args.backend,
         logger
     )
 
@@ -105,7 +104,7 @@ def localize_instance(
 
 
 def localize(args):
-    swe_bench_data = load_from_disk("./datasets/SWE-bench_Lite_test")
+    swe_bench_data = load_swe_bench_dataset(args.dataset)
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
     )
@@ -173,7 +172,10 @@ def main():
         default="gpt-4o-2024-08-06",
     )
     parser.add_argument(
-        "--backend", type=str, default="openai", choices=["openai", "deepseek", "anthropic", "claude"]
+        "--dataset",
+        type=str,
+        default="princeton-nlp/SWE-bench_Lite",
+        help="HuggingFace dataset name, local dataset directory, or local JSONL file.",
     )
 
     args = parser.parse_args()
@@ -186,10 +188,6 @@ def main():
     assert (
             not os.path.exists(args.output_file) or args.skip_existing
     ), "Output file already exists and not set to skip existing localizations"
-
-    assert (not "deepseek" in args.model) or (
-            args.backend == "deepseek"
-    ), "Must specify `--backend deepseek` if using a DeepSeek model"
 
     os.makedirs(os.path.join(args.output_folder, "localization_logs"), exist_ok=True)
     os.makedirs(args.output_folder, exist_ok=True)

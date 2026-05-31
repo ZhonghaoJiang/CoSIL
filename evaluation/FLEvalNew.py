@@ -211,9 +211,9 @@ if __name__ == "__main__":
     loc_outputs = load_jsonl(args.loc_file)
 
     if args.dataset == "lite":
-        gt_data = load_json('gt.json')
+        gt_data = load_json('evaluation/gt.json')
     else:
-        gt_data = load_json('gt_verified.json')
+        gt_data = load_json('evaluation/gt_verified.json')
     print(len(loc_outputs))
 
     # 进行评估

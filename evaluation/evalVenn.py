@@ -59,12 +59,12 @@ def construct_pred_func(file_locs, func_locs):
 def top_k_accuracy(gt, preds, k):
     return any(item in gt for item in preds[:k])
 
-def extract_top5_intance_ids(afl, agentless, orcaloca, gt):
-    to_eval = [afl, agentless, orcaloca]
-    afl_instance_file, agentless_instance_file, orcaloca_instance_file = [], [], []
-    afl_instance_func, agentless_instance_func, orcaloca_instance_func = [], [], []
-    to_store_file = [afl_instance_file, agentless_instance_file, orcaloca_instance_file]
-    to_store_func = [afl_instance_func, agentless_instance_func, orcaloca_instance_func]
+def extract_top5_intance_ids(cosil, agentless, orcaloca, gt):
+    to_eval = [cosil, agentless, orcaloca]
+    cosil_instance_file, agentless_instance_file, orcaloca_instance_file = [], [], []
+    cosil_instance_func, agentless_instance_func, orcaloca_instance_func = [], [], []
+    to_store_file = [cosil_instance_file, agentless_instance_file, orcaloca_instance_file]
+    to_store_func = [cosil_instance_func, agentless_instance_func, orcaloca_instance_func]
     for loc_outputs, res_file, res_func in zip(to_eval, to_store_file, to_store_func):
         for loc_output in loc_outputs:
             instance_id = loc_output['instance_id']
@@ -87,29 +87,29 @@ def extract_top5_intance_ids(afl, agentless, orcaloca, gt):
 
     return to_store_file, to_store_func
 
-def extract_afl_special(to_store_file, to_store_func):
+def extract_cosil_special(to_store_file, to_store_func):
     a, b, c = to_store_file
     x, y, z = to_store_func
     return set(a) - (set(b) | set(c)), set(x) - (set(y) | set(z))
 
 if __name__ == '__main__':
-    afl = load_jsonl('../loc_to_patch/afl/loc_qwen_coder_32b_func.jsonl')
+    cosil = load_jsonl('../loc_to_patch/CoSIL/loc_qwen_coder_32b_func.jsonl')
     agentless = load_jsonl('../loc_to_patch/agentless/agentless_qwen_coder_32b_func.jsonl')
     orcaloca = load_jsonl('../loc_to_patch/orcaloca/orca_qwen_coder_32b_func.jsonl')
 
     gt_data = load_json('gt.json')
     # gt_data = load_json('gt_verified.json')
 
-    to_store_file, to_store_func = extract_top5_intance_ids(afl, agentless, orcaloca, gt_data)
+    to_store_file, to_store_func = extract_top5_intance_ids(cosil, agentless, orcaloca, gt_data)
 
-    u_file, u_func = extract_afl_special(to_store_file, to_store_func)
+    u_file, u_func = extract_cosil_special(to_store_file, to_store_func)
 
     print(u_file)
     print(u_func)
     print(u_file & u_func)
 
 """
-AFL
+CoSIL
 django__django-13315
 predicted_files:['django/db/models/fields/related.py', 'django/db/models/query.py', 'django/db/models/sql/compiler.py', 'django/db/models/sql/where.py', 'django/forms/models.py'], predicted_methods:['apply_limit_choices_to_to_formfield', 'ModelChoiceField._get_choices', 'ForeignKey.get_limit_choices_to', 'QuerySet.filter', 'SQLCompiler.get_distinct']
 gt_files:{'django/forms/models.py'}, gt_methods:{'apply_limit_choices_to_to_formfield'}

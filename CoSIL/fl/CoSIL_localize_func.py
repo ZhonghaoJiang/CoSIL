@@ -3,17 +3,18 @@ import concurrent.futures
 import json
 import os
 
-from datasets import load_dataset, load_from_disk
 from tqdm import tqdm
 
-from afl.fl.AFL import AFL
-from afl.util.preprocess_data import (
+
+from CoSIL.fl.CoSIL import CoSIL
+from CoSIL.util.preprocess_data import (
     filter_none_python,
     filter_out_test_files,
 )
-from afl.util.utils import (
+from CoSIL.util.utils import (
     load_existing_instance_ids,
     load_json,
+    load_swe_bench_dataset,
     setup_logger,
 )
 from get_repo_structure.get_repo_structure import (
@@ -64,34 +65,30 @@ def localize_instance(
         filter_out_test_files(structure)
 
     # file level localization
-    fl = AFL(
+    fl = CoSIL(
         d["instance_id"],
         structure,
         problem_statement,
         args.model,
-        args.backend,
         logger
     )
 
     def load_file_func(output_file, instance_id=None):
         file_locations = []
-        func_locations = []
 
         with open(output_file, "r") as f:
             for line in f:
                 data = json.loads(line)
                 if data.get("instance_id") == instance_id:
                     file_locations = data.get("found_files", [])
-                    func_locations = data.get("found_related_locs", {})
                     break  # 找到匹配的 instance_id 后退出循环
 
-        return file_locations, func_locations
+        return file_locations
 
-    pred_files, found_related_locs = load_file_func(args.loc_file, instance_id=instance_id)
-    if not isinstance(found_related_locs, dict):
-        return
+    pred_files = load_file_func(args.loc_file, instance_id=instance_id)[: args.top_n]
+    # print(pred_files, found_related_locs)
     # 构建字典
-    line_loc, line_raw_output, line_traj = fl.localize_line(file_names=pred_files, func_locs=found_related_locs, num_samples=args.num_samples)
+    topn_func, func_raw_output, func_traj = fl.localize_with_p(file=pred_files, max_retry=args.max_retry)
 
 
     with open(args.output_file, "a") as f:
@@ -100,8 +97,8 @@ def localize_instance(
                 {
                     "instance_id": d["instance_id"],
                     "found_files": pred_files,
-                    "found_related_locs": found_related_locs,
-                    "found_edit_locs": line_loc,
+                    "found_related_locs": topn_func,
+                    "func_traj": func_traj,
                 }
             )
             + "\n"
@@ -109,11 +106,7 @@ def localize_instance(
 
 
 def localize(args):
-    if args.dataset == "princeton-nlp/SWE-bench_Verified":
-        swe_bench_data = load_from_disk("./datasets/SWE-bench_Verified_test")
-    else:
-        swe_bench_data = load_from_disk("./datasets/SWE-bench_Lite_test")
-
+    swe_bench_data = load_swe_bench_dataset(args.dataset)
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
     )
@@ -137,23 +130,34 @@ def localize(args):
                 )
                 for bug in swe_bench_data
             ]
-            concurrent.futures.wait(futures)
+            for future in tqdm(
+                    concurrent.futures.as_completed(futures),
+                    total=len(swe_bench_data),
+                    colour="MAGENTA",
+            ):
+                future.result()
 
 
 def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--output_folder", type=str, required=True)
-    parser.add_argument("--output_file", type=str, default="loc_outputs_line.jsonl")
-    parser.add_argument("--loc_file", type=str, default="loc_outputs_func.jsonl")
+    parser.add_argument("--output_file", type=str, default="loc_outputs_func.jsonl")
+    parser.add_argument("--loc_file", type=str, default="loc_outputs.jsonl")
     parser.add_argument("--max_retry", type=int, default=10)
     parser.add_argument("--temperature", type=float, default=0.0)
-
+    parser.add_argument("--top_n", type=int, default=5)
     parser.add_argument("--add_space", action="store_true")
     parser.add_argument("--no_line_number", action="store_true")
     parser.add_argument("--sticky_scroll", action="store_true")
     parser.add_argument("--context_window", type=int, default=10)
     parser.add_argument("--num_samples", type=int, default=1)
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="princeton-nlp/SWE-bench_Lite",
+        help="Current supported dataset for evaluation",
+    )
 
     parser.add_argument(
         "--num_threads",
@@ -173,17 +177,7 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default="gpt-4o-2024-05-13",
-    )
-    parser.add_argument(
-        "--backend", type=str, default="openai", choices=["openai", "deepseek", "anthropic", "claude"]
-    )
-    parser.add_argument(
-        "--dataset",
-        type=str,
-        default="princeton-nlp/SWE-bench_Lite",
-        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
-        help="Current supported dataset for evaluation",
+        default="gpt-4o-2024-08-06",
     )
 
     args = parser.parse_args()
@@ -196,10 +190,6 @@ def main():
     assert (
             not os.path.exists(args.output_file) or args.skip_existing
     ), "Output file already exists and not set to skip existing localizations"
-
-    assert (not "deepseek" in args.model) or (
-            args.backend == "deepseek"
-    ), "Must specify `--backend deepseek` if using a DeepSeek model"
 
     os.makedirs(os.path.join(args.output_folder, "localization_logs"), exist_ok=True)
     os.makedirs(args.output_folder, exist_ok=True)
