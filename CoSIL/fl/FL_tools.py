@@ -1,8 +1,8 @@
-from afl.util.preprocess_data import extract_structure
-from afl.util.utils import load_json
+from CoSIL.util.preprocess_data import extract_structure
+from CoSIL.util.utils import load_json
 
 
-AFL_LOCATION_TOOL_SCHEMAS = [
+CoSIL_LOCATION_TOOL_SCHEMAS = [
     {
         "type": "function",
         "function": {
@@ -174,7 +174,7 @@ def get_code_of_file_function(file_name: str, func_name: str, instance_id: str):
 
     return "You provide a wrong file name or function name. Please try another file name again. It may be a class function."
 
-def dispatch_afl_location_tool(name: str, arguments: dict, instance_id: str) -> str:
+def dispatch_cosil_location_tool(name: str, arguments: dict, instance_id: str) -> str:
     if name == "exit":
         return "Exiting tool calls. Now provide your final answer."
     if name == "get_code_of_class":
@@ -185,7 +185,7 @@ def dispatch_afl_location_tool(name: str, arguments: dict, instance_id: str) -> 
         )
     if name == "get_code_of_file_function":
         return get_code_of_file_function(arguments["file_name"], arguments["func_name"], instance_id)
-    raise ValueError(f"Unknown AFL location tool: {name}")
+    raise ValueError(f"Unknown CoSIL location tool: {name}")
 
 
 def get_all_of_files(instance_id: str):

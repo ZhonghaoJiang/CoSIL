@@ -12,8 +12,8 @@ patch_prefix="results/patches"
 generated_tests_prefix="results/generated_tests"
 
 
-methods=("afl" "agentless" "orcaloca" "locagent")
-folders=("loc_to_patch/afl" "loc_to_patch/agentless" "loc_to_patch/orcaloca" "loc_to_patch/locagent")
+methods=("CoSIL" "agentless" "orcaloca" "locagent")
+folders=("loc_to_patch/CoSIL" "loc_to_patch/agentless" "loc_to_patch/orcaloca" "loc_to_patch/locagent")
 scales=("32b")
 
 for i in "${!methods[@]}"; do
@@ -88,11 +88,11 @@ python agentless/test/generate_reproduction_tests.py --max_samples 40 \
                                                    --select
 
 folders=(
-     "results/patches/repair_sample_afl_32b"
+     "results/patches/repair_sample_CoSIL_32b"
          "results/patches/repair_sample_agentless_32b"
          "results/patches/repair_sample_orcaloca_32b"
          "results/patches/repair_sample_locagent_32b"
-         "results/patches_gpt/repair_sample_afl_32b"
+         "results/patches_gpt/repair_sample_CoSIL_32b"
          "results/patches_gpt/repair_sample_agentless_32b"
          "results/patches_gpt/repair_sample_orcaloca_32b"
          "results/patches_gpt/repair_sample_locagent_32b"

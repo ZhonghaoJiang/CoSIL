@@ -10,7 +10,7 @@ output_prefix="results/sample-lite"
 
 # for model in "${models[@]}"; do
 #   model_tag=${model//\//_}
-#   python afl/fl/AFL_localize_file.py --file_level \
+#   python CoSIL/fl/CoSIL_localize_file.py --file_level \
 #                                --output_folder "${output_prefix}/file_level_${model_tag}" \
 #                                --num_threads ${threads} \
 #                                --model "${model}" \
@@ -22,7 +22,7 @@ output_prefix="results/sample-lite"
 
 for model in "${models[@]}"; do
   model_tag=${model//\//_}
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
     --output_folder "${output_prefix}/func_level_${model_tag}" \
     --loc_file "${output_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
     --output_file "loc_${model_tag}_func.jsonl" \

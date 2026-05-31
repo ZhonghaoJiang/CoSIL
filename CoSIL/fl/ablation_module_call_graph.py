@@ -6,17 +6,14 @@ from multiprocessing import Lock, Manager
 
 from tqdm import tqdm
 
-
-from afl.fl.AFL import AFL
-from afl.util.preprocess_data import (
+from CoSIL.fl.CoSIL import CoSIL
+from CoSIL.util.preprocess_data import (
     check_contains_valid_loc,
     filter_none_python,
     filter_out_test_files,
     get_repo_structure,
 )
-from afl.util.utils import load_existing_instance_ids, load_jsonl, load_swe_bench_dataset, setup_logger
-
-MAX_RETRIES = 5
+from CoSIL.util.utils import load_existing_instance_ids, load_jsonl, load_swe_bench_dataset, setup_logger
 
 def localize_instance(
     bug, args, swe_bench_data, start_file_locs, existing_instance_ids, write_lock=None
@@ -52,14 +49,14 @@ def localize_instance(
 
     # file level localization
     if args.file_level:
-        fl = AFL(
+        fl = CoSIL(
             instance_id,
             structure,
             problem_statement,
             args.model,
             logger,
         )
-        found_files, additional_artifact_loc_file, file_traj = fl.file_localize_with_g(
+        found_files, additional_artifact_loc_file, file_traj = fl.ablation_file(
             mock=args.mock
         )
     else:
@@ -81,7 +78,6 @@ def localize_instance(
                 {
                     "instance_id": instance_id,
                     "found_files": found_files,
-                    "file_traj": file_traj,
                 }
             )
             + "\n"
@@ -235,6 +231,7 @@ def main():
         "--dataset",
         type=str,
         default="princeton-nlp/SWE-bench_Lite",
+        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
         help="Current supported dataset for evaluation",
     )
 

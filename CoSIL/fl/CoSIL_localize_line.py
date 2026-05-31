@@ -5,13 +5,12 @@ import os
 
 from tqdm import tqdm
 
-
-from afl.fl.AFL import AFL
-from afl.util.preprocess_data import (
+from CoSIL.fl.CoSIL import CoSIL
+from CoSIL.util.preprocess_data import (
     filter_none_python,
     filter_out_test_files,
 )
-from afl.util.utils import (
+from CoSIL.util.utils import (
     load_existing_instance_ids,
     load_json,
     load_swe_bench_dataset,
@@ -65,7 +64,7 @@ def localize_instance(
         filter_out_test_files(structure)
 
     # file level localization
-    fl = AFL(
+    fl = CoSIL(
         d["instance_id"],
         structure,
         problem_statement,
@@ -75,20 +74,23 @@ def localize_instance(
 
     def load_file_func(output_file, instance_id=None):
         file_locations = []
+        func_locations = []
 
         with open(output_file, "r") as f:
             for line in f:
                 data = json.loads(line)
                 if data.get("instance_id") == instance_id:
                     file_locations = data.get("found_files", [])
+                    func_locations = data.get("found_related_locs", {})
                     break  # 找到匹配的 instance_id 后退出循环
 
-        return file_locations
+        return file_locations, func_locations
 
-    pred_files = load_file_func(args.loc_file, instance_id=instance_id)[: args.top_n]
-    # print(pred_files, found_related_locs)
+    pred_files, found_related_locs = load_file_func(args.loc_file, instance_id=instance_id)
+    if not isinstance(found_related_locs, dict):
+        return
     # 构建字典
-    topn_func, func_raw_output, func_traj = fl.localize_with_p(file=pred_files, max_retry=args.max_retry)
+    line_loc, line_raw_output, line_traj = fl.localize_line(file_names=pred_files, func_locs=found_related_locs, num_samples=args.num_samples)
 
 
     with open(args.output_file, "a") as f:
@@ -97,8 +99,8 @@ def localize_instance(
                 {
                     "instance_id": d["instance_id"],
                     "found_files": pred_files,
-                    "found_related_locs": topn_func,
-                    "func_traj": func_traj,
+                    "found_related_locs": found_related_locs,
+                    "found_edit_locs": line_loc,
                 }
             )
             + "\n"
@@ -107,6 +109,7 @@ def localize_instance(
 
 def localize(args):
     swe_bench_data = load_swe_bench_dataset(args.dataset)
+
     existing_instance_ids = (
         load_existing_instance_ids(args.output_file) if args.skip_existing else set()
     )
@@ -130,34 +133,23 @@ def localize(args):
                 )
                 for bug in swe_bench_data
             ]
-            for future in tqdm(
-                    concurrent.futures.as_completed(futures),
-                    total=len(swe_bench_data),
-                    colour="MAGENTA",
-            ):
-                future.result()
+            concurrent.futures.wait(futures)
 
 
 def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--output_folder", type=str, required=True)
-    parser.add_argument("--output_file", type=str, default="loc_outputs_func.jsonl")
-    parser.add_argument("--loc_file", type=str, default="loc_outputs.jsonl")
+    parser.add_argument("--output_file", type=str, default="loc_outputs_line.jsonl")
+    parser.add_argument("--loc_file", type=str, default="loc_outputs_func.jsonl")
     parser.add_argument("--max_retry", type=int, default=10)
     parser.add_argument("--temperature", type=float, default=0.0)
-    parser.add_argument("--top_n", type=int, default=5)
+
     parser.add_argument("--add_space", action="store_true")
     parser.add_argument("--no_line_number", action="store_true")
     parser.add_argument("--sticky_scroll", action="store_true")
     parser.add_argument("--context_window", type=int, default=10)
     parser.add_argument("--num_samples", type=int, default=1)
-    parser.add_argument(
-        "--dataset",
-        type=str,
-        default="princeton-nlp/SWE-bench_Lite",
-        help="Current supported dataset for evaluation",
-    )
 
     parser.add_argument(
         "--num_threads",
@@ -177,7 +169,14 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default="gpt-4o-2024-08-06",
+        default="gpt-4o-2024-05-13",
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="princeton-nlp/SWE-bench_Lite",
+        choices=["princeton-nlp/SWE-bench_Lite", "princeton-nlp/SWE-bench_Verified"],
+        help="Current supported dataset for evaluation",
     )
 
     args = parser.parse_args()

@@ -13,13 +13,13 @@ round_prefix="results/round"
 
 for model in "${models[@]}"; do
   model_tag=${model//\//_}
-  python afl/fl/ablation_module_call_graph.py --file_level \
+  python CoSIL/fl/ablation_module_call_graph.py --file_level \
                                --output_folder "${module_prefix}/file_level_${model_tag}" \
                                --num_threads ${threads} \
                                --model "${model}" \
                                --skip_existing
 
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
   --output_folder "${module_prefix}/func_level_${model_tag}" \
   --loc_file "${module_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
   --output_file "loc_${model_tag}_func.jsonl" \
@@ -32,13 +32,13 @@ done
 
 for model in "${models[@]}"; do
   model_tag=${model//\//_}
-  python afl/fl/ablation_reflection.py --file_level \
+  python CoSIL/fl/ablation_reflection.py --file_level \
                                --output_folder "${reflection_prefix}/file_level_${model_tag}" \
                                --num_threads ${threads} \
                                --model "${model}" \
                                --skip_existing
 
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
   --output_folder "${reflection_prefix}/func_level_${model_tag}" \
   --loc_file "${reflection_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
   --output_file "loc_${model_tag}_func.jsonl" \
@@ -52,13 +52,13 @@ done
 
 for model in "${models[@]}"; do
   model_tag=${model//\//_}
-  python afl/fl/AFL_localize_file.py --file_level \
+  python CoSIL/fl/CoSIL_localize_file.py --file_level \
                              --output_folder "${func_prefix}/file_level_${model_tag}" \
                              --num_threads ${threads} \
                              --model "${model}" \
                              --skip_existing
 
-  python afl/fl/ablation_func.py \
+  python CoSIL/fl/ablation_func.py \
     --output_folder "${func_prefix}/func_level_${model_tag}" \
     --loc_file "${func_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
     --output_file "loc_${model_tag}_func.jsonl" \
@@ -75,7 +75,7 @@ for model in "${models[@]}"; do
   mkdir -p "${round_prefix}"
   cp -r "${func_prefix}/file_level_${model_tag}" "${round_prefix}/file_level_${model_tag}"
 
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
     --output_folder "${round_prefix}/func_level_${model_tag}_1" \
     --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
     --output_file "loc_${model_tag}_func.jsonl" \
@@ -85,7 +85,7 @@ for model in "${models[@]}"; do
     --max_retry 1 \
     --num_threads ${threads}
 
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
     --output_folder "${round_prefix}/func_level_${model_tag}_3" \
     --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
     --output_file "loc_${model_tag}_func.jsonl" \
@@ -95,7 +95,7 @@ for model in "${models[@]}"; do
     --max_retry 3 \
     --num_threads ${threads}
 
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
     --output_folder "${round_prefix}/func_level_${model_tag}_5" \
     --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
     --output_file "loc_${model_tag}_func.jsonl" \
@@ -105,7 +105,7 @@ for model in "${models[@]}"; do
     --max_retry 5 \
     --num_threads ${threads}
 
-  python afl/fl/AFL_localize_func.py \
+  python CoSIL/fl/CoSIL_localize_func.py \
   --output_folder "${round_prefix}/func_level_${model_tag}_7" \
   --loc_file "${round_prefix}/file_level_${model_tag}/loc_outputs.jsonl" \
   --output_file "loc_${model_tag}_func.jsonl" \

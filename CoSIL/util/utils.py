@@ -90,9 +90,9 @@ def setup_logger(log_file):
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
-    # Opt-in console output (e.g. AFL_LOG_CONSOLE=1) so tool-call logs can be seen live.
+    # Opt-in console output (e.g. CoSIL_LOG_CONSOLE=1) so tool-call logs can be seen live.
     # Off by default to avoid interleaved spam under high thread counts.
-    if os.environ.get("AFL_LOG_CONSOLE"):
+    if os.environ.get("CoSIL_LOG_CONSOLE"):
         sh = logging.StreamHandler()
         sh.setLevel(logging.INFO)
         sh.setFormatter(formatter)

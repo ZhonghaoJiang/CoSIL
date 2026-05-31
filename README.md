@@ -1,7 +1,5 @@
 # Issue Localization via LLM-Driven Iterative Code Graph Searching
 
-In the experiment, we use `afl` to represent our approach, CoSIL.
-
 ## Environment Setup
 
 ```shell

@@ -5,9 +5,9 @@ from typing import Any
 
 from FL_prompt import *
 from FL_tools import *
-from afl.util.api_requests import num_tokens_from_messages
-from afl.util.postprocess_data import extract_code_blocks, extract_locs_for_files, extract_func_locs_for_files
-from afl.util.preprocess_data import (get_repo_files, get_full_file_paths_and_classes_and_functions, correct_file_paths,
+from CoSIL.util.api_requests import num_tokens_from_messages
+from CoSIL.util.postprocess_data import extract_code_blocks, extract_locs_for_files, extract_func_locs_for_files
+from CoSIL.util.preprocess_data import (get_repo_files, get_full_file_paths_and_classes_and_functions, correct_file_paths,
                                       line_wrap_content, transfer_arb_locs_to_locs, show_project_structure,
                                       )
 
@@ -20,7 +20,7 @@ class FL(ABC):
         self.problem_statement = problem_statement
 
 
-class AFL(FL):
+class CoSIL(FL):
     def __init__(
             self,
             instance_id,
@@ -55,7 +55,7 @@ class AFL(FL):
         return extracted_output
 
     def _issue_clarify(self):
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         clarify_msg = bug_report_clarify_prompt.format(problem_statement=self.problem_statement)
         message = [
             {
@@ -103,7 +103,7 @@ class AFL(FL):
                     arguments = raw_arguments
                 else:
                     arguments = json.loads(raw_arguments or "{}")
-                tool_result = dispatch_afl_location_tool(tool_name, arguments, self.instance_id)
+                tool_result = dispatch_cosil_location_tool(tool_name, arguments, self.instance_id)
                 if prune_tool_result is not None:
                     tool_result = prune_tool_result(tool_name, arguments, tool_result)
             except Exception as e:
@@ -120,7 +120,7 @@ class AFL(FL):
     def _localize_with_native_tools(
             self, max_retry=10, file=None, prune_tool_results=False
     ) -> tuple[list[str], Any, Any]:
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         max_try = max_retry
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
         system_msg = location_system_prompt.format(functions="", max_try=max_try)
@@ -194,7 +194,7 @@ False
                     sub_traj = model.codegen(
                         prune_messages,
                         num_samples=1,
-                        tools=AFL_LOCATION_TOOL_SCHEMAS,
+                        tools=CoSIL_LOCATION_TOOL_SCHEMAS,
                         tool_choice="auto",
                         return_message=True,
                     )[0]
@@ -217,7 +217,7 @@ False
             check_res = model.codegen(
                 prune_messages,
                 num_samples=1,
-                tools=AFL_LOCATION_TOOL_SCHEMAS,
+                tools=CoSIL_LOCATION_TOOL_SCHEMAS,
                 tool_choice="none",
             )[0]["response"]
             try:
@@ -245,7 +245,7 @@ False
                 tool_traj = model.codegen(
                     message,
                     num_samples=1,
-                    tools=AFL_LOCATION_TOOL_SCHEMAS,
+                    tools=CoSIL_LOCATION_TOOL_SCHEMAS,
                     tool_choice="auto",
                     return_message=True,
                 )[0]
@@ -392,8 +392,8 @@ False
             temperature: float = 0.0,
             num_samples: int = 1,
     ):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         self.max_tokens = 4096
         coarse_locs = func_locs
         # file_names = []
@@ -488,7 +488,7 @@ False
     ) -> tuple[list[str], Any, Any]:
         # lazy import, not sure if this is actually better?
 
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         max_try = max_retry
         all_files = get_all_of_files(self.instance_id)
         # clarified_issue = self._issue_clarify()
@@ -553,8 +553,8 @@ False
         )
 
     def file_localize(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         # bug_report = bug_report_template.format(problem_statement=self.problem_statement,
         #                                         structure=all_files.strip())
@@ -659,8 +659,8 @@ False
         return self._localize_with_native_tools(max_retry=max_retry, file=file, prune_tool_results=True)
 
     def file_localize_with_g(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                 structure=show_project_structure(self.structure).strip())
@@ -760,8 +760,8 @@ False
         )
 
     def ablation_file(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                 structure=show_project_structure(self.structure).strip())
@@ -835,7 +835,7 @@ False
     ) -> tuple[list[str], Any, Any]:
         # lazy import, not sure if this is actually better?
 
-        from afl.util.model import make_model
+        from CoSIL.util.model import make_model
         bug_report = bug_report_template_wo_repo_struct.format(problem_statement=self.problem_statement).strip()
         system_msg = location_system_prompt_ablation
         bug_file_content = self.consturct_bug_file_list(file)
@@ -875,8 +875,8 @@ False
         )
 
     def ablation_refection(self, max_retry=10, mock=False):
-        from afl.util.api_requests import num_tokens_from_messages
-        from afl.util.model import make_model
+        from CoSIL.util.api_requests import num_tokens_from_messages
+        from CoSIL.util.model import make_model
         all_files = get_all_of_files(self.instance_id)
         bug_report = bug_report_template.format(problem_statement=self.problem_statement,
                                                 structure=show_project_structure(self.structure).strip())

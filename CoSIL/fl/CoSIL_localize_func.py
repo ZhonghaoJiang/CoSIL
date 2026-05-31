@@ -5,12 +5,13 @@ import os
 
 from tqdm import tqdm
 
-from afl.fl.AFL import AFL
-from afl.util.preprocess_data import (
+
+from CoSIL.fl.CoSIL import CoSIL
+from CoSIL.util.preprocess_data import (
     filter_none_python,
     filter_out_test_files,
 )
-from afl.util.utils import (
+from CoSIL.util.utils import (
     load_existing_instance_ids,
     load_json,
     load_swe_bench_dataset,
@@ -64,7 +65,7 @@ def localize_instance(
         filter_out_test_files(structure)
 
     # file level localization
-    fl = AFL(
+    fl = CoSIL(
         d["instance_id"],
         structure,
         problem_statement,
@@ -87,7 +88,7 @@ def localize_instance(
     pred_files = load_file_func(args.loc_file, instance_id=instance_id)[: args.top_n]
     # print(pred_files, found_related_locs)
     # 构建字典
-    topn_func, func_raw_output, func_traj = fl.ablation_func(file=pred_files, max_retry=args.max_retry)
+    topn_func, func_raw_output, func_traj = fl.localize_with_p(file=pred_files, max_retry=args.max_retry)
 
 
     with open(args.output_file, "a") as f:
@@ -97,6 +98,7 @@ def localize_instance(
                     "instance_id": d["instance_id"],
                     "found_files": pred_files,
                     "found_related_locs": topn_func,
+                    "func_traj": func_traj,
                 }
             )
             + "\n"
@@ -150,6 +152,12 @@ def main():
     parser.add_argument("--sticky_scroll", action="store_true")
     parser.add_argument("--context_window", type=int, default=10)
     parser.add_argument("--num_samples", type=int, default=1)
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="princeton-nlp/SWE-bench_Lite",
+        help="Current supported dataset for evaluation",
+    )
 
     parser.add_argument(
         "--num_threads",
@@ -170,12 +178,6 @@ def main():
         "--model",
         type=str,
         default="gpt-4o-2024-08-06",
-    )
-    parser.add_argument(
-        "--dataset",
-        type=str,
-        default="princeton-nlp/SWE-bench_Lite",
-        help="HuggingFace dataset name, local dataset directory, or local JSONL file.",
     )
 
     args = parser.parse_args()

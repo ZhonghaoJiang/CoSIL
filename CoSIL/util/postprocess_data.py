@@ -927,7 +927,7 @@ E
 F
 """.strip()
 
-    from afl.util.preprocess_data import line_wrap_content
+    from CoSIL.util.preprocess_data import line_wrap_content
 
     shown_content = line_wrap_content(content, context_intervals=[(3, 5)])
     print(shown_content)

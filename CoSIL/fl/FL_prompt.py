@@ -80,7 +80,7 @@ Original Issue Description is as follows:
 {problem_statement}
 """
 
-# ------------------------------------------------AFL-------------------------------------------------------------------
+# ------------------------------------------------CoSIL-------------------------------------------------------------------
 bug_report_template = """
 The bug report is as follows:
 ```
@@ -370,7 +370,7 @@ sympy/geometry/point.py::Point
 ```
 """
 
-# ------------------------------------------------AFL Patch-------------------------------------------------------------
+# ------------------------------------------------CoSIL Patch-------------------------------------------------------------
 file_patch_system_prompt_without_tool = """
 You will be presented with a bug report with repository structure and to access the source code of the system under test (SUT).
 You need to add a test case in the repository's test files to verify the correctness of my modifications based on the patches I have generated. 
